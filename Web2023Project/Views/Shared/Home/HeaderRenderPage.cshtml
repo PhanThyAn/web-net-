@@ -1,0 +1,65 @@
+﻿@using Web2023Project.Model
+@{
+    Member member = Session["memberLogin"] as Member;
+
+}
+<ul class="icon-profile">
+    <li id="hello-user">
+        @if (member != null)
+        {
+            <div class="flex-user">
+                <span>Xin chào</span>
+                <a href="/Home/Profile_User">
+                    <span class="user-text">
+                    </span>
+                    @member.Name
+                </a>
+            </div>
+            <a href="/Home/Logout">
+                <span class="exit">
+                    Thoát
+                </span>
+            </a>
+        }
+        else
+        {
+            <div class="flex-user">
+                <span>Xin chào</span>
+            </div>
+        }
+    </li>
+    @if (member != null)
+    {
+        if (member.Level == 1)
+        {
+            <li id="user">
+                <a style="margin-right: 10px" href="/Admin/Index_Admin">
+                    <i class="fa fa-cog fa-spin ic-level">
+                    </i>
+                </a>
+                <span class="span-level">Admin</span>
+            </li>
+        }
+    }
+    else
+    {
+        <li id="user">
+            <i class="fa fa-user-circle-o" id="user-icon"></i>
+            <ul class="sub-user">
+                <li class="login"></li>
+                <li >
+
+                    <a href="/Home/Login">Đăng nhập</a>
+
+                </li>
+                <li>
+                    <a href="/Home/Register">
+                        Đăng ký
+                    </a>
+                </li>
+
+            </ul>
+        </li>
+    }
+    <li style="width: 24px"></li>
+</ul>

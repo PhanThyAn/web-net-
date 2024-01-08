@@ -1,0 +1,90 @@
+﻿@using Web2023Project.Model
+
+@{
+    ViewBag.Title = "News";
+    Layout = "~/Views/Shared/Home/_Header.cshtml";
+}
+<section id="body">
+    <div id="news" class="bg-news">
+        <div class="container">
+            <div class="content-news justify-space-between">
+                <div class="news-new">
+                    <h5>TIN TỨC MỚI NHẤT</h5>
+                    <div class="content-left">
+                        @if (@Model != null)
+                        {
+                            foreach (News news in @Model)
+                            {
+                                if (news.Kind== 0)
+                                {
+                                    <div class="frame-content">
+                                        <a href="/Home/New_Detail?idNew=@news.NewsId">
+                                            <div class="img-news">
+                                                <img src="@news.Picture" alt="images">
+                                            </div>
+                                            <div class="title-news">
+                                                <h6>@news.Title</h6>
+                                                <span class="date">@news.DateOfWriting</span>
+                                                <figure class="content-news-main">@news.Description...</figure>
+                                            </div>
+                                        </a>
+                                    </div>
+                                }
+                            }
+                        }
+                        
+                    </div>
+                    <div class="justify-center see-plus-news">
+                        <button class="see-btn-news" type="button">Xem thêm<i class="fa fa-plus" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="sale-new">
+                    <h5>TIN KHUYẾN MÃI MỚI NHẤT</h5>
+                    <div class="content-right">
+                        @if (@Model != null)
+                        {
+                            foreach (News news in @Model)
+                            {
+                          
+                                <div class="news-text-img-subs">
+                                    <a href="/Home/New_Detail?idNew=@news.NewsId">
+                                        <div class="img-news">
+                                            <img src="@news.Picture" alt="images"/>
+                                        </div>
+                                        <figure>
+                                            <div class="text-news">@news.Title</div>
+                                            <span class="date">@news.DateOfWriting</span>
+                                            <p class="content-sale">@news.Description</p>
+                                        </figure>
+                                    </a>
+                                </div>
+                                      
+                            }
+                        }
+                    </div>
+                    <div class="justify-center see-plus-news">
+                        <button class="see-btn-news" type="button">Xem thêm<i class="fa fa-plus" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('.see-btn-news').click(function () {
+                let parent = this.parentNode.parentNode;
+                let child = parent.children.item(1);
+                if (this.innerHTML.includes('Xem thêm')) {
+                    this.innerHTML = this.innerHTML.replace('Xem thêm', 'Thu gọn');
+                    child.style.height = 'max-content';
+                } else {
+                    this.innerHTML = this.innerHTML.replace('Thu gọn', 'Xem thêm');
+                    child.style.height = '500px';
+                }
+    
+            });
+        });
+    </script>
+</section>

@@ -1,0 +1,1 @@
+﻿<%@ Application Codebehind="Global.asax.cs" Inherits="Web2023Project.MvcApplication" Language="C#" %>

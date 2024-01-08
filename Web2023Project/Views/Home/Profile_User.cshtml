@@ -1,0 +1,208 @@
+﻿@using Web2023Project.Model
+
+@{
+    ViewBag.Title = "Profile User";
+    Layout = "~/Views/Shared/Home/_Header.cshtml";
+}
+
+<section id="body">
+<div class="container">
+    <div id="user-profile">
+        <div class="avatar-name-user">
+            <div class="avatar-user" data-aos="zoom-in-right">
+                <img src="/Content/assets/img/common/avatar-user/avatar-admin.jpg" height="288" width="400" alt="avatar"/>
+            </div>
+             @{
+                                Member member = Session["memberLogin"] as Member;
+             }
+            <div class="user-info-name" data-aos="fade-left">
+                <span>Tài khoản của</span>
+                <span class="user-text">@member.Name</span>
+            </div>
+        </div>
+        <div class="info-address">
+            <div class="info-user" data-aos="fade-right">
+                <span><i class="fa fa-user fa-fw"></i>Thông tin tài khoản</span>
+               
+                <div id="update-info" class="like-form">
+                    <h3 style="margin-bottom: 0">THÔNG TIN TÀI KHOẢN</h3>
+                    @{ string infor_update = Session["infor_update"] as string; }
+                    @{
+                        if (infor_update != null)
+                        {
+                            if (infor_update.Contains("Su"))
+                            {
+                                <div class="justify-align-center">
+                                    <span class="update-infoDB" style="color: #0a7f7f">@(infor_update.Substring(2))</span>
+                                </div>
+                            }
+                            else if (infor_update.Contains("Er"))
+                            {
+                                <div class="justify-align-center">
+                                    <span class="update-infoDB">@(infor_update.Substring(2)) </span>
+                                    </div>
+                            }
+                            Session.Remove("infor_update");
+                        }
+                    }
+                    <form id="form-validate" class="form-infoUser form-style" action="Update_Profile_User" method="post">
+                        <div>
+                            <span>Họ và Tên*</span>
+                            <input type="text" id="name" name="name" value="@(member != null ? member.Name : "")">
+                            <input type="hidden" id="action" name="action" value="updateInfo">
+                        </div>
+                        <div>
+                            <span>Địa chỉ Email*</span>
+                            <input type="text" id="email" name="email" value="@(member != null ? member.Email : "")">
+                            <input type="hidden" name="email-temp" value="@(member != null ? member.Email : "")">
+                        </div>
+                        <div id="Giới tính">
+                            <span>Giới tính</span>
+                            <select id="gender" name="gender">
+                                @{
+                                    if (member != null && member.Gender.Equals("Nam"))
+                                    {
+                                        <option value="Nam">Nam</option>
+                                        <option value="Nữ">Nữ</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="Nữ">Nữ</option>
+                                        <option value="Nam">Nam</option>
+                                    }
+
+                                }
+                            </select>
+                        </div>
+                        <div>
+                            <span>Số điện thoại*</span>
+                            <input id="phone" name="phone" type="number"
+                                   value="@(member != null ? member.Phone : "")">
+                        </div>
+                        <div>
+                            <span>Địa chỉ*</span>
+                            <input type="text" id="address" name="address" value="@(member != null ? member.Address : "")">
+                        </div>
+                        <button class="update-btn">CẬP NHẬT</button>
+                    </form>
+                </div>
+            </div>
+            <div class="address-user" data-aos="fade-right">
+                <span><i class="fa fa-address-book-o" aria-hidden="true"></i>Sổ địa chỉ</span>
+                <div id="book-address" class="like-form">
+                    <h3>SỔ ĐỊA CHỈ</h3>
+                    <div class="add-address">
+                        <a><i class="fa fa-plus-circle" aria-hidden="true"></i>Thêm địa chỉ</a>
+                    </div>
+
+                    <div class="content-add">
+                        <div class="default-add">
+                            <ul>
+                                <li>
+                                    <span class="user-text">@(member != null ? member.Name : "")</span>
+                                    <div class="action">
+                                        <span><i class="fa fa-check-circle" aria-hidden="true"></i>Mặc định</span>
+                                        <span>
+                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                        </span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <span>Địa chỉ:</span>
+                                    <span class="address">@(member != null ? member.Address : "")</span>
+                                </li>
+                                <li>
+                                    <span>Số điện thoại:</span>
+                                    <span class="phone">@(member != null ? member.Phone : "")</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="">
+                            <ul>
+                                <li>
+                                    <span class="user-text">@(member != null ? member.Name : "")</span>
+                                    <div class="action">
+                                        <span>
+                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                        </span>
+                                        <span>
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                        </span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <span>Địa chỉ:</span>
+                                    <span class="address">@(member != null ? member.Address : "")</span>
+                                </li>
+                                <li>
+                                    <span>Số điện thoại:</span>
+                                    <span class="phone">@(member != null ? member.Phone : "")</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="">
+                            <ul>
+                                <li>
+                                    <span class="user-text">@(member != null ? member.Name : "")</span>
+                                    <div class="action">
+                                        <span>
+                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                        </span>
+                                        <span>
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                        </span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <span>Địa chỉ:</span>
+                                    <span class="address">@(member != null ? member.Address : "")</span>
+                                </li>
+                                <li>
+                                    <span>Số điện thoại:</span>
+                                    <span class="phone">@(member != null ? member.Phone : "")</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @{
+                string success_change = Session["success-changePass"] as string;
+                string erro_change = Session["err-changePass"] as string;
+            }
+            <div id="change-pass-user" class="change-pass-user" data-aos="fade-right">
+                <span><i class="fa fa-lock" aria-hidden="true"></i>Thay đổi mật khẩu</span>
+                <div id="change-pass" class="like-form">
+                    <h3>ĐỔI MẬT KHẨU</h3>
+                    <div class="justify-align-center">
+                        <span class="changePass-nf" style="color: #0a7f7f">@(success_change != null ? success_change : "")</span>
+                    </div>
+                    <div class="justify-align-center">
+                        <span class="changePass-nf">@(erro_change != null ? erro_change : "")</span>
+                    </div>
+                    <form id="form-change-pass" class="form-style"
+                          action="Update_Profile_User" method="post">
+                        <div>
+                            <span>Mật khẩu hiện tại*</span>
+                            <input type="password" id="current-pass" name="current-pass" value="">
+                            <input type="hidden" name="action" value="doi-mat-khau">
+                        </div>
+                        <div>
+                            <span>Mật khẩu mới*</span>
+                            <input type="text" id="new-pass" name="new-pass" value="">
+                        </div>
+                        <div id="c-pass">
+                            <span>Xác nhận mật khẩu*</span>
+                            <input type="text" id="c-new-pass" name="c-new-pass">
+                        </div>
+                        <button type="submit" class="update-btn">CẬP NHẬT</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/Content/assets/js/profile-user.js"></script>
+<script src="/Content/assets/validation-form/vali-form.js"></script>
+<script src="/Content/assets/validation-form/vali-chang-pass.js"></script>
+</section>
