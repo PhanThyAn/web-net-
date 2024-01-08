@@ -1,0 +1,78 @@
+﻿@model List<Web2023Project.Models.Products>
+
+@foreach (var p in Model)
+{
+    <li>
+        <a href="/Home/Product_Detail?id=@p.Id">
+            <img src="https://m.media-amazon.com/images/I/71d7rfSl0wL._AC_SX466_.jpg" alt="images">
+            <h3>
+                @p.TenSp
+            </h3>
+            <div class="price">
+                @if (p.GiaGoc < p.GiaDagiam)
+                {
+                    <span>@string.Format("{0:0,0}", p.GiaDagiam) đ</span>
+                    <strong>@string.Format("{0:0,0}", p.GiaGoc) đ </strong>
+                }
+                else
+                {
+                    <strong>@string.Format("{0:0,0}", p.GiaGoc) đ </strong>
+                }
+            </div>
+            @*    <div class="ratingresult">
+                    @if (productDetail.Rate == 4.0)
+                    {
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true" style="color: darkgray"></i>
+                    }
+                    else if (productDetail.Rate == 4.5)
+                    {
+                        <i class="fa fa-star-half-o" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true" style="color: darkgray"></i>
+                    }
+                    else if (productDetail.Rate == 5.0)
+                    {
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                    }
+                    else
+                    {
+                        <i class="fa fa-star" aria-hidden="true" style="color: darkgray"></i>
+                        <i class="fa fa-star" aria-hidden="true" style="color: darkgray"></i>
+                    }
+                    <span>@(productDetail.Rate) đánh giá</span>
+
+
+                </div>*@
+            @* <div class="promo noimage">
+                    @if (productDetail.Gift != null)
+                    {
+                        <p>@productDetail.Gift</p>
+                    }
+                </div>*@
+            <figure class="bginfo">
+                <span>@p.ManHinh</span>
+                <span>@p.HeDieuHanh</span>
+                <span>@p.Chip</span>
+                <span>@p.Ram</span>
+                <span>@p.Camera</span>
+                <span>@p.Pin</span>
+            </figure>
+            @if (p.GiaGoc < p.GiaDagiam)
+            {
+                <label class="discount">
+                    GIẢM @string.Format("{0:0,0}", p.GiaDagiam - p.GiaGoc) +"đ"
+                </label>
+            }
+
+
+        </a>
+        <div class="btnbuy justify-center">
+            <div class="hover-btn-cart">
+                <input type="hidden" class="msp-ajax" value="@p.Id">
+                <button class="btn_buynow buy-ajax">Thêm vào giỏ<i class="fa fa-shopping-cart" aria-hidden="true"></i></button>
+
+            </div>
+        </div>
+    </li>
+}
