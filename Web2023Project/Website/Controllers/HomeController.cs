@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+
 using System.Web.UI;
+
 using System.Web.WebPages;
 using Web2023Project.Controllers.Admin;
 using Web2023Project.Dao;
@@ -346,13 +348,16 @@ namespace Web2023Project.Controllers
                 new { controller = "Home", action = "Product_Detail", Id = comment.ProductId, Model = "p_detail" }));
         }
 
+
         public async Task<ActionResult> SearchKey(string key,int page= 1)
+
         {
             if (key != null)
             {
                 try
                 {
                     StringBuilder resp = new StringBuilder();
+
                     // lấy ra danh sách sản phẩm dựa vào key đó
                     // Gọi phương thức asynchronous và đợi kết quả
                     Task<List<Products>> task = SearchDAO.SeachTest(key);
@@ -377,6 +382,7 @@ namespace Web2023Project.Controllers
                     Session.Add("count_sear", count_sear);
                     Session.Add("key", key);
                    
+
                 }
                 catch (Exception e)
                 {
@@ -434,6 +440,7 @@ namespace Web2023Project.Controllers
 
             return RedirectToAction("Product", "Home");
         }
+
         public async Task<ActionResult> NavigateAndSortPage(string key, int page = 1,string sort = "")
         {
             if (key != null)
@@ -485,6 +492,7 @@ namespace Web2023Project.Controllers
 
             return RedirectToAction("Product", "Home");
         }
+
         [HttpPost]
         public async Task<ActionResult> Search(string key)
         {
@@ -688,6 +696,5 @@ namespace Web2023Project.Controllers
         {
             return View();
         }
-
     }
 }

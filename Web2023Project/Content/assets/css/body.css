@@ -2485,6 +2485,7 @@ input[type=text], textarea {
         text-decoration: underline;
         color: #057f69;
     }
+
 .pagination-container {
     text-align: center;
     margin-top: 20px;
@@ -2523,3 +2524,4 @@ input[type=text], textarea {
     background-color: #007bff;
     border-color: #007bff;
 }
+

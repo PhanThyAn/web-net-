@@ -2,7 +2,9 @@
 
 @{
     ViewBag.Title = "Product";
+
     Layout = "~/Views/Shared/Home/_HeaderHome.cshtml";
+
 }
 @{
     int count_seart = Session["count_sear"] != null ? Convert.ToInt32(Session["count_sear"]) : 0;
@@ -13,6 +15,7 @@
     int countPages= Session["countPages"] !=null ? Convert.ToInt32(Session["countPages"]): 0;
     int pageCurrent = Session["pageCurrent"] != null ? Convert.ToInt32(Session["pageCurrent"]) : 1;
     int pageSize = Session["pageSize"] != null ? Convert.ToInt32(Session["pageSize"]) : 1;
+
 }
 
 <section id="body">
@@ -33,14 +36,15 @@
                         if (count_seart != 0 && key != "")
                         {
                             <div class="result-sear">
-                                <h4>Tìm thấy<strong class="count_sear">@pageSize</strong>kết quả</h4>
+
+                                <h4>Tìm thấy<strong class="count_sear">@count_seart</strong>kết quả</h4>
+
                             </div>
                             Session.Remove("count_sear");
                             Session.Remove("key");
                         }
                     }
                     <div class="sort">
-
                         <a href="#"
                            class="click-sort @(sort == "" ? "active" : "")">
                             Mới nhất
@@ -57,6 +61,7 @@
                     </div>
                     <ul class="homeproduct filter-cate " id="homeproduct">
                     
+
                         @{
                             if (Session["category"] != null)
                             {
@@ -81,6 +86,7 @@
                                                     <strong>@string.Format("{0:0,0}", p.GiaGoc) đ </strong>
                                                 }
                                             </div>
+
                                             @*    <div class="ratingresult">
                                 @if (productDetail.Rate == 4.0)
                                 {
@@ -112,6 +118,7 @@
                                     <p>@productDetail.Gift</p>
                                 }
                             </div>*@
+
                                             <figure class="bginfo">
                                                 <span>@p.ManHinh</span>
                                                 <span>@p.HeDieuHanh</span>
@@ -141,6 +148,7 @@
                             }
                         }
                     </ul>
+
                     <div class="pagination-container">
                         <input type="hidden" id="totalPages" value="@(pageSize)" />
                         <input type="hidden" id="key" value="@(key)" />
@@ -156,6 +164,7 @@
 
                             </ul>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -163,6 +172,7 @@
     <script src="/Content/assets/js/pagination/jquery.twbsPagination.min.js" type="text/javascript"></script>
     <script src="/Content/assets/js/addToCart_AJAX2.js" type="text/javascript"></script>
     <script>
+
         function loadSearchResults(page,sort) {
             var key = $("#key").val();
           
