@@ -2,15 +2,20 @@
 
 @{
     ViewBag.Title = "Product";
-    Layout = "~/Views/Shared/Home/_Header.cshtml";
+
+    Layout = "~/Views/Shared/Home/_HeaderHome.cshtml";
+
 }
 @{
     int count_seart = Session["count_sear"] != null ? Convert.ToInt32(Session["count_sear"]) : 0;
     string key = Session["key"] != null ? Session["key"] as string : "";
-    string sort = Session["active"] != null ? Session["active"] as string : "";
+    string sort = Session["sort"] != null ? Session["sort"] as string : "";
     string pages = Session["page"] != null ? Session["page"] as string : "";
     string producers = Session["producer"] != null ? Session["producer"] as string : "";
     int countPages= Session["countPages"] !=null ? Convert.ToInt32(Session["countPages"]): 0;
+    int pageCurrent = Session["pageCurrent"] != null ? Convert.ToInt32(Session["pageCurrent"]) : 1;
+    int pageSize = Session["pageSize"] != null ? Convert.ToInt32(Session["pageSize"]) : 1;
+
 }
 
 <section id="body">
@@ -22,7 +27,7 @@
                     if (producers != "")
                     {
                         <div class="banner-product">
-                            <img src="/Content/assets/img/banner/banner_@(producers).png" alt="images"/>
+                            <img src="/Content/assets/img/banner/banner_@(producers).png" alt="images" />
                         </div>
                     }
                 }
@@ -31,33 +36,31 @@
                         if (count_seart != 0 && key != "")
                         {
                             <div class="result-sear">
+
                                 <h4>Tìm thấy<strong class="count_sear">@count_seart</strong>kết quả</h4>
+
                             </div>
                             Session.Remove("count_sear");
                             Session.Remove("key");
                         }
                     }
                     <div class="sort">
-                        @{
-                            if (key == "")
-                            {
-                                <a href="/Home/Category?cate=@producers&page=@pages"
-                                   class="click-sort @(sort == "" ? "active" : "")">
-                                    Mới nhất
-                                </a>
-                                <a href="/Home/Category?cate=@producers&type=asc&page=@pages"
-                                   class="click-sort click-sort @(sort != "" && sort.Equals("asc") ? "active" : "")">
-                                    Giá: Thấp - Cao
-                                </a>
-                                <a href="/Home/Category?cate=@producers&type=desc&page=@pages"
-                                   class="click-sort click-sort @(sort != "" && sort.Equals("desc") ? "active" : "")">
-                                    Giá: Cao - Thấp
-                                </a>
-                            }
+                        <a href="#"
+                           class="click-sort @(sort == "" ? "active" : "")">
+                            Mới nhất
+                        </a>
+                        <a href="#" value="asc"
+                           class="click-sort  @(sort != "" && sort.Equals("asc") ? "active" : "")" >
+                            Giá: Thấp - Cao
+                        </a>
+                        <a href="#" value="desc"
+                           class="click-sort  @(sort != "" && sort.Equals("desc") ? "active" : "")">
+                            Giá: Cao - Thấp
+                        </a>
 
-                        }
                     </div>
-                    <ul class="homeproduct filter-cate ">
+                    <ul class="homeproduct filter-cate " id="homeproduct">
+                    
 
                         @{
                             if (Session["category"] != null)
@@ -83,37 +86,39 @@
                                                     <strong>@string.Format("{0:0,0}", p.GiaGoc) đ </strong>
                                                 }
                                             </div>
-                                        @*    <div class="ratingresult">
-                                                @if (productDetail.Rate == 4.0)
-                                                {
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true" style="color: darkgray"></i>
-                                                }
-                                                else if (productDetail.Rate == 4.5)
-                                                {
-                                                    <i class="fa fa-star-half-o" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true" style="color: darkgray"></i>
-                                                }
-                                                else if (productDetail.Rate == 5.0)
-                                                {
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                }
-                                                else
-                                                {
-                                                    <i class="fa fa-star" aria-hidden="true" style="color: darkgray"></i>
-                                                    <i class="fa fa-star" aria-hidden="true" style="color: darkgray"></i>
-                                                }
-                                                <span>@(productDetail.Rate) đánh giá</span>
+
+                                            @*    <div class="ratingresult">
+                                @if (productDetail.Rate == 4.0)
+                                {
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true" style="color: darkgray"></i>
+                                }
+                                else if (productDetail.Rate == 4.5)
+                                {
+                                    <i class="fa fa-star-half-o" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true" style="color: darkgray"></i>
+                                }
+                                else if (productDetail.Rate == 5.0)
+                                {
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                }
+                                else
+                                {
+                                    <i class="fa fa-star" aria-hidden="true" style="color: darkgray"></i>
+                                    <i class="fa fa-star" aria-hidden="true" style="color: darkgray"></i>
+                                }
+                                <span>@(productDetail.Rate) đánh giá</span>
 
 
-                                            </div>*@
-                                           @* <div class="promo noimage">
-                                                @if (productDetail.Gift != null)
-                                                {
-                                                    <p>@productDetail.Gift</p>
-                                                }
-                                            </div>*@
+                            </div>*@
+                                            @* <div class="promo noimage">
+                                @if (productDetail.Gift != null)
+                                {
+                                    <p>@productDetail.Gift</p>
+                                }
+                            </div>*@
+
                                             <figure class="bginfo">
                                                 <span>@p.ManHinh</span>
                                                 <span>@p.HeDieuHanh</span>
@@ -143,18 +148,23 @@
                             }
                         }
                     </ul>
-                    @{
-                        if (key == "")
-                        {
-                            <div class="container pagina">
-                                <div class="pagination" id="pagination"></div>
-                            </div>
-                            <input type="hidden" id="countPages" value="@(countPages)">
-                            <input type="hidden" id="producer" value="@producers">
-                            <input type="hidden" id="page" value="@(pages)">
-                            <input type="hidden" id="sort" value="@(sort)">
-                        }
-                    }
+
+                    <div class="pagination-container">
+                        <input type="hidden" id="totalPages" value="@(pageSize)" />
+                        <input type="hidden" id="key" value="@(key)" />
+                        <input type="hidden" id="pageCurrent" value="@(pageCurrent)" />
+                        <input type="hidden" id="sort" value="@(sort)" />
+                            <ul class="pagination">
+                                @for (int i = 1; i <= pageSize; i++)
+                                {
+                                    <li class="page-item @(i == pageCurrent ? "active" : "")">
+                                        <a class="page-link" href="#">@i</a>
+                                    </li>
+                                }
+
+                            </ul>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -162,31 +172,81 @@
     <script src="/Content/assets/js/pagination/jquery.twbsPagination.min.js" type="text/javascript"></script>
     <script src="/Content/assets/js/addToCart_AJAX2.js" type="text/javascript"></script>
     <script>
-    </script>
-    @if (key == "")
-    {
-        <script type="text/javascript">
-        $(function () {
-            let pages = parseInt($('#page').val());
-            let countPage = parseInt($('#countPages').val());
-            let totalPages = parseInt((countPage / 8).toString());
-            let producer = $('#producer').val().toLowerCase();
-            let sort = $('#sort').val();
-            $('#pagination').twbsPagination({
-                totalPages: totalPages,
-                startPage: pages,
-                visiblePages: totalPages - 1,
-                onPageClick: function (event, page) {
-                    if (page !== pages) {
-                        if (sort === "") {
-                            return location.href = "/Home/Category?cate=" + producer + "&page=" + page;
-                        } else {
-                            return location.href = "/Home/Category?cate=" + producer + "&type=" + sort + "&page=" + page;
-                        }
-                    }
+
+        function loadSearchResults(page,sort) {
+            var key = $("#key").val();
+          
+            console.log(key)
+            $.ajax({
+                type: "GET",
+                url: "/Home/NavigateAndSortPage",
+                data: { key: key, page: page,sort: sort },
+                success: function (result) {
+                    $("#homeproduct").html(result);
+                },
+                error: function (error) {
+                    console.log(error);
                 }
+            });
+        }
+
+        $(document).ready(function () {
+            // Attach click event to pagination links
+            $(document).on("click", ".pagination a", function () {
+                var page = $(this).text();
+                var sort = $(".click-sort.active").attr("value");
+                $(".page-item.active").removeClass("active");
+                $(this).parent().addClass("active");
+               
+                console.log(page);
+                console.log(sort);
+                loadSearchResults(page, sort);
+            });
+            $(document).on("click", ".click-sort", function () { 
+                var page = $(".pagination a.active").text();
+                console.log(page);
+                var sort = $(this).attr("value");
+                $(".click-sort.active").removeClass("active");
+                $(this).addClass("active");
+
+                console.log(page);
+                console.log(1);
+                console.log(sort)
+                loadSearchResults(page,sort);
             });
         });
     </script>
+    
+           
+      
+   
+    @if (key == "")
+    {
+        <script type="text/javascript">
+            $(function () {
+                let pages = parseInt($('#page').val());
+                let countPage = parseInt($('#countPages').val());
+                let totalPages = parseInt((countPage / 8).toString());
+                let producer = $('#producer').val().toLowerCase();
+                let sort = $('#sort').val();
+                $('#pagination').twbsPagination({
+                    totalPages: totalPages,
+                    startPage: pages,
+                    visiblePages: totalPages - 1,
+                    onPageClick: function (event, page) {
+                        if (page !== pages) {
+                            if (sort === "") {
+                                return location.href = "/Home/Category?cate=" + producer + "&page=" + page;
+                            } else {
+                                return location.href = "/Home/Category?cate=" + producer + "&type=" + sort + "&page=" + page;
+                            }
+                        }
+                    }
+                });
+                let key = $('#key').val();
+                let currentPage = 1;
+
+            });
+        </script>
     }
 </section>

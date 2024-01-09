@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+
+using System.Web.UI;
+
 using System.Web.WebPages;
 using Web2023Project.Controllers.Admin;
 using Web2023Project.Dao;
@@ -345,26 +348,41 @@ namespace Web2023Project.Controllers
                 new { controller = "Home", action = "Product_Detail", Id = comment.ProductId, Model = "p_detail" }));
         }
 
-        public async Task<ActionResult> SearchKey(string key)
+
+        public async Task<ActionResult> SearchKey(string key,int page= 1)
+
         {
             if (key != null)
             {
                 try
                 {
+                    StringBuilder resp = new StringBuilder();
+
                     // lấy ra danh sách sản phẩm dựa vào key đó
                     // Gọi phương thức asynchronous và đợi kết quả
                     Task<List<Products>> task = SearchDAO.SeachTest(key);
                     List<Products> dsct_sp = await task;
-                    Session.Add("category", dsct_sp);
+                    int pageSize = 20;
+                    int skip = (page - 1) * pageSize;
+                    List<Products> dsct_sp_page = dsct_sp.Skip(skip).Take(pageSize).ToList();
+                    
+                    Session.Add("pageCurrent", page);
+                    Session.Add("category", dsct_sp_page);
                     // đếm tổng số sản phẩm lấy ra được
                     int count_sear = 0;
+                    int totalPage = 1;
                     if (dsct_sp != null)
                     {
                         count_sear = dsct_sp.Count;
+                        totalPage = count_sear / pageSize + 1;
                     }
-
+                   
+                   
+                    Session.Add("pageSize", totalPage);
                     Session.Add("count_sear", count_sear);
                     Session.Add("key", key);
+                   
+
                 }
                 catch (Exception e)
                 {
@@ -422,6 +440,59 @@ namespace Web2023Project.Controllers
 
             return RedirectToAction("Product", "Home");
         }
+
+        public async Task<ActionResult> NavigateAndSortPage(string key, int page = 1,string sort = "")
+        {
+            if (key != null)
+            {
+                try
+                {
+                    // lấy ra danh sách sản phẩm dựa vào key đó
+                    // Gọi phương thức asynchronous và đợi kết quả
+                    StringBuilder resp = new StringBuilder();
+                    Task<List<Products>> task = SearchDAO.SeachTest(key);
+                    List<Products> dsct_sp = await task;
+                    
+                    if (sort.Equals("desc")) {
+                        dsct_sp = dsct_sp.OrderByDescending(p => p.GiaDagiam).ToList();
+                        Session.Add("sort", sort);
+                    }
+                    else if (sort.Equals("asc"))
+                    {
+                        dsct_sp = dsct_sp.OrderBy(p => p.GiaDagiam).ToList();
+                        Session.Add("sort", sort);
+                    }
+                    int pageSize = 20;
+                    int skip = (page - 1) * pageSize;
+                    List<Products> dsct_sp_page = dsct_sp.Skip(skip).Take(pageSize).ToList();
+                    
+                    Session.Add("pageCurrent", page);
+                    Session.Add("category", dsct_sp_page);
+                    // đếm tổng số sản phẩm lấy ra được
+                    int count_sear = 0;
+                    int totalPage = 1;
+                    if (dsct_sp != null)
+                    {
+                        count_sear = dsct_sp.Count;
+                        totalPage = count_sear / pageSize + 1;
+                    }
+                
+                    Session.Add("pageSize", totalPage);
+                    Session.Add("count_sear", count_sear);
+                    Session.Add("key", key);
+                 
+
+                    return PartialView("SearchPagePartial", dsct_sp_page);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }                      
+
+            return RedirectToAction("Product", "Home");
+        }
+
         [HttpPost]
         public async Task<ActionResult> Search(string key)
         {
