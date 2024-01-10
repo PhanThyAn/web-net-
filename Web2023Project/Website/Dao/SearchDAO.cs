@@ -87,7 +87,7 @@ namespace Web2023Project.Website.Dao
             }
         }
 
-        public static async Task<List<Products>> SeachTest(string input)
+        public static async Task<List<Sanphams>> SeachTest(string input)
         {
             String api = "http://103.77.214.148/api/Sanphams";
             using (HttpClient client = new HttpClient())
@@ -99,57 +99,61 @@ namespace Web2023Project.Website.Dao
                     string jsonResponse = await response.Content.ReadAsStringAsync();
 
                     JArray jsonArray = JArray.Parse(jsonResponse);
-                    List<Products> resultList = new List<Products>();
+                    List<Sanphams> resultList = new List<Sanphams>();
                     foreach (JObject jsonObject in jsonArray)
                     {
+                       
                         // Lấy giá trị của thuộc tính TenSp
                         string tenSanPham = jsonObject["tenSp"]?.ToString();
-                        string gia = jsonObject["giagoc"]?.ToString();
-                        string giaGiam = jsonObject["giadagiam"]?.ToString();
-                        string id = jsonObject["id"]?.ToString();
-                        string thuongHieu = jsonObject["thuonghieu"]?.ToString();
-                        string soLuong = jsonObject["soluong"]?.ToString();
-                        string mausanpham = jsonObject["mausanpham"]?.ToString();
-                        string manhinh = jsonObject["manhinh"]?.ToString();
-                        string hedieuhanh = jsonObject["hedieuhanh"]?.ToString();
-                        string camera = jsonObject["camera"]?.ToString();
-                        string chip = jsonObject["chip"]?.ToString();
-                        string ram = jsonObject["ram"]?.ToString();
-                        string dungluong = jsonObject["dungluong"]?.ToString();
-                        string pin = jsonObject["pin"]?.ToString();
-                        string mota = jsonObject["mota"]?.ToString();
-                        string tenviettat = jsonObject["tenviettat"]?.ToString();
-                        string trangthai = jsonObject["trangthai"]?.ToString();
-                        Console.WriteLine("i" + id);
-                        // In ra màn hình
-                        Products p = new Products();
-                        p.TenSp = tenSanPham;
-                        p.Id = Int32.Parse(id);
-                        p.GiaGoc = Double.Parse(gia);
-                        p.GiaDagiam = Double.Parse(giaGiam);
-                        p.ThuongHieu = thuongHieu;
-                        try
+                        if (tenSanPham != null && tenSanPham.ToLower().Contains(input.ToLower()))
                         {
-                            p.SoLuong = Int32.Parse(soLuong);
-                        }
-                        catch(Exception ex)
-                        {
-                            p.SoLuong = 0;
-                        }
-                       
-                        p.MauSanPham = mausanpham;
-                        p.ManHinh = manhinh;
-                        p.HeDieuHanh = hedieuhanh;
-                        p.Camera = camera;
-                        p.Chip = chip;
-                        p.Ram = ram;
-                        p.DungLuong = dungluong;
-                        p.Pin = pin;
-                        p.MoTa = mota;
-                        p.TenVietTat = tenviettat;
-                        p.TrangThai = trangthai;
-                        resultList.Add(p);
+                            string gia = jsonObject["giagoc"]?.ToString();
+                            string giaGiam = jsonObject["giadagiam"]?.ToString();
+                            string id = jsonObject["id"]?.ToString();
+                            string thuongHieu = jsonObject["thuonghieu"]?.ToString();
+                            string soLuong = jsonObject["soluong"]?.ToString();
+                            string mausanpham = jsonObject["mausanpham"]?.ToString();
+                            string manhinh = jsonObject["manhinh"]?.ToString();
+                            string hedieuhanh = jsonObject["hedieuhanh"]?.ToString();
+                            string camera = jsonObject["camera"]?.ToString();
+                            string chip = jsonObject["chip"]?.ToString();
+                            string ram = jsonObject["ram"]?.ToString();
+                            string dungluong = jsonObject["dungluong"]?.ToString();
+                            string pin = jsonObject["pin"]?.ToString();
+                            string mota = jsonObject["mota"]?.ToString();
+                            string tenviettat = jsonObject["tenviettat"]?.ToString();
+                            string trangthai = jsonObject["trangthai"]?.ToString();
+                            Console.WriteLine("i" + id);
 
+                            // In ra màn hình
+                            Sanphams p = new Sanphams();
+                            p.TenSp = tenSanPham;
+                            p.Id = Int32.Parse(id);
+                            p.GiaGoc = Double.Parse(gia);
+                            p.GiaDagiam = Double.Parse(giaGiam);
+                            p.ThuongHieu = thuongHieu;
+                            try
+                            {
+                                p.SoLuong = Int32.Parse(soLuong);
+                            }
+                            catch (Exception ex)
+                            {
+                                p.SoLuong = 0;
+                            }
+
+                            p.MauSanPham = mausanpham;
+                            p.ManHinh = manhinh;
+                            p.HeDieuHanh = hedieuhanh;
+                            p.Camera = camera;
+                            p.Chip = chip;
+                            p.Ram = ram;
+                            p.DungLuong = dungluong;
+                            p.Pin = pin;
+                            p.MoTa = mota;
+                            p.TenVietTat = tenviettat;
+                            p.TrangThai = trangthai;
+                            resultList.Add(p);
+                        }
                         // In các thuộc tính khác tương tự
 
                     }

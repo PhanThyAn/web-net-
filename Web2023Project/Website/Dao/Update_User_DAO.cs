@@ -1,14 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
+using Newtonsoft.Json.Linq;
 using Web2023Project.libs;
 using Web2023Project.Model;
+using Web2023Project.Models;
 using Web2023Project.Utils;
 
 namespace Web2023Project.Website.Dao
 {
     public class Update_User_DAO
     {
-        public static bool edit(string taikhoan, string matkhau)
+       
+            public static bool edit(string taikhoan, string matkhau)
         {
             string sql;
             MySqlCommand cmd = null;
