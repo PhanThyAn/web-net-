@@ -110,23 +110,23 @@
                      
                  
                     @{
-                        Member member = new Member();
+                        Web2023Project.Models.Nguoidung member = new Web2023Project.Models.Nguoidung();
                     }
                         @if (Session["memberLogin"] != null)
                         {
-                            member = Session["memberLogin"] as Member;
+                            member = Session["memberLogin"] as Web2023Project.Models.Nguoidung;
                         }
                     
                         <form id="cmt-post" action="/Home/CommentUser"
                               method="post">
-                               <input type="hidden" name="name" value="@member.Name" />
+                               <input type="hidden" name="name" value="@member.Ten" />
                                <input type="hidden" name="productID" value="@Model.Product.ProductId" />
                                 <input type="hidden" name="product" value="@Model.Product.ProductName" />
                                 
                             <textarea id="content" name="content" placeholder="Mời bạn để lại bình luận..."></textarea>
                             <div class="justify-center btn-detail">
                                 
-                                @if (member.Name != null)
+                                @if (member.Ten != null)
                                 {
                                     <button type="submit" id="post">Gửi bình luận<i class="fa fa-paper-plane" aria-hidden="true"></i></button>
                                 }

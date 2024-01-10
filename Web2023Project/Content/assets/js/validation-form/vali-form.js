@@ -8,7 +8,7 @@ $(document).ready(function () {
     const c_password = $('#c_password');
     const name = $('#name');
     const email = $('#email');
-    const address = $('#address');
+    
     const phone = $('#phone');
     const id = $('#id');
     // producer
@@ -16,7 +16,7 @@ $(document).ready(function () {
     //product
     const id_product = $('#id-product'), name_product = $('#name-product'), count_product = $('#count-product');
     //oder
-    const address_oder = $('#address-oder');
+   
     let flag = true;
     $('#form-validate').submit(function () {
         flag = true;
@@ -64,10 +64,7 @@ $(document).ready(function () {
                 flag = false;
             }
         }
-        if (address.val() === '') {
-            notEmpty(address, 'Vui lòng nhập Địa chỉ', null);
-            flag = false;
-        }
+        
         if (phone.val() === '') {
             notEmpty(phone, 'Vui lòng nhập phone', null);
             flag = false;
@@ -103,11 +100,8 @@ $(document).ready(function () {
             notEmpty(count_product, 'Vui lòng nhập Số lượng', null);
             flag = false;
         }
-        //oder
-        if (address_oder.val() === '') {
-            notEmpty(address_oder, 'Vui lòng nhập Địa chỉ giao hàng', null);
-            flag = false;
-        }
+     
+       
         return flag;
     });
 
