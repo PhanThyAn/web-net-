@@ -1,40 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 
-namespace Web2020Project.Model
+namespace Web2023Project.Models
 {
-    public class NhaCungCap
-    {
-        private String maNhaCungCap;
-        private String tenNhaCungCap;
-        private String diaChi;
+	public partial class Nhacungcap
+	{
+		public int Id { get; set; }
 
-        public NhaCungCap()
-        {
-        }
+		public string TenNcc { get; set; }
 
-        public NhaCungCap(string maNhaCungCap, string tenNhaCungCap, string diaChi)
-        {
-            this.maNhaCungCap = maNhaCungCap;
-            this.tenNhaCungCap = tenNhaCungCap;
-            this.diaChi = diaChi;
-        }
+		public string Diachi { get; set; }
 
-        public string MaNhaCungCap
-        {
-            get => maNhaCungCap;
-            set => maNhaCungCap = value;
-        }
+		public sbyte? Trangthai { get; set; }
 
-        public string TenNhaCungCap
-        {
-            get => tenNhaCungCap;
-            set => tenNhaCungCap = value;
-        }
-
-        public string DiaChi
-        {
-            get => diaChi;
-            set => diaChi = value;
-        }
-    }
+		public virtual ICollection<Sanpham> Sanphams { get; set; } = new List<Sanpham>();
+	}
 }

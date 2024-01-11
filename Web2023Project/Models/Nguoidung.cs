@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Web2023Project.Website.Models;
-
 namespace Web2023Project.Models
 {
-    public class Nguoidung
+    public partial class Nguoidung
     {
         public int Id { get; set; }
 
@@ -15,7 +10,7 @@ namespace Web2023Project.Models
 
         public string Sdt { get; set; }
 
-        public int Gioitinh { get; set; }
+        public ulong Gioitinh { get; set; }
 
         public string Email { get; set; }
 
@@ -23,7 +18,7 @@ namespace Web2023Project.Models
 
         public string Anhdaidien { get; set; }
 
-        public int Quyen { get; set; }
+        public sbyte? Quyen { get; set; }
 
         public string GoogleId { get; set; }
 
@@ -35,7 +30,7 @@ namespace Web2023Project.Models
 
         public sbyte? Trangthai { get; set; }
 
-/*        public virtual ICollection<Binhluan> Binhluans { get; set; } = new List<Binhluan>();
+        public virtual ICollection<Binhluan> Binhluans { get; set; } = new List<Binhluan>();
 
         public virtual ICollection<Chitietgiohang> Chitietgiohangs { get; set; } = new List<Chitietgiohang>();
 
@@ -43,13 +38,6 @@ namespace Web2023Project.Models
 
         public virtual ICollection<Donhang> Donhangs { get; set; } = new List<Donhang>();
 
-        public virtual ICollection<Log> Logs { get; set; } = new List<Log>();*/
-
-        public Nguoidung()
-        {
-            // Khởi tạo giá trị mặc định nếu cần
-        }
-
-        
+        public virtual ICollection<Log> Logs { get; set; } = new List<Log>();
     }
 }
