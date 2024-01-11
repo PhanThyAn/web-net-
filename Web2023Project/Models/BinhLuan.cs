@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Admin.Models;
-
+namespace Web2023Project.Models
+{
 public partial class Binhluan
 {
     public int Id { get; set; }
@@ -11,7 +11,7 @@ public partial class Binhluan
 
     public int? IdSp { get; set; }
 
-    public string? Noidung { get; set; }
+    public string Noidung { get; set; }
 
     public int? Danhgia { get; set; }
 
@@ -19,7 +19,8 @@ public partial class Binhluan
 
     public sbyte? Trangthai { get; set; }
 
-    public virtual Nguoidung? IdNdNavigation { get; set; }
+    public virtual Nguoidung IdNdNavigation { get; set; }
 
-    public virtual Sanpham? IdSpNavigation { get; set; }
+    public virtual Sanpham IdSpNavigation { get; set; }
+}
 }
