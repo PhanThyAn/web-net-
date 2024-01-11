@@ -1,66 +1,25 @@
 ﻿using System;
-using MySql.Data.MySqlClient;
+using System.Collections.Generic;
 
-namespace Web2020Project.Model
+namespace Admin.Models;
+
+public partial class Binhluan
 {
-    public class BinhLuan
-    {
-        private String hoTen;
-        private String noiDung;
-        private int maSanPham;
-        private String sanPham;
-        private String ngayBinhLuan;
+    public int Id { get; set; }
 
-        public BinhLuan()
-        {
-        }
+    public int? IdNd { get; set; }
 
-        public BinhLuan(string hoTen, string noiDung, int maSanPham, string sanPham, string ngayBinhLuan)
-        {
-            this.hoTen = hoTen;
-            this.noiDung = noiDung;
-            this.maSanPham = maSanPham;
-            this.sanPham = sanPham;
-            this.ngayBinhLuan = ngayBinhLuan;
-        }
+    public int? IdSp { get; set; }
 
-        public string HoTen
-        {
-            get => hoTen;
-            set => hoTen = value;
-        }
+    public string? Noidung { get; set; }
 
-        public string NoiDung
-        {
-            get => noiDung;
-            set => noiDung = value;
-        }
+    public int? Danhgia { get; set; }
 
-        public int MaSanPham
-        {
-            get => maSanPham;
-            set => maSanPham = value;
-        }
+    public DateTime? Ngaybinhluan { get; set; }
 
-        public string SanPham
-        {
-            get => sanPham;
-            set => sanPham = value;
-        }
+    public sbyte? Trangthai { get; set; }
 
-        public string NgayBinhLuan
-        {
-            get => ngayBinhLuan;
-            set => ngayBinhLuan = value;
-        }
-        public BinhLuan GetBinhLuan(MySqlDataReader reader)
-        {
-            BinhLuan binhLuan = new BinhLuan();
-            binhLuan.HoTen = reader.GetString("hoten");
-            binhLuan.NoiDung = reader.GetString("noidung");
-            binhLuan.SanPham = reader.GetString("sanpham");
-            binhLuan.NgayBinhLuan = reader.GetString("ngaybinhluan");
-            return binhLuan;
-        }
-    }
+    public virtual Nguoidung? IdNdNavigation { get; set; }
+
+    public virtual Sanpham? IdSpNavigation { get; set; }
 }
