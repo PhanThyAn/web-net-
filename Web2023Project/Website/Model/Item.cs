@@ -1,12 +1,12 @@
 ﻿using System;
-using Web2023Project.Model;
+using Web2023Project.Models;
 
 namespace Web2023Project.Website.Model
 {
     public class Item
     {
         private int itemID;
-        private Product product;
+        private Products product;
         private int amount;
         private double price;
 
@@ -14,7 +14,7 @@ namespace Web2023Project.Website.Model
         {
         }
 
-        public Item(int itemId, Product product, int amount, double price)
+        public Item(int itemId, Products product, int amount, double price)
         {
             itemID = itemId;
             this.product = product;
@@ -28,7 +28,7 @@ namespace Web2023Project.Website.Model
             set => itemID = value;
         }
 
-        public Product Product
+        public Products Product
         {
             get => product;
             set => product = value;

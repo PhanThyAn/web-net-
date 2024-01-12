@@ -1,86 +1,110 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using MySql.Data.MySqlClient;
-using Web2023Project.libs;
-using Web2023Project.Model;
-using Web2023Project.Utils;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Web2023Project.Models;
 
 namespace Web2023Project.Website.Dao
 {
     public class ProductDAO
     {
-        public static List<Product> LoadProducts()
-        {
-            MySqlConnection connection = null;
-            MySqlCommand cmd = null;
-            MySqlDataReader reader = null;
-            List<Product> products = new List<Product>();
-            try
-            {
-                string sql = "SELECT * FROM SANPHAM";
-                connection = DBConnection.getConnection();
-                connection.Open();
-                cmd = new MySqlCommand(sql, connection);
-                reader = cmd.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        products.Add(new Product().GetProduct(reader));
-                    }
-                }
+        private readonly HttpClient httpClient;
+        private readonly string api;
 
-                return products.Count != 0 ? products : null;
-            }
-            catch (SqlException e)
+        public ProductDAO()
+        {
+            this.httpClient = new HttpClient();
+            this.api = "http://103.77.214.148/api/Sanphams";
+        }
+
+        public async Task<List<Products>> GetAllProducts()
+        {
+            HttpResponseMessage response = await httpClient.GetAsync($"{api}");
+
+            if (response.IsSuccessStatusCode)
             {
-                Console.WriteLine(e.Message);
+                string jsonResponse = response.Content.ReadAsStringAsync().Result;
+                List<Products> products = JsonConvert.DeserializeObject<List<Products>>(jsonResponse);
+
+                return products;
+
+            }
+            else
+            {
                 return null;
-            }
-            finally
-            {
-                ReleaseResources.Release(connection, reader, cmd);
             }
         }
 
-        public static Product getProductID(int productID)
+        public Products GetProductById(int id)
         {
-            MySqlConnection connection = null;
-            MySqlCommand cmd = null;
-            MySqlDataReader reader = null;
-            try
-            {
-                String sql =
-                    "SELECT MASANPHAM,TENSANPHAM,GIADAGIAM,HINHANH FROM SANPHAM WHERE TRANGTHAI>0 AND MASANPHAM=@msp";
-                connection = DBConnection.getConnection();
-                connection.Open();
-                cmd = new MySqlCommand(sql, connection);
-                cmd.Parameters.AddWithValue("@msp", productID);
-                reader = cmd.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    if (reader.Read())
-                    {
-                        Product product = new Product();
-                        product.ProductId= reader.GetInt16("masanpham");
-                        product.ProductName = reader.GetString("tensanpham");
-                        product.SalePrice = reader.GetDouble("giadagiam");
-                        product.Picture = reader.GetString("hinhanh");
-                        return product;
-                    }
-                }
+            HttpResponseMessage response = httpClient.GetAsync($"{api}/{id}").Result;
 
+            string jsonResponse = response.Content.ReadAsStringAsync().Result;
+            Products product = JsonConvert.DeserializeObject<Products>(jsonResponse);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return product;
+
+            }
+            else
+            {
                 return null;
             }
-            catch (SqlException e)
+        }
+
+        public List<Products> GetNewProducts(int count = 8)
+        {
+            HttpResponseMessage response = httpClient.GetAsync($"{api}?count={count}").Result;
+
+            string jsonResponse = response.Content.ReadAsStringAsync().Result;
+            List<Products> newProducts = JsonConvert.DeserializeObject<List<Products>>(jsonResponse);
+
+            if (response.IsSuccessStatusCode)
             {
-                Console.WriteLine(e.Message);
+                return newProducts;
+
+            }
+            else
+            {
                 return null;
             }
-            finally
+        }
+
+        public List<Products> GetHotProducts(int count = 8)
+        {
+            HttpResponseMessage response = httpClient.GetAsync($"{api}?count={count}").Result;
+
+            string jsonResponse = response.Content.ReadAsStringAsync().Result;
+            List<Products> hotProducts = JsonConvert.DeserializeObject<List<Products>>(jsonResponse);
+
+            if (response.IsSuccessStatusCode)
             {
-                ReleaseResources.Release(connection, reader, cmd);
+                return hotProducts;
+
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public List<Products> GetSaleProducts(int count = 8)
+        {
+            HttpResponseMessage response = httpClient.GetAsync($"{api}?count={count}").Result;
+
+            string jsonResponse = response.Content.ReadAsStringAsync().Result;
+            List<Products> saleProducts = JsonConvert.DeserializeObject<List<Products>>(jsonResponse);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return saleProducts;
+
+            }
+            else
+            {
+                return null;
             }
         }
     }

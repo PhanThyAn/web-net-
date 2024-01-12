@@ -1,8 +1,8 @@
 ﻿@using Web2023Project.Model
 @using Web2023Project.Website.Model
 @{
-    ViewBag.Title = "Cart";
-    Layout = "~/Views/Shared/Home/_HeaderSimple.cshtml";
+    ViewBag.Title = "Giỏ hàng";
+    Layout = "~/Views/Shared/Home/_HeaderHome.cshtml";
 }
 <section id="body">
     <div id="frame-cart">
@@ -16,7 +16,7 @@
                         <span><i class="fa fa-shopping-cart"></i>Giỏ hàng của bạn (có</span>
                         <span id="count-pro">@(gh != null ?gh.TotalItem(): 0 ) </span> sản phẩm)
                     </div>
-                    <a href="/Home/Index">Tiếp tục mua hàng</a>
+                    <a href="/">Tiếp tục mua hàng</a>
                 </div>
                 <div class="contain-product">
                     <ul>
@@ -30,11 +30,11 @@
                                 <div class="img-pro">
                                     <a
                                         href="/Home/Product">
-                                        <img src="@(item.Product.Picture)" alt="hinh-minh-hoa"/>
+                                        <img src="" alt="hinh-minh-hoa"/>
                                     </a>
                                 </div>
                                 <div class="tit-cou">
-                                    <h5>@item.Product.ProductName</h5>
+                                    <h5>@item.Product.TenSp</h5>
                                     <div class="d-flex align-i-center">
                                         <span class="count">Số lượng:</span>
                                         <div class="frame-num d-flex">
@@ -43,7 +43,7 @@
                                                    min="1" required>
                                             <button class="plus">+</button>
                                             <input type="hidden" class="msp"
-                                                   value="@(item.Product.ProductId)">
+                                                   value="@(item.Product.Id)">
                                         </div>
                                         <span class="upgrade"><i class="fa fa-upload" aria-hidden="true"></i></span>
                                     </div>
@@ -54,8 +54,8 @@
                                     <span class="price"> @string.Format("{0:0,0}", item.Price)  đ</span>
                                     <span>(Giá đã bao gồm VAT)</span>
                                 </div>
-                                <input type="hidden" class="msp-trash" value="@(item.Product.ProductId)">
-                                <input type="hidden" class="tensp-trash" value="@(item.Product.ProductName)">
+                                <input type="hidden" class="msp-trash" value="@(item.Product.Id)">
+                                <input type="hidden" class="tensp-trash" value="@(item.Product.TenSp)">
                                 <span class="trash"><i class="fa fa-trash" aria-hidden="true"></i></span>
                             </div>
                         </li>
@@ -82,7 +82,7 @@
                         Member member = Session["memberLogin"] as Member;
                         if (member != null)
                         {
-                            <button onclick="return location.href='PaymentController'" id="btn-submit">ĐẶT HÀNG</button>
+                            <button onclick="return location.href='/Home/Order_Success'" id="btn-submit">ĐẶT HÀNG</button>
                         }
                         else
                         {

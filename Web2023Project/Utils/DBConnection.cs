@@ -12,7 +12,7 @@ namespace Web2023Project.libs
             int port = 3306;
             string database = "websellphone";
             string username = "root";
-            string password = "123456789";
+            string password = "";
             string connString = "Server=" + host + ";Database=" + database + ";port=" + port + ";User Id=" + username + ";password=" + password;
             MySqlConnection conn= new MySqlConnection(connString);
             return conn;

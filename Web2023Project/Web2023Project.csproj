@@ -123,14 +123,12 @@
     <Compile Include="Admin\Controllers\AdminController.cs" />
     <Compile Include="Admin\Controllers\CommentController.cs" />
     <Compile Include="Admin\Controllers\MemberController.cs" />
-    <Compile Include="Admin\Controllers\NewsController.cs" />
     <Compile Include="Admin\Controllers\OrderController.cs" />
     <Compile Include="Admin\Controllers\PhoneController.cs" />
     <Compile Include="Admin\Controllers\ProducerController.cs" />
     <Compile Include="Admin\Controllers\ProductController.cs" />
     <Compile Include="Admin\Controllers\RevenueController.cs" />
     <Compile Include="Admin\Dao\DashboardDAO.cs" />
-    <Compile Include="Admin\Dao\NewsDAO.cs" />
     <Compile Include="Admin\Dao\OrderDAO.cs" />
     <Compile Include="Admin\Dao\ProducerDAO.cs" />
     <Compile Include="Admin\Dao\ProductsDAO.cs" />
@@ -147,6 +145,9 @@
     <Compile Include="Models\Level.cs" />
     <Compile Include="Models\Log.cs" />
     <Compile Include="Models\MemberFilter.cs" />
+    <Compile Include="Models\Image.cs" />
+    <Compile Include="Models\ProductShow.cs" />
+    <Compile Include="Models\Techinical.cs" />
     <Compile Include="Models\ProductDetail.cs" />
     <Compile Include="Models\CartDB.cs" />
     <Compile Include="Models\Producer.cs" />
@@ -154,8 +155,6 @@
     <Compile Include="Models\Member.cs" />
     <Compile Include="Models\Products.cs" />
     <Compile Include="Models\Role.cs" />
-    <Compile Include="Models\Technical.cs" />
-    <Compile Include="Models\News.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\CheckObjExists.cs" />
     <Compile Include="Utils\DBConnection.cs" />
@@ -167,7 +166,8 @@
     <Compile Include="Website\Dao\CategoryDAO.cs" />
     <Compile Include="Website\Dao\CommentDAO.cs" />
     <Compile Include="Website\Dao\MyViewModel.cs" />
-    <Compile Include="Website\Dao\NewsDAO.cs" />
+    <Compile Include="Website\Dao\HomeViewModel.cs" />
+    <Compile Include="Website\Dao\ProductDetailDAO.cs" />
     <Compile Include="Website\Dao\ProductDAO.cs" />
     <Compile Include="Website\Dao\SearchDAO.cs" />
     <Compile Include="Website\Dao\Update_User_DAO.cs" />
@@ -1590,6 +1590,9 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="..\.editorconfig">
+      <Link>.editorconfig</Link>
+    </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -1610,8 +1613,6 @@
     <Content Include="Views\Home\Error404.cshtml" />
     <Content Include="Views\Home\Guarentee.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
-    <Content Include="Views\Home\News.cshtml" />
-    <Content Include="Views\Home\New_Detail.cshtml" />
     <Content Include="Views\Home\Product.cshtml" />
     <Content Include="Views\Home\Product_Detail.cshtml" />
     <Content Include="Views\Home\Profile_User.cshtml" />
@@ -1650,7 +1651,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\SearchPagePartial.cshtml" />
-
+    <Content Include="Views\Home\Order_Success.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Fonts\glyphicons-halflings-regular.woff2" />

@@ -1,5 +1,6 @@
 ﻿﻿using System.Collections.Generic;
 using Web2023Project.Model;
+using Web2023Project.Models;
 
 namespace Web2023Project.Website.Dao
 {
@@ -7,16 +8,10 @@ namespace Web2023Project.Website.Dao
 
     
     {
-        public List<News> listNews ;
         public List<Product> listProduct_new;
         public List<Product> listProduct_hot;
         public List<Product> listProduct_sale;
 
-        public List<News> ListNews
-        {
-            get => listNews;
-            set => listNews = value;
-        }
 
         public List<Product> ListProductNew
         {
