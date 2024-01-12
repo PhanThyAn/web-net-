@@ -115,8 +115,42 @@
 
                     </div>
                     @{
+<<<<<<< HEAD
                         string mess = Session["messagecomment"] as string;
                     }
+=======
+                        Web2023Project.Models.Nguoidung member = new Web2023Project.Models.Nguoidung();
+                    }
+                        @if (Session["memberLogin"] != null)
+                        {
+                            member = Session["memberLogin"] as Web2023Project.Models.Nguoidung;
+                        }
+                    
+                        <form id="cmt-post" action="/Home/CommentUser"
+                              method="post">
+                               <input type="hidden" name="name" value="@member.Ten" />
+                               <input type="hidden" name="productID" value="@Model.Product.ProductId" />
+                                <input type="hidden" name="product" value="@Model.Product.ProductName" />
+                                
+                            <textarea id="content" name="content" placeholder="Mời bạn để lại bình luận..."></textarea>
+                            <div class="justify-center btn-detail">
+                                
+                                @if (member.Ten != null)
+                                {
+                                    <button type="submit" id="post">Gửi bình luận<i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                                }
+                                else
+                                {
+                                    <button data-toggle="modal" data-target="#modal-cmt" type="button" id="post">Gửi bình luận<i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                                    <div id="modal-cmt" class="modal fade modal-confirm" role="dialog">
+                                        <div class="modal-dialog modal-sm">
+                                            <!-- Modal content-->
+                                            <div class="modal-content">
+                                                <div class="modal-body">
+                                                    <p class="text-content">Đăng nhập để tiếp tục bình luận!</p>
+                                                </div>
+                                                <div class="modal-footer">
+>>>>>>> main
 
                     <h5>Bình luận  <span style="color: red">@mess</span> </h5>
 

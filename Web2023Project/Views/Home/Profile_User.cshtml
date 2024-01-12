@@ -13,11 +13,11 @@
                 <img src="/Content/assets/img/common/avatar-user/avatar-admin.jpg" height="288" width="400" alt="avatar"/>
             </div>
              @{
-                                Member member = Session["memberLogin"] as Member;
+                                Web2023Project.Models.Nguoidung member = Session["memberLogin"] as Web2023Project.Models.Nguoidung;
              }
             <div class="user-info-name" data-aos="fade-left">
                 <span>Tài khoản của</span>
-                <span class="user-text">@member.Name</span>
+                <span class="user-text">@member.Ten</span>
             </div>
         </div>
         <div class="info-address">
@@ -48,7 +48,7 @@
                     <form id="form-validate" class="form-infoUser form-style" action="Update_Profile_User" method="post">
                         <div>
                             <span>Họ và Tên*</span>
-                            <input type="text" id="name" name="name" value="@(member != null ? member.Name : "")">
+                            <input type="text" id="name" name="name" value="@(member != null ? member.Ten : "")">
                             <input type="hidden" id="action" name="action" value="updateInfo">
                         </div>
                         <div>
@@ -60,7 +60,7 @@
                             <span>Giới tính</span>
                             <select id="gender" name="gender">
                                 @{
-                                    if (member != null && member.Gender.Equals("Nam"))
+                                    if (member != null && member.Gioitinh.Equals(1))
                                     {
                                         <option value="Nam">Nam</option>
                                         <option value="Nữ">Nữ</option>
@@ -77,12 +77,12 @@
                         <div>
                             <span>Số điện thoại*</span>
                             <input id="phone" name="phone" type="number"
-                                   value="@(member != null ? member.Phone : "")">
+                                   value="@(member != null ? member.Sdt : "")">
                         </div>
-                        <div>
+                      @*  <div>
                             <span>Địa chỉ*</span>
-                            <input type="text" id="address" name="address" value="@(member != null ? member.Address : "")">
-                        </div>
+                            <input type="text" id="address" name="address" value="@(member != null ? member. : "")">
+                        </div>*@
                         <button class="update-btn">CẬP NHẬT</button>
                     </form>
                 </div>
@@ -99,7 +99,7 @@
                         <div class="default-add">
                             <ul>
                                 <li>
-                                    <span class="user-text">@(member != null ? member.Name : "")</span>
+                                    <span class="user-text">@(member != null ? member.Ten : "")</span>
                                     <div class="action">
                                         <span><i class="fa fa-check-circle" aria-hidden="true"></i>Mặc định</span>
                                         <span>
@@ -107,20 +107,20 @@
                                         </span>
                                     </div>
                                 </li>
-                                <li>
+                               @* <li>
                                     <span>Địa chỉ:</span>
                                     <span class="address">@(member != null ? member.Address : "")</span>
-                                </li>
+                                </li>*@
                                 <li>
                                     <span>Số điện thoại:</span>
-                                    <span class="phone">@(member != null ? member.Phone : "")</span>
+                                    <span class="phone">@(member != null ? member.Sdt : "")</span>
                                 </li>
                             </ul>
                         </div>
                         <div class="">
                             <ul>
                                 <li>
-                                    <span class="user-text">@(member != null ? member.Name : "")</span>
+                                    <span class="user-text">@(member != null ? member.Ten : "")</span>
                                     <div class="action">
                                         <span>
                                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
@@ -130,20 +130,20 @@
                                         </span>
                                     </div>
                                 </li>
-                                <li>
+                             @*   <li>
                                     <span>Địa chỉ:</span>
                                     <span class="address">@(member != null ? member.Address : "")</span>
-                                </li>
+                                </li>*@
                                 <li>
                                     <span>Số điện thoại:</span>
-                                    <span class="phone">@(member != null ? member.Phone : "")</span>
+                                    <span class="phone">@(member != null ? member.Sdt : "")</span>
                                 </li>
                             </ul>
                         </div>
                         <div class="">
                             <ul>
                                 <li>
-                                    <span class="user-text">@(member != null ? member.Name : "")</span>
+                                    <span class="user-text">@(member != null ? member.Ten : "")</span>
                                     <div class="action">
                                         <span>
                                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
@@ -153,13 +153,13 @@
                                         </span>
                                     </div>
                                 </li>
-                                <li>
+                              @*  <li>
                                     <span>Địa chỉ:</span>
                                     <span class="address">@(member != null ? member.Address : "")</span>
-                                </li>
+                                </li>*@
                                 <li>
                                     <span>Số điện thoại:</span>
-                                    <span class="phone">@(member != null ? member.Phone : "")</span>
+                                    <span class="phone">@(member != null ? member.Sdt : "")</span>
                                 </li>
                             </ul>
                         </div>

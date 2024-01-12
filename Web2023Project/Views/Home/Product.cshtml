@@ -65,9 +65,9 @@
                         @{
                             if (Session["category"] != null)
                             {
-                                List<Web2023Project.Models.Products> p_detail = Session["category"] as List<Web2023Project.Models.Products>;
+                                List<Web2023Project.Models.Sanphams> p_detail = Session["category"] as List<Web2023Project.Models.Sanphams>;
 
-                                foreach (Web2023Project.Models.Products p in p_detail)
+                                foreach (Web2023Project.Models.Sanphams p in p_detail)
                                 {
                                     <li>
                                         <a href="/Home/Product_Detail?id=@p.Id">

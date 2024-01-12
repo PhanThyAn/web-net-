@@ -78,16 +78,16 @@ namespace Web2023Project.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(string userName, string password)
+        public async Task<ActionResult> Login(string userName, string password)
         {
             if (ModelState.IsValid)
             {
-                Member member = LoginDao.checkLogin(userName, password);
-                if (member != null)
+                Nguoidung nguoidung = await  LoginDao.login(userName, password);
+                if (nguoidung != null)
                 {
-                    member.Roles = LogDao.loadRolesByUserName(userName);
-                    Session.Add("memberLogin", member);
-                    LogDao.INFO("Tai khoan: " + member.UserName + ", email: " + member.Email, "Action: Login => DONE");
+                   /* nguoidung.Quyen = LogDao.loadRolesByUserName(userName);*/
+                    Session.Add("memberLogin", nguoidung);
+                    LogDao.INFO("Tai khoan: " + nguoidung.Ten + ", email: " + nguoidung.Email, "Action: Login => DONE");
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -102,29 +102,24 @@ namespace Web2023Project.Controllers
         }
 
         [HttpPost]
-        public ActionResult Register(Member member)
+        public async Task<ActionResult>  Register(string password, string c_password, string name, string gender, string email, string phone)
         {
+
             if (ModelState.IsValid)
             {
-                if (CheckObjExists.IsExist("thanhvien", "taikhoan", member.UserName) ||
-                    CheckObjExists.IsExist("thanhvien", "email", member.Email))
+                
+                Nguoidung nguoidung = await LoginDao.register( password,  name, Int32.Parse(gender) ,  email,  phone);
+                if (nguoidung != null)
                 {
-                    if (CheckObjExists.IsExist("thanhvien", "taikhoan", member.UserName))
-                    {
-                        Session.Add("UserExists", "Tài khoản " + member.UserName + " đã tồn tại");
-                    }
-                    else
-                    {
-                        Session.Add("EmailExists", member.Email + " đã tồn tại");
-                    }
-
-                    Session.Add("memberRegister", member);
-                    return RedirectToAction("Register");
+                    /* nguoidung.Quyen = LogDao.loadRolesByUserName(userName);*/
+                    Session.Add("memberLogin", nguoidung);
+                    LogDao.INFO("Tai khoan: " + nguoidung.Ten + ", email: " + nguoidung.Email, "Action: Login => DONE");
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                 {
-                    MemberDAO.AddMember(member);
-                    return RedirectToAction("Index", "Home");
+                    Session.Add("errLogin", "Tên tài khoản hoặc mật khẩu không đúng");                 
+                    return RedirectToAction("Register");
                 }
             }
             else
@@ -357,11 +352,11 @@ namespace Web2023Project.Controllers
 
                     // lấy ra danh sách sản phẩm dựa vào key đó
                     // Gọi phương thức asynchronous và đợi kết quả
-                    Task<List<Products>> task = SearchDAO.SeachTest(key);
-                    List<Products> dsct_sp = await task;
+                    Task<List<Sanphams>> task = SearchDAO.SeachTest(key);
+                    List<Sanphams> dsct_sp = await task;
                     int pageSize = 20;
                     int skip = (page - 1) * pageSize;
-                    List<Products> dsct_sp_page = dsct_sp.Skip(skip).Take(pageSize).ToList();
+                    List<Sanphams> dsct_sp_page = dsct_sp.Skip(skip).Take(pageSize).ToList();
                     
                     Session.Add("pageCurrent", page);
                     Session.Add("category", dsct_sp_page);
@@ -447,8 +442,8 @@ namespace Web2023Project.Controllers
                     // lấy ra danh sách sản phẩm dựa vào key đó
                     // Gọi phương thức asynchronous và đợi kết quả
                     StringBuilder resp = new StringBuilder();
-                    Task<List<Products>> task = SearchDAO.SeachTest(key);
-                    List<Products> dsct_sp = await task;
+                    Task<List<Sanphams>> task = SearchDAO.SeachTest(key);
+                    List<Sanphams> dsct_sp = await task;
                     
                     if (sort.Equals("desc")) {
                         dsct_sp = dsct_sp.OrderByDescending(p => p.GiaDagiam).ToList();
@@ -461,7 +456,7 @@ namespace Web2023Project.Controllers
                     }
                     int pageSize = 20;
                     int skip = (page - 1) * pageSize;
-                    List<Products> dsct_sp_page = dsct_sp.Skip(skip).Take(pageSize).ToList();
+                    List<Sanphams> dsct_sp_page = dsct_sp.Skip(skip).Take(pageSize).ToList();
                     
                     Session.Add("pageCurrent", page);
                     Session.Add("category", dsct_sp_page);
@@ -524,13 +519,13 @@ namespace Web2023Project.Controllers
                     try
                     {
                         // Gọi phương thức asynchronous và đợi kết quả
-                        Task<List<Products>> task = SearchDAO.SeachTest(input);
-                        List<Products> dssp = await task;
+                        Task<List<Sanphams>> task = SearchDAO.SeachTest(input);
+                        List<Sanphams> dssp = await task;
 
 
                         if (dssp != null)
                         {
-                            foreach (Products sp in dssp)
+                            foreach (Sanphams sp in dssp)
                             {
                                 if (sp.GiaDagiam != 0)
                                 {

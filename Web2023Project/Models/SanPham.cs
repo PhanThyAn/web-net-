@@ -1,106 +1,78 @@
 ﻿using System;
-using System.Web.UI.WebControls;
-using MySql.Data.MySqlClient;
+using System.Collections.Generic;
 
-namespace Web2020Project.Model
+namespace Web2023Project.Models
 {
-    public class SanPham
-    {
-        private int maSanPham;
-        private String tenSanPham;
-        private String nhaCungCap;
-        private double giaDaGiam;
-        private double giaBan;
-        private String hinhAnh;
-        private int soLuong;
-        private int trangTHai;
-        private int loai;
+	public partial class Sanpham
+	{
+		public int Id { get; set; }
 
-        public SanPham()
-        {
-        }
+		public string TenSp { get; set; }
 
-        public SanPham(int maSanPham, string tenSanPham, string nhaCungCap, double giaDaGiam, double giaBan,
-            string hinhAnh, int soLuong, int trangTHai, int loai)
-        {
-            this.maSanPham = maSanPham;
-            this.tenSanPham = tenSanPham;
-            this.nhaCungCap = nhaCungCap;
-            this.giaDaGiam = giaDaGiam;
-            this.giaBan = giaBan;
-            this.hinhAnh = hinhAnh;
-            this.soLuong = soLuong;
-            this.trangTHai = trangTHai;
-            this.loai = loai;
-        }
+		public int? IdNcc { get; set; }
 
-        public int MaSanPham
-        {
-            get => maSanPham;
-            set => maSanPham = value;
-        }
+		public string Thuonghieu { get; set; }
 
-        public string TenSanPham
-        {
-            get => tenSanPham;
-            set => tenSanPham = value;
-        }
+		public double? Giadagiam { get; set; }
 
-        public string NhaCungCap
-        {
-            get => nhaCungCap;
-            set => nhaCungCap = value;
-        }
+		public double? Giagoc { get; set; }
 
-        public double GiaDaGiam
-        {
-            get => giaDaGiam;
-            set => giaDaGiam = value;
-        }
+		public int? Soluong { get; set; }
 
-        public double GiaBan
-        {
-            get => giaBan;
-            set => giaBan = value;
-        }
+		public string Mausanpham { get; set; }
 
-        public string HinhAnh
-        {
-            get => hinhAnh;
-            set => hinhAnh = value;
-        }
+		public string Manhinh { get; set; }
 
-        public int SoLuong
-        {
-            get => soLuong;
-            set => soLuong = value;
-        }
+		public string Hedieuhanh { get; set; }
 
-        public int TrangTHai
-        {
-            get => trangTHai;
-            set => trangTHai = value;
-        }
+		public string Camera { get; set; }
 
-        public int Loai
-        {
-            get => loai;
-            set => loai = value;
-        }
+		public string Chip { get; set; }
 
-        public SanPham GetSanPham(MySqlDataReader reader)
-        {
-            SanPham sanpham = new SanPham();
-            sanpham.MaSanPham = reader.GetInt16("masanpham");
-            sanpham.TenSanPham = reader.GetString("tensanpham");
-            sanpham.NhaCungCap = reader.GetString("nhacungcap");
-            sanpham.GiaDaGiam = reader.GetDouble("giadagiam");
-            sanpham.GiaBan = reader.GetDouble("giaban");
-            sanpham.SoLuong = reader.GetInt16("soluong");
-            sanpham.HinhAnh = reader.GetString("hinhanh");
-            sanpham.TrangTHai = reader.GetInt16("trangthai");
-            sanpham.Loai = reader.GetInt16("loaisanpham");
-            return sanpham;
-        }
-    }
+		public string Ram { get; set; }
+
+		public string Dungluong { get; set; }
+
+		public string Pin { get; set; }
+
+		public string Mota { get; set; }
+
+		public string Tenviettat { get; set; }
+
+		public sbyte? Trangthai { get; set; }
+
+		public virtual ICollection<Binhluan> Binhluans { get; set; } = new List<Binhluan>();
+
+		public virtual ICollection<Chitietdonhang> Chitietdonhangs { get; set; } = new List<Chitietdonhang>();
+
+		public virtual ICollection<Chitietgiohang> Chitietgiohangs { get; set; } = new List<Chitietgiohang>();
+
+		public virtual ICollection<Hinhanh> Hinhanhs { get; set; } = new List<Hinhanh>();
+
+		public virtual Nhacungcap IdNccNavigation { get; set; }
+		public Sanpham(int id, string tenSp, int? idNcc, string thuonghieu, double? giadagiam,
+			   double? giagoc, int? soluong, string mausanpham, string manhinh, string hedieuhanh,
+			   string camera, string chip, string ram, string dungluong, string pin, string mota,
+			   string tenviettat, sbyte? trangthai)
+		{
+			Id = id;
+			TenSp = tenSp;
+			IdNcc = idNcc;
+			Thuonghieu = thuonghieu;
+			Giadagiam = giadagiam;
+			Giagoc = giagoc;
+			Soluong = soluong;
+			Mausanpham = mausanpham;
+			Manhinh = manhinh;
+			Hedieuhanh = hedieuhanh;
+			Camera = camera;
+			Chip = chip;
+			Ram = ram;
+			Dungluong = dungluong;
+			Pin = pin;
+			Mota = mota;
+			Tenviettat = tenviettat;
+			Trangthai = trangthai;
+		}
+	}
 }

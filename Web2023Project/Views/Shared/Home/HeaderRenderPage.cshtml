@@ -1,6 +1,6 @@
 ﻿@using Web2023Project.Model
 @{
-    Member member = Session["memberLogin"] as Member;
+    Web2023Project.Models.Nguoidung member = Session["memberLogin"] as Web2023Project.Models.Nguoidung;
 
 }
 <ul class="icon-profile">
@@ -12,7 +12,7 @@
                 <a href="/Home/Profile_User">
                     <span class="user-text">
                     </span>
-                    @member.Name
+                    @member.Ten
                 </a>
             </div>
             <a href="/Home/Logout">
@@ -30,7 +30,7 @@
     </li>
     @if (member != null)
     {
-        if (member.Level == 1)
+        if (member.Quyen == 1)
         {
             <li id="user">
                 <a style="margin-right: 10px" href="/Admin/Index_Admin">
