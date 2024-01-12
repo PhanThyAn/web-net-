@@ -18,14 +18,14 @@ namespace Web2023Project.Website.Dao
             this.api = "http://103.77.214.148/api/Sanphams";
         }
 
-        public async Task<List<Products>> GetAllProducts()
+        public async Task<List<Sanphams>> GetAllProducts()
         {
             HttpResponseMessage response = await httpClient.GetAsync($"{api}");
 
             if (response.IsSuccessStatusCode)
             {
                 string jsonResponse = response.Content.ReadAsStringAsync().Result;
-                List<Products> products = JsonConvert.DeserializeObject<List<Products>>(jsonResponse);
+                List<Sanphams> products = JsonConvert.DeserializeObject<List<Sanphams>>(jsonResponse);
 
                 return products;
 
@@ -36,12 +36,12 @@ namespace Web2023Project.Website.Dao
             }
         }
 
-        public Products GetProductById(int id)
+        public Sanphams GetProductById(int id)
         {
             HttpResponseMessage response = httpClient.GetAsync($"{api}/{id}").Result;
 
             string jsonResponse = response.Content.ReadAsStringAsync().Result;
-            Products product = JsonConvert.DeserializeObject<Products>(jsonResponse);
+            Sanphams product = JsonConvert.DeserializeObject<Sanphams>(jsonResponse);
 
             if (response.IsSuccessStatusCode)
             {
@@ -54,12 +54,12 @@ namespace Web2023Project.Website.Dao
             }
         }
 
-        public List<Products> GetNewProducts(int count = 8)
+        public List<Sanphams> GetNewProducts(int count = 8)
         {
             HttpResponseMessage response = httpClient.GetAsync($"{api}?count={count}").Result;
 
             string jsonResponse = response.Content.ReadAsStringAsync().Result;
-            List<Products> newProducts = JsonConvert.DeserializeObject<List<Products>>(jsonResponse);
+            List<Sanphams> newProducts = JsonConvert.DeserializeObject<List<Sanphams>>(jsonResponse);
 
             if (response.IsSuccessStatusCode)
             {
@@ -72,12 +72,12 @@ namespace Web2023Project.Website.Dao
             }
         }
 
-        public List<Products> GetHotProducts(int count = 8)
+        public List<Sanphams> GetHotProducts(int count = 8)
         {
             HttpResponseMessage response = httpClient.GetAsync($"{api}?count={count}").Result;
 
             string jsonResponse = response.Content.ReadAsStringAsync().Result;
-            List<Products> hotProducts = JsonConvert.DeserializeObject<List<Products>>(jsonResponse);
+            List<Sanphams> hotProducts = JsonConvert.DeserializeObject<List<Sanphams>>(jsonResponse);
 
             if (response.IsSuccessStatusCode)
             {
@@ -90,12 +90,12 @@ namespace Web2023Project.Website.Dao
             }
         }
 
-        public List<Products> GetSaleProducts(int count = 8)
+        public List<Sanphams> GetSaleProducts(int count = 8)
         {
             HttpResponseMessage response = httpClient.GetAsync($"{api}?count={count}").Result;
 
             string jsonResponse = response.Content.ReadAsStringAsync().Result;
-            List<Products> saleProducts = JsonConvert.DeserializeObject<List<Products>>(jsonResponse);
+            List<Sanphams> saleProducts = JsonConvert.DeserializeObject<List<Sanphams>>(jsonResponse);
 
             if (response.IsSuccessStatusCode)
             {

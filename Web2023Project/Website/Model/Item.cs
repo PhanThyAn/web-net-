@@ -6,7 +6,7 @@ namespace Web2023Project.Website.Model
     public class Item
     {
         private int itemID;
-        private Products product;
+        private Sanphams product;
         private int amount;
         private double price;
 
@@ -14,7 +14,7 @@ namespace Web2023Project.Website.Model
         {
         }
 
-        public Item(int itemId, Products product, int amount, double price)
+        public Item(int itemId, Sanphams product, int amount, double price)
         {
             itemID = itemId;
             this.product = product;
@@ -28,7 +28,7 @@ namespace Web2023Project.Website.Model
             set => itemID = value;
         }
 
-        public Products Product
+        public Sanphams Product
         {
             get => product;
             set => product = value;

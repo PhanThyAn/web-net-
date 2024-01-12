@@ -95,106 +95,73 @@
                             if (Session["listcomments"] != null)
                             {
                                 var cmts = Session["listcomments"] as List<Comment>;
-                                <h6>Có @cmts.Count bình luận</h6>
+                            <h6>Có @cmts.Count bình luận</h6>
                                 foreach (var c in cmts)
                                 {
-                                    <ul>
-                                        <li class="cus">
-                                            <h6>@c.Name</h6>
-                                            <span class="date">@c.CommentDate</span>
-                                            <p>@c.Content</p>
-                                        </li>
-                                    </ul>
+                            <ul>
+                                <li class="cus">
+                                    <h6>@c.Name</h6>
+                                    <span class="date">@c.CommentDate</span>
+                                    <p>@c.Content</p>
+                                </li>
+                            </ul>
                                 }
                             }
                             else
                             {
-                                <h6>Chưa có bình luận</h6>
+                            <h6>Chưa có bình luận</h6>
                             }
                         }
 
                     </div>
                     @{
-<<<<<<< HEAD
                         string mess = Session["messagecomment"] as string;
                     }
-=======
+
+
+                    <h5>Bình luận  <span style="color: red">@mess</span> </h5>
+
+                    @{
                         Web2023Project.Models.Nguoidung member = new Web2023Project.Models.Nguoidung();
                     }
                         @if (Session["memberLogin"] != null)
                         {
                             member = Session["memberLogin"] as Web2023Project.Models.Nguoidung;
                         }
-                    
-                        <form id="cmt-post" action="/Home/CommentUser"
-                              method="post">
-                               <input type="hidden" name="name" value="@member.Ten" />
-                               <input type="hidden" name="productID" value="@Model.Product.ProductId" />
-                                <input type="hidden" name="product" value="@Model.Product.ProductName" />
-                                
-                            <textarea id="content" name="content" placeholder="Mời bạn để lại bình luận..."></textarea>
-                            <div class="justify-center btn-detail">
-                                
-                                @if (member.Ten != null)
-                                {
-                                    <button type="submit" id="post">Gửi bình luận<i class="fa fa-paper-plane" aria-hidden="true"></i></button>
-                                }
-                                else
-                                {
-                                    <button data-toggle="modal" data-target="#modal-cmt" type="button" id="post">Gửi bình luận<i class="fa fa-paper-plane" aria-hidden="true"></i></button>
-                                    <div id="modal-cmt" class="modal fade modal-confirm" role="dialog">
-                                        <div class="modal-dialog modal-sm">
-                                            <!-- Modal content-->
-                                            <div class="modal-content">
-                                                <div class="modal-body">
-                                                    <p class="text-content">Đăng nhập để tiếp tục bình luận!</p>
-                                                </div>
-                                                <div class="modal-footer">
->>>>>>> main
-
-                    <h5>Bình luận  <span style="color: red">@mess</span> </h5>
-
-
-                    @{
-                        Web2023Project.Model.Member member = new Web2023Project.Model.Member();
-                    }
-                    @if (Session["memberLogin"] != null)
-                    {
-                        member = Session["memberLogin"] as Web2023Project.Model.Member;
-                    }
 
                     <form id="cmt-post" action="/Home/CommentUser"
                           method="post">
-                        <input type="hidden" name="name" value="@member.Name" />
+                        <input type="hidden" name="name" value="@member.Ten" />
                         <input type="hidden" name="productID" value="@Model.ThongTin.Id" />
                         <input type="hidden" name="product" value="@Model.ThongTin.TenSp" />
 
                         <textarea id="content" name="content" placeholder="Mời bạn để lại bình luận..."></textarea>
                         <div class="justify-center btn-detail">
 
-                            @if (member.Name != null)
+                            @if (member.Ten != null)
                             {
-                                <button type="submit" id="post">Gửi bình luận<i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                            <button type="submit" id="post">Gửi bình luận<i class="fa fa-paper-plane" aria-hidden="true"></i></button>
                             }
                             else
                             {
-                                <button data-toggle="modal" data-target="#modal-cmt" type="button" id="post">Gửi bình luận<i class="fa fa-paper-plane" aria-hidden="true"></i></button>
-                                <div id="modal-cmt" class="modal fade modal-confirm" role="dialog">
-                                    <div class="modal-dialog modal-sm">
-                                        <!-- Modal content-->
-                                        <div class="modal-content">
-                                            <div class="modal-body">
-                                                <p class="text-content">Đăng nhập để tiếp tục bình luận!</p>
-                                            </div>
-                                            <div class="modal-footer">
+                            <button data-toggle="modal" data-target="#modal-cmt" type="button" id="post">Gửi bình luận<i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                            <div id="modal-cmt" class="modal fade modal-confirm" role="dialog">
+                                <div class="modal-dialog modal-sm">
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            <p class="text-content">Đăng nhập để tiếp tục bình luận!</p>
+                                        </div>
+                                        <div class="modal-footer">
 
-                                                <button type="button" onclick="return location.href='/Home/Login'" class="btn-cf">Đăng nhập</button>
-                                                <button type="button" class="tbn-cancle" data-dismiss="modal">Hủy</button>
-                                            </div>
+                                            <button type="button" onclick="return location.href='/Home/Login'" class="btn-cf">Đăng nhập</button>
+                                            <button type="button" class="tbn-cancle" data-dismiss="modal">Hủy</button>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
                             }
+
                         </div>
                     </form>
 

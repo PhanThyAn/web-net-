@@ -7,7 +7,7 @@ using MySql.Data.MySqlClient;
 using Web2023Project.Model;
 using Web2023Project.Models;
 using Web2023Project.Utils;
-using Web2023Project.Website.Models;
+using Web2023Project.Website.Model;
 
 namespace Web2023Project.DAO
 {
@@ -23,10 +23,10 @@ namespace Web2023Project.DAO
                 connection = DBConnection.getConnection();
                 connection.Open();
                 cmd = new MySqlCommand(sql, connection);
-                cmd.Parameters.AddWithValue("@thongbao", log.Message);
-                cmd.Parameters.AddWithValue("@capdo", log.Level);
-                cmd.Parameters.AddWithValue("@taikhoan", log.Member.UserName);
-                cmd.Parameters.AddWithValue("@diachi", log.Address);
+                cmd.Parameters.AddWithValue("@thongbao", log.Noidung);
+                cmd.Parameters.AddWithValue("@capdo", log.Capdo);
+                cmd.Parameters.AddWithValue("@taikhoan", log.IdNd);
+                cmd.Parameters.AddWithValue("@diachi", log.Nguon);
                 cmd.Parameters.AddWithValue("@ip", log.Ip);
                 return cmd.ExecuteNonQuery() > 0;
             }
@@ -88,19 +88,19 @@ namespace Web2023Project.DAO
         }
         public static void LogBase(Log log, string message, string address)
         {
-            log.Message = message;
-            log.Address = address;
-            log.Member = HttpContext.Current.Session["memberLogin"] as Member;
+            log.Noidung = message;
+            log.Nguon = address;
+            //log.IdNd = (int?)(HttpContext.Current.Session["memberLogin"] as Nguoidung);
             log.Ip = GetIPAddress();
             add(log);
         }
         public static void FAILEDLOGIN(string message, string address)
         {
             Log log =new Log();
-            log.Message = message;
-            log.Member= new Member();
-            log.Level = Level.INFOR.ToString();
-            log.Address = address;
+            log.Noidung = message;
+            //log.IdNd= (int?)new Nguoidung();
+            log.Capdo = Level.INFOR.ToString();
+            log.Nguon = address;
             log.Ip = GetIPAddress();
             add(log);
         }
@@ -108,20 +108,20 @@ namespace Web2023Project.DAO
         public static void INFO(string message, string address)
         {
             Log log= new Log();
-            log.Level = Level.INFOR.ToString();
+            log.Capdo = Level.INFOR.ToString();
             LogBase(log, message, address);
         }
 
         public static void WARNING(string message, string address)
         {
             Log log= new Log();
-            log.Level = Level.WARNING.ToString();
+            log.Capdo = Level.WARNING.ToString();
             LogBase(log, message, address);
         }
         public static void ALERT(string message, string address)
         {
             Log log= new Log();
-            log.Level = Level.ALERT.ToString();
+            log.Capdo = Level.ALERT.ToString();
             LogBase(log, message, address);
         }
     }

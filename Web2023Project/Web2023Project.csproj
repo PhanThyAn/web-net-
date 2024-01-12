@@ -145,13 +145,10 @@
     <Compile Include="Models\Level.cs" />
     <Compile Include="Models\Log.cs" />
     <Compile Include="Models\MemberFilter.cs" />
-<<<<<<< HEAD
     <Compile Include="Models\Image.cs" />
     <Compile Include="Models\ProductShow.cs" />
     <Compile Include="Models\Techinical.cs" />
-=======
     <Compile Include="Models\Nguoidung.cs" />
->>>>>>> main
     <Compile Include="Models\ProductDetail.cs" />
     <Compile Include="Models\CartDB.cs" />
     <Compile Include="Models\Producer.cs" />
@@ -1655,10 +1652,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\SearchPagePartial.cshtml" />
-<<<<<<< HEAD
     <Content Include="Views\Home\Order_Success.cshtml" />
-=======
->>>>>>> main
   </ItemGroup>
   <ItemGroup>
     <Content Include="Fonts\glyphicons-halflings-regular.woff2" />
