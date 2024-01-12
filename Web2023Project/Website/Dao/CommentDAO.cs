@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using MySql.Data.MySqlClient;
 using Web2023Project.libs;
 using Web2023Project.Model;
+using Web2023Project.Models;
 using Web2023Project.Utils;
 
 namespace Web2023Project.Website.Dao

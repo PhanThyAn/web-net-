@@ -51,7 +51,7 @@ namespace Web2023Project.Dao
                         n.Ten = ten;
                         n.Matkhau = matkhau;
                         n.Sdt = sdt;
-                        n.Gioitinh = Int32.Parse(gioiTinh);
+                        n.Gioitinh = (ulong)int.Parse(gioiTinh);
                         n.Email = email;
                     n.Quyen = 1;
                          return n;
@@ -137,7 +137,7 @@ namespace Web2023Project.Dao
                     n.Ten = ten;
                     n.Matkhau = matKhau;
                     n.Sdt = sdt;
-                    n.Gioitinh = Int32.Parse(gioiTinh);
+                    n.Gioitinh = (ulong)int.Parse(gioiTinh);
                     n.Email = email;
                     n.Quyen = 1;
                     return n;

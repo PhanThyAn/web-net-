@@ -213,7 +213,7 @@ namespace Web2023Project.Controllers
             if (id != null)
             {
                 msp = id;
-                Products sp = null;
+                Sanphams sp = null;
                 try
                 {
                     sp = productDAO.GetProductById(Convert.ToInt32(msp.Trim()));
@@ -301,7 +301,7 @@ namespace Web2023Project.Controllers
         }
 
 
-        public ActionResult CommentUser
+        /*public ActionResult CommentUser
         {
             get
             {
@@ -339,7 +339,7 @@ namespace Web2023Project.Controllers
                 return RedirectToAction("Product_Detail", new RouteValueDictionary(
                     new { controller = "Home", action = "Product_Detail", Id = comment.ProductId, Model = "p_detail" }));
             }
-        }
+        }*/
 
         public async Task<ActionResult> SearchKey(string key,int page= 1)
 

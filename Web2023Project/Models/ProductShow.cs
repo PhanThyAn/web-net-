@@ -9,11 +9,11 @@ namespace Web2023Project.Models
     public class ProductShow
     {
         public string TenVietTat { set; get; }
-        public Products ThongTin { set; get; }
+        public Sanphams ThongTin { set; get; }
 
         public ProductShow() { }
 
-        public ProductShow(string tenVietTat, Products thongTin)
+        public ProductShow(string tenVietTat, Sanphams thongTin)
         {
             TenVietTat = tenVietTat;
             ThongTin = thongTin;
