@@ -1,275 +1,275 @@
 ﻿@using System.Activities.Statements
+
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "S-Phones | Cửa hàng bán điện thoại uy tín hàng đầu Việt Nam";
     Layout = "~/Views/Shared/Home/_HeaderHome.cshtml";
 
 }
 <section id="body">
-<div id="banner">
-    <div class="container d-flex">
-        <div class="contain-slide">
-            <div id="icon-pre" class="icon-flow">
-                <i class="fa fa-angle-left" aria-hidden="true"></i>
-            </div>
-            <div id="icon-next" class="icon-flow">
-                <i class="fa fa-angle-right" aria-hidden="true"></i>
-            </div>
-            <div class="slides">
-                <div id="s1" class="slide">
-                    <img src="/Content/assets/img/slider/1.png" alt="">
+    <div id="banner">
+        <div class="container d-flex">
+            <div class="contain-slide">
+                <div id="icon-pre" class="icon-flow">
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
                 </div>
-                <div class="slide">
-                    <img src="/Content/assets/img/slider/2.jpg" alt="">
+                <div id="icon-next" class="icon-flow">
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
                 </div>
-                <div class="slide">
-                    <img src="/Content/assets/img/slider/3.png" alt="">
-                </div>
-                <div class="slide">
-                    <img src="/Content/assets/img/slider/4.png" alt="">
-                </div>
-                <div class="slide">
-                    <img src="/Content/assets/img/slider/5.jpg" alt="">
-                </div>
-            </div>
-        </div>
-        <div class="news-banner">
-            <div class="news-img news-bd">
-                <div class="news-img-top news-bd">
-                    <a href="#">
-                        <img src="/Content/assets/img/news/news-img-1.png" height="110" width="398" alt=""/>
-                    </a>
-                </div>
-                <div class="news-img-bot news-bd">
-                    <a href="#">
-                        <img src="/Content/assets/img/news/new-img-2.png" height="110" width="398" alt=""/>
-                    </a>
-                </div>
-            </div>
-            <div class="news-text news-bd">
-                <div class="news-text-title space-between">
-                    <h6>TIN CÔNG NGHỆ NỔI BẬT</h6>
-                    <a href="/Home/News">Xem tất cả</a>
-                </div>
-                <div class="news-text-img">
-                    
-                        
-                    @if (Model.listNews.Count != 0)
-                    {
-                        for (int i = 0; i < 8; i++)
-                        {
-                            <div class="news-text-img-subs space-between">
-                                <div class="img-news">
-                                    <a href="/Home/New_Detail?idNew=@Model.listNews[i].NewsId">
-                                        <img src="@Model.listNews[i].Picture" alt="">
-                                    </a>
-                                </div>
-                                <div class="text-news">
-                                    <a href="/Home/New_Detail?idNew=@Model.listNews[i].NewsId">
-                                        @Model.listNews[i].Title 
-                                    </a>
-                                </div>
-                            </div>
-                                    
-                        }
-                    }
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="banner-home container">
-    <img src="/Content/assets/img/banner/1200-75-1200x75.png" alt="">
-</div>
-<div id="products">
-<div class="container">
-<div id="main-products">
-<div class="title-product">
-    <a href="#">
-        <h2>SẢN PHẨM MỚI</h2>
-    </a>
-</div>
-<div class="new-products box-shadow hover-ab">
-<div class="autoplay slider" data-sizes="50vw">
-<!--                                        0:new, 1Hot, 2Sale&#45;&#45;%>-->
- @foreach(var sp in Model.listProduct_new)
- {
-<div class="owl-item">
-    <div class="item">
-        <a href="/Home/Product_Detail?id=@sp.ProductId">
-            <img src="@sp.Picture" alt=""/>
-              @if (sp.ProductName.Length < 20) {
-                  <h3 style="text-align: center">@sp.ProductName</h3>
-          } else {
-             <h3>@sp.ProductName</h3>
-          }
-            <div class="price" style="@(sp.ProductName.Length < 20 ?"text-align: center":"")">
-                @if (sp.SalePrice < sp.Price) {
-               <span>@string.Format("{0:0,0}", sp.Price)đ</span>
-               <strong>@string.Format("{0:0,0}", sp.SalePrice)đ</strong>
-                } else {
-                        <strong>@string.Format("{0:0,0}", sp.SalePrice)đ</strong>
-                } 
-            </div>
-            @if (sp.SalePrice < sp.Price) {
-            <label class="discount">GIẢM @string.Format("{0:0,0}", sp.Price-sp.SalePrice)đ</label>
-           }
-        </a>
-    </div>
-</div>
-}
-</div>
-</div>
-<div class="title-product">
-    <a href="#">
-        <h2>SẢN PHẨM HOT</h2>
-    </a>
-</div>
-<div class="hot-products box-shadow hover-ab">
-    <div class="regular slider" data-sizes="50vw">
-            @for (int i = 0; i < 24; i++)
-            {
-                <div>
-                    <div class="owl-item">
-                        <div class="item">
-                            <a href="/Home/Product_Detail?id=@Model.listProduct_hot[i].ProductId">
-                                <img src="@Model.listProduct_hot[i].Picture" alt=""/>
-                                <h3>@Model.listProduct_hot[i].ProductName</h3>
-
-                                <div class="price" style="@(Model.listProduct_hot[i].ProductName.Length < 20 ?"text-align: center":"")">
-                                    @if (@Model.listProduct_hot[i].SalePrice < @Model.listProduct_hot[i].Price)
-                                    {
-                                        <span> @string.Format("{0:0,0}", @Model.listProduct_hot[i].Price)đ</span>
-                                        <strong>
-                                            @string.Format("{0:0,0}", @Model.listProduct_hot[i].SalePrice)đ
-                                        </strong>
-                                    }
-                                    else
-                                    {
-                                        <strong> @string.Format("{0:0,0}", @Model.listProduct_hot[i].SalePrice)đ</strong>
-                                    }
-                                </div>
-                                @if (@Model.listProduct_hot[i].SalePrice < @Model.listProduct_hot[i].Price)
-                                {
-                                    <label class="discount">GIẢM @string.Format("{0:0,0}", @Model.listProduct_hot[i].Price-@Model.listProduct_hot[i++].SalePrice)đ</label>
-                                }
-                                
-                            </a>
-                        </div>
+                <div class="slides">
+                    <div id="s1" class="slide">
+                        <img src="/Content/assets/img/slider/1.png" alt="">
                     </div>
-                    
-                    <div class="owl-item">
-                                            <div class="item">
-                                                <a href="/Home/Product_Detail?id=@Model.listProduct_hot[i].ProductId">
-                                                    <img src="@Model.listProduct_hot[i].Picture" alt=""/>
-                                                    <h3>@Model.listProduct_hot[i].ProductName</h3>
-                    
-                                                    <div class="price"  style="@(Model.listProduct_hot[i].ProductName.Length < 20 ?"text-align: center":"")">
-                                                        @if (@Model.listProduct_hot[i].SalePrice < @Model.listProduct_hot[i].Price)
-                                                        {
-                                                            <span>@string.Format("{0:0,0}", @Model.listProduct_hot[i].Price)đ</span>
-                                                            <strong>@string.Format("{0:0,0}", @Model.listProduct_hot[i].SalePrice) đ</strong>
-                                                        }
-                                                        else
-                                                        {
-                                                            <strong>@string.Format("{0:0,0}", @Model.listProduct_hot[i].SalePrice) đ</strong>
-                                                        }
-                                                       
-                                                    </div>
-                                                    @if (@Model.listProduct_hot[i].SalePrice < @Model.listProduct_hot[i].Price)
-                                                    {
-                                                        <label class="discount">GIẢM @string.Format("{0:0,0}", @Model.listProduct_hot[i].Price-@Model.listProduct_hot[i].SalePrice)đ</label>
-                                                    }
-                                                </a>
-                                            </div>
-                                        </div>
+                    <div class="slide">
+                        <img src="/Content/assets/img/slider/2.jpg" alt="">
+                    </div>
+                    <div class="slide">
+                        <img src="/Content/assets/img/slider/3.png" alt="">
+                    </div>
+                    <div class="slide">
+                        <img src="/Content/assets/img/slider/4.png" alt="">
+                    </div>
+                    <div class="slide">
+                        <img src="/Content/assets/img/slider/5.jpg" alt="">
+                    </div>
                 </div>
-            }       
-</div>
-</div>
-<div class="title-product">
-    <a href="#">
-        <h2>SẢN PHẨM KHUYẾN MẠI</h2>
-    </a>
-</div>
-<div class="sale-products box-shadow hover-ab">
-    <div class="regular slider" data-sizes="50vw">
-          @for (int i = 0; i < 24; i++)
-                    {
-                        <div>
-                            <div class="owl-item">
-                                <div class="item">
-                                    <a href="/Home/Product_Detail?id=@Model.listProduct_sale[i].ProductId">
-                                        <img src="@Model.listProduct_sale[i].Picture" alt=""/>
-                                        <h3>@Model.listProduct_hot[i].ProductName</h3>
-        
-                                        <div class="price"  style="@(Model.listProduct_sale[i].ProductName.Length < 20 ?"text-align: center":"")">
-                                            @if (@Model.listProduct_sale[i].SalePrice < @Model.listProduct_sale[i].Price)
+            </div>
+            <div class="news-banner">
+                <div class="news-img news-bd">
+                    <div class="news-img-top news-bd">
+                        <a href="#">
+                            <img src="/Content/assets/img/news/news-img-1.png" height="110" width="398" alt="" />
+                        </a>
+                    </div>
+                    <div class="news-img-bot news-bd">
+                        <a href="#">
+                            <img src="/Content/assets/img/news/new-img-2.png" height="110" width="398" alt="" />
+                        </a>
+                    </div>
+                    <div class="news-img-bot news-bd">
+                        <a href="#">
+                            <img src="/Content/assets/img/news/news-img-1.png" height="110" width="398" alt="" />
+                        </a>
+                    </div>
+                    <div class="news-img-bot news-bd">
+                        <a href="#">
+                            <img src="/Content/assets/img/news/new-img-2.png" height="110" width="398" alt="" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="banner-home container">
+        <img src="/Content/assets/img/banner/1200-75-1200x75.png" alt="">
+    </div>
+    <div id="products">
+        <div class="container">
+            <div id="main-products">
+                <div class="title-product">
+                    <a href="#">
+                        <h2>SẢN PHẨM MỚI</h2>
+                    </a>
+                </div>
+                <div class="new-products box-shadow hover-ab">
+                    <div class="autoplay slider" data-sizes="50vw">
+                        @if (Model.listProduct_new != null)
+                        {
+                            foreach (var sp in Model.listProduct_new)
+                            {
+                                <div class="owl-item">
+                                    <div class="item">
+                                        <a href="/Home/Product_Detail?tenviettat=@sp.TenVietTat">
+                                            <img src="" alt="" />
+                                            @if (sp.TenSp.Length < 20)
                                             {
-                                                <span> @string.Format("{0:0,0}", @Model.listProduct_sale[i].Price)đ</span>
-                                                <strong>
-                                                    @string.Format("{0:0,0}", @Model.listProduct_sale[i].SalePrice)đ
-                                                </strong>
+                                                <h3 style="text-align: center">@sp.TenSp</h3>
                                             }
                                             else
                                             {
-                                                <strong> @string.Format("{0:0,0}", @Model.listProduct_sale[i].SalePrice)đ</strong>
+                                                <h3>@sp.TenSp</h3>
                                             }
-                                        </div>
-                                        @if (@Model.listProduct_sale[i].SalePrice < @Model.listProduct_sale[i].Price)
-                                        {
-                                            <label class="discount">GIẢM @string.Format("{0:0,0}", @Model.listProduct_sale[i].Price-@Model.listProduct_sale[i++].SalePrice)đ</label>
-                                        }
-                                        
-                                    </a>
+                                            <div class="price" style="@(sp.TenSp.Length < 20 ?"text-align: center":"")">
+                                                @if (sp.GiaDagiam < sp.GiaGoc)
+                                                {
+                                                    <span>@string.Format("{0:0,0}", sp.GiaGoc)đ</span>
+                                                    <strong>@string.Format("{0:0,0}", sp.GiaDagiam)đ</strong>
+                                                }
+                                                else
+                                                {
+                                                    <strong>@string.Format("{0:0,0}", sp.GiaDagiam)đ</strong>
+                                                }
+                                            </div>
+                                            @if (sp.GiaDagiam < sp.GiaGoc)
+                                            {
+                                                <label class="discount">GIẢM @string.Format("{0:0,0}", sp.GiaGoc - sp.GiaDagiam)đ</label>
+                                            }
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
-                            
-                            <div class="owl-item">
-                                                    <div class="item">
-                                                        <a href="/Home/Product_Detail?id=@Model.listProduct_sale[i].ProductId">
-                                                            <img src="@Model.listProduct_sale[i].Picture" alt=""/>
-                                                            <h3>@Model.listProduct_sale[i].ProductName</h3>
-                            
-                                                            <div class="price" style="@(Model.listProduct_sale[i].ProductName.Length < 20 ?"text-align: center":"")">
-                                                                @if (@Model.listProduct_sale[i].SalePrice < @Model.listProduct_sale[i].Price)
-                                                                {
-                                                                    <span>@string.Format("{0:0,0}", @Model.listProduct_sale[i].Price)đ</span>
-                                                                    <strong>@string.Format("{0:0,0}", @Model.listProduct_sale[i].SalePrice) đ</strong>
-                                                                }
-                                                                else
-                                                                {
-                                                                    <strong>@string.Format("{0:0,0}", @Model.listProduct_sale[i].SalePrice) đ</strong>
-                                                                }
-                                                               
-                                                            </div>
-                                                            @if (@Model.listProduct_sale[i].SalePrice < @Model.listProduct_sale[i].Price)
-                                                            {
-                                                                <label class="discount">GIẢM @string.Format("{0:0,0}", @Model.listProduct_sale[i].Price-@Model.listProduct_sale[i].SalePrice)đ</label>
-                                                            }
-                                                        </a>
-                                                    </div>
-                                                </div>
-                        </div>
-                    }       
-<div>
-</div>
-<div>
+                            }
+                        }
 
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
+                    </div>
+                </div>
+                <div class="title-product">
+                    <a href="#">
+                        <h2>SẢN PHẨM HOT</h2>
+                    </a>
+                </div>
+                <div class="hot-products box-shadow hover-ab">
+                    <div class="regular slider" data-sizes="50vw">
+                        @if (Model.listProduct_hot != null)
+                        {
+                            foreach (var sp in Model.listProduct_hot)
+                            {
+                                <div>
+                                    <div class="owl-item">
+                                        <div class="item">
+                                            <a href="/Home/Product_Detail?tenviettat=@sp.TenVietTat">
+                                                <img src="" alt="" />
+                                                <h3>@sp.TenSp</h3>
+
+                                                <div class="price" style="@(sp.TenSp.Length < 20 ?"text-align: center":"")">
+                                                    @if (@sp.GiaDagiam < @sp.GiaGoc)
+                                                    {
+                                                        <span> @string.Format("{0:0,0}", @sp.GiaGoc)đ</span>
+                                                        <strong>
+                                                            @string.Format("{0:0,0}", @sp.GiaDagiam)đ
+                                                        </strong>
+                                                    }
+                                                    else
+                                                    {
+                                                        <strong> @string.Format("{0:0,0}", @sp.GiaDagiam)đ</strong>
+                                                    }
+                                                </div>
+                                                @if (@sp.GiaDagiam < @sp.GiaGoc)
+                                                {
+                                                    <label class="discount">GIẢM @string.Format("{0:0,0}", @sp.GiaGoc - sp.GiaDagiam)đ</label>
+                                                }
+
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="owl-item">
+                                        <div class="item">
+                                            <a href="/Home/Product_Detail?tenviettat=@sp.TenVietTat">
+                                                <img src="" alt="" />
+                                                <h3>@sp.TenSp</h3>
+
+                                                <div class="price" style="@(sp.TenSp.Length < 20 ?"text-align: center":"")">
+                                                    @if (@sp.GiaDagiam < @sp.GiaGoc)
+                                                    {
+                                                        <span>@string.Format("{0:0,0}", @sp.GiaGoc)đ</span>
+                                                        <strong>@string.Format("{0:0,0}", @sp.GiaDagiam) đ</strong>
+                                                    }
+                                                    else
+                                                    {
+                                                        <strong>@string.Format("{0:0,0}", @sp.GiaDagiam) đ</strong>
+                                                    }
+
+                                                </div>
+                                                @if (@sp.GiaDagiam < @sp.GiaGoc)
+                                                {
+                                                    <label class="discount">GIẢM @string.Format("{0:0,0}", @sp.GiaGoc - @sp.GiaDagiam)đ</label>
+                                                }
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+
+                    </div>
+                </div>
+                <div class="title-product">
+                    <a href="#">
+                        <h2>SẢN PHẨM KHUYẾN MẠI</h2>
+                    </a>
+                </div>
+                <div class="sale-products box-shadow hover-ab">
+                    <div class="regular slider" data-sizes="50vw">
+                        @if (Model.listProduct_sale != null)
+                        {
+                            foreach (var sp in Model.listProduct_sale)
+                            {
+                                <div>
+                                    <div class="owl-item">
+                                        <div class="item">
+                                            <a href="/Home/Product_Detail?tenviettat=@sp.TenVietTat">
+                                                <img src="" alt="" />
+                                                <h3>@sp.TenSp</h3>
+
+                                                <div class="price" style="@(sp.TenSp.Length < 20 ?"text-align: center":"")">
+                                                    @if (@sp.GiaDagiam < @sp.GiaGoc)
+                                                    {
+                                                        <span> @string.Format("{0:0,0}", @sp.GiaGoc)đ</span>
+                                                        <strong>
+                                                            @string.Format("{0:0,0}", @sp.GiaDagiam)đ
+                                                        </strong>
+                                                    }
+                                                    else
+                                                    {
+                                                        <strong> @string.Format("{0:0,0}", @sp.GiaDagiam)đ</strong>
+                                                    }
+                                                </div>
+                                                @if (@sp.GiaDagiam < @sp.GiaGoc)
+                                                {
+                                                    <label class="discount">GIẢM @string.Format("{0:0,0}", @sp.GiaGoc - @sp.GiaDagiam)đ</label>
+                                                }
+
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="owl-item">
+                                        <div class="item">
+                                            <a href="/Home/Product_Detail?tenviettat=@sp.TenVietTat">
+                                                <img src="" alt="" />
+                                                <h3>@sp.TenSp</h3>
+
+                                                <div class="price" style="@(sp.TenSp.Length < 20 ?"text-align: center":"")">
+                                                    @if (@sp.GiaDagiam < @sp.GiaGoc)
+                                                    {
+                                                        <span>@string.Format("{0:0,0}", @sp.GiaGoc)đ</span>
+                                                        <strong>@string.Format("{0:0,0}", @sp.GiaDagiam) đ</strong>
+                                                    }
+                                                    else
+                                                    {
+                                                        <strong>@string.Format("{0:0,0}", @sp.GiaDagiam) đ</strong>
+                                                    }
+
+                                                </div>
+                                                @if (@sp.GiaDagiam < @sp.GiaGoc)
+                                                {
+                                                    <label class="discount">GIẢM @string.Format("{0:0,0}", @sp.GiaGoc - @sp.GiaDagiam)đ</label>
+                                                }
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+
+                        <div>
+                        </div>
+                        <div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 
 <!--back-to-top-->
-@* <div class='back-to-top'> *@
-@*     <div> *@
-@*         <i class="fa fa-chevron-up" aria-hidden="true"></i> *@
-@*     </div> *@
-@* </div> *@
+<div class='back-to-top'>
+    <div>
+        <i class="fa fa-chevron-up" aria-hidden="true"></i>
+    </div>
+</div>
 @* <!--back-to-top--> *@
 @* <!--js--page--> *@
 <link rel="stylesheet" href="/Content/assets/libs/slick/slick.css">

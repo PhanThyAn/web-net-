@@ -24,41 +24,25 @@ namespace Web2023Project.Controllers
 {
     public class HomeController : PhoneController
     {
+        private readonly ProductDAO productDAO;
+        private readonly ProductDetailDAO productDetailDAO;
+
         public HomeController()
         {
             this.level = 0;
+            this.productDAO = new ProductDAO();
+            this.productDetailDAO = new ProductDetailDAO();
         }
 
         public ActionResult Index()
         {
-            List<News> listNews = NewsDAO.loadNews();
-            List<Product> listProduct_new = CategoryDAO.findCateByKind(0);
-            List<Product> listProduct_hot = CategoryDAO.findCateByKind(1);
-            List<Product> listProduct_sale = CategoryDAO.findCateByKind(2);
+            var model = new HomeViewModel();
 
-            MyViewModel myViewModel = new MyViewModel();
-            myViewModel.listNews = listNews;
-            myViewModel.listProduct_new = listProduct_new;
-            myViewModel.listProduct_sale = listProduct_sale;
-            myViewModel.listProduct_hot = listProduct_hot;
+            model.listProduct_new = productDAO.GetNewProducts();
+            model.listProduct_hot = productDAO.GetHotProducts();
+            model.listProduct_sale = productDAO.GetSaleProducts();
 
-            return View(myViewModel);
-        }
-
-
-        public ActionResult News()
-        {
-      
-            List<News> listNews = NewsDAO.loadNews();
-            return View(listNews);
-        }
-
-        public ActionResult New_Detail(string idNew)
-        {
-            News news = Web2023Project.Admin.Dao.NewsDAO.FindByID(idNew);
-            List<News> listNews = NewsDAO.loadNews();
-            Session.Add("listNews", listNews);
-            return View(news);
+            return View(model);
         }
 
         public ActionResult Cart()
@@ -67,6 +51,11 @@ namespace Web2023Project.Controllers
         }
 
         public ActionResult Error404()
+        {
+            return View();
+        }
+
+        public ActionResult Order_Success()
         {
             return View();
         }
@@ -199,13 +188,19 @@ namespace Web2023Project.Controllers
             }
             return View("Product");
         }
-        public ActionResult Product_Detail(string id)
+
+        public async Task<ActionResult> Product_Detail(string tenviettat)
         {
-            int idProduct = Convert.ToInt32(id);
-            ProductDetail p_detail = CategoryDAO.getPrDetailByID(idProduct);
-            List<Comment> comments = CommentDAO.LoadCMT(idProduct);
-            Session.Add("listcomments", comments);
-            return View(p_detail);
+            ProductShow product = await productDetailDAO.GetProductByShortenWord(tenviettat);
+
+            if (product != null)
+            {
+                return View(product);
+            }
+            else
+            {
+                return View("Error");
+            }
         }
 
         [HttpPost]
@@ -218,10 +213,10 @@ namespace Web2023Project.Controllers
             if (id != null)
             {
                 msp = id;
-                Product sp = null;
+                Products sp = null;
                 try
                 {
-                    sp = ProductDAO.getProductID(Convert.ToInt32(msp.Trim()));
+                    sp = productDAO.GetProductById(Convert.ToInt32(msp.Trim()));
                 }
                 catch (Exception e)
                 {
@@ -241,10 +236,10 @@ namespace Web2023Project.Controllers
                             gh.CartStatus = 1;
                             List<Item> items = new List<Item>();
                             Item item = new Item();
-                            item.Price = sp.SalePrice;
+                            item.Price = sp.GiaDagiam;
                             item.Product = sp;
                             item.Amount = soluong;
-                            item.ItemId = sp.ProductId;
+                            item.ItemId = sp.Id;
                             items.Add(item);
                             gh.Item = items;
                         }
@@ -255,7 +250,7 @@ namespace Web2023Project.Controllers
 
                             foreach (Item i in items)
                             {
-                                if (i.Product.ProductId == sp.ProductId)
+                                if (i.Product.Id == sp.Id)
                                 {
                                     if (update == null && soluong == 1)
                                     {
@@ -273,10 +268,10 @@ namespace Web2023Project.Controllers
                             if (!check)
                             {
                                 Item item = new Item();
-                                item.Price = sp.SalePrice;
+                                item.Price = sp.GiaDagiam;
                                 item.Product = sp;
                                 item.Amount = soluong;
-                                item.ItemId = sp.ProductId;
+                                item.ItemId = sp.Id;
                                 items.Add(item);
                             }
                         }
@@ -287,7 +282,7 @@ namespace Web2023Project.Controllers
                         List<Item> items = gh.Item;
                         foreach (Item item in items)
                         {
-                            if (item.Product.ProductId == sp.ProductId)
+                            if (item.Product.Id == sp.Id)
                             {
                                 items.Remove(item);
                                 break;
@@ -305,44 +300,46 @@ namespace Web2023Project.Controllers
             return null;
         }
 
-        [HttpPost]
-        public ActionResult CommentUser()
+
+        public ActionResult CommentUser
         {
-            Comment comment = new Comment();
-            string content = Request["content"];
-            comment.Content = content;
-            comment.Name = Request["name"];
-            comment.ProductId = Convert.ToInt32(Request["productID"]);
-            comment.Product = Request["product"];
-
-
-            if (comment.Content.Length != 0 && comment.Name != null && comment.ProductId != null &&
-                comment.Product != null)
-
+            get
             {
-                bool result = CommentDAO.InsertCMT(comment);
-                if (result)
+                Comment comment = new Comment();
+                string content = Request["content"];
+                comment.Content = content;
+                comment.Name = Request["name"];
+                comment.ProductId = Convert.ToInt32(Request["productID"]);
+                comment.Product = Request["product"];
+
+
+                if (comment.Content.Length != 0 && comment.Name != null && comment.ProductId != null &&
+                    comment.Product != null)
+
                 {
-                    ProductDetail p_detail = CategoryDAO.getPrDetailByID(comment.ProductId);
-                    List<Comment> comments = CommentDAO.LoadCMT(comment.ProductId);
-                    Session.Add("listcomments", comments);
+                    bool result = CommentDAO.InsertCMT(comment);
+                    if (result)
+                    {
+                        ProductDetail p_detail = CategoryDAO.getPrDetailByID(comment.ProductId);
+                        List<Comment> comments = CommentDAO.LoadCMT(comment.ProductId);
+                        Session.Add("listcomments", comments);
 
-                    return RedirectToAction("Product_Detail", new RouteValueDictionary(
-                        new
-                        {
-                            controller = "Home",
-                            action = "Product_Detail",
-                            Id = comment.ProductId,
-                            Model = "p_detail"
-                        }));
+                        return RedirectToAction("Product_Detail", new RouteValueDictionary(
+                            new
+                            {
+                                controller = "Home",
+                                action = "Product_Detail",
+                                Id = comment.ProductId,
+                                Model = "p_detail"
+                            }));
+                    }
                 }
+
+                Session.Add("messagecomment", "Nội dung không được bỏ trống");
+                return RedirectToAction("Product_Detail", new RouteValueDictionary(
+                    new { controller = "Home", action = "Product_Detail", Id = comment.ProductId, Model = "p_detail" }));
             }
-
-            Session.Add("messagecomment", "Nội dung không được bỏ trống");
-            return RedirectToAction("Product_Detail", new RouteValueDictionary(
-                new { controller = "Home", action = "Product_Detail", Id = comment.ProductId, Model = "p_detail" }));
         }
-
 
         public async Task<ActionResult> SearchKey(string key,int page= 1)
 

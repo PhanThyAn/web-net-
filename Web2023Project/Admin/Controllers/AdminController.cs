@@ -6,7 +6,6 @@ using Web2023Project.Admin.Dao;
  using Web2023Project.Model;
 using Web2023Project.Utils;
 using Web2023Project.Website.Dao;
-using NewsDAO = Web2023Project.Admin.Dao.NewsDAO;
 
 namespace Web2023Project.Controllers.Admin
 {
