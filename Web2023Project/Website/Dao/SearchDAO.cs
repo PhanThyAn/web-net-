@@ -89,43 +89,55 @@ namespace Web2023Project.Website.Dao
 
         public static async Task<List<Sanphams>> SeachTest(string input)
         {
-            String api = "http://103.77.214.148/api/Sanphams";
+            String api = "http://103.77.214.148/api/ShowSanpham";
             using (HttpClient client = new HttpClient())
             {
+                // gọi tới api 
                 HttpResponseMessage response = await client.GetAsync(api);
-
+                // nếu trả vè success
                 if (response.IsSuccessStatusCode)
                 {
+                    // đọc kết quả trả về
                     string jsonResponse = await response.Content.ReadAsStringAsync();
-
+                    // chuyển dữ liệu thành 1 mảng obj
                     JArray jsonArray = JArray.Parse(jsonResponse);
                     List<Sanphams> resultList = new List<Sanphams>();
+                    // duyệt qua mảng obj
                     foreach (JObject jsonObject in jsonArray)
                     {
-                       
+
                         // Lấy giá trị của thuộc tính TenSp
-                        string tenSanPham = jsonObject["tenSp"]?.ToString();
+                        string tenSanPham = jsonObject["thongtin"]?["tenSp"]?.ToString();
                         if (tenSanPham != null && tenSanPham.ToLower().Contains(input.ToLower()))
                         {
-                            string gia = jsonObject["giagoc"]?.ToString();
-                            string giaGiam = jsonObject["giadagiam"]?.ToString();
-                            string id = jsonObject["id"]?.ToString();
-                            string thuongHieu = jsonObject["thuonghieu"]?.ToString();
-                            string soLuong = jsonObject["soluong"]?.ToString();
-                            string mausanpham = jsonObject["mausanpham"]?.ToString();
-                            string manhinh = jsonObject["manhinh"]?.ToString();
-                            string hedieuhanh = jsonObject["hedieuhanh"]?.ToString();
-                            string camera = jsonObject["camera"]?.ToString();
-                            string chip = jsonObject["chip"]?.ToString();
-                            string ram = jsonObject["ram"]?.ToString();
-                            string dungluong = jsonObject["dungluong"]?.ToString();
-                            string pin = jsonObject["pin"]?.ToString();
-                            string mota = jsonObject["mota"]?.ToString();
+                            string gia = jsonObject["thongtin"]?["giagoc"]?.ToString();
+                            string giaGiam = jsonObject["thongtin"]?["giadagiam"]?.ToString();
+                            string id = jsonObject["thongtin"]?["id"]?.ToString();
+                            string thuongHieu = jsonObject["thongtin"]?["thuonghieu"]?.ToString();
+                            string soLuong = jsonObject["thongtin"]?["soluong"]?.ToString();
+                            string mausanpham = jsonObject["thongtin"]?["mausanpham"]?.ToString();
+                            string manhinh = jsonObject["thongtin"]?["manhinh"]?.ToString();
+                            string hedieuhanh = jsonObject["thongtin"]?["hedieuhanh"]?.ToString();
+                            string camera = jsonObject["thongtin"]?["camera"]?.ToString();
+                            string chip = jsonObject["thongtin"]?["chip"]?.ToString();
+                            string ram = jsonObject["thongtin"]?["ram"]?.ToString();
+                            string dungluong = jsonObject["thongtin"]?["dungluong"]?.ToString();
+                            string pin = jsonObject["thongtin"]?["pin"]?.ToString();
+                            string mota = jsonObject["thongtin"]?["mota"]?.ToString();
                             string tenviettat = jsonObject["tenviettat"]?.ToString();
-                            string trangthai = jsonObject["trangthai"]?.ToString();
+                            string trangthai = jsonObject["thongtin"]?["trangthai"]?.ToString();
+                            string imageUrl = jsonObject["thongtin"]?["hinhanhs"]?[0]?["url"]?.ToString();
+                            string imageId = jsonObject["thongtin"]?["hinhanhs"]?[0]?["id"]?.ToString();
+                            string imageIdSp = jsonObject["thongtin"]?["hinhanhs"]?[0]?["idSp"]?.ToString();
+                            Hinhanh h = new Hinhanh();
+                            h.Id = Int32.Parse(imageId);
+                            h.Url = imageUrl;
+                            h.IdSp = Int32.Parse(imageIdSp);
+                            List<Hinhanh> listImage = new List<Hinhanh>();
+                            listImage.Add(h);
                             Console.WriteLine("i" + id);
 
-                            // In ra màn hình
+                            // tạo ra sản phẩm và set dữ liệu vào sp đó
                             Sanphams p = new Sanphams();
                             p.TenSp = tenSanPham;
                             p.Id = Int32.Parse(id);
@@ -140,7 +152,7 @@ namespace Web2023Project.Website.Dao
                             {
                                 p.SoLuong = 0;
                             }
-
+                            p.Hinhanhs = listImage;
                             p.MauSanPham = mausanpham;
                             p.ManHinh = manhinh;
                             p.HeDieuHanh = hedieuhanh;

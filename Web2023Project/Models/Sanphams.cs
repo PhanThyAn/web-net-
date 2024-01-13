@@ -26,6 +26,15 @@ namespace Web2023Project.Models
         public string MoTa { get; set; }
         public string TenVietTat { get; set; }
         public string TrangThai { get; set; }
+        public virtual ICollection<Binhluan> Binhluans { get; set; } = new List<Binhluan>();
+
+        public virtual ICollection<Chitietdonhang> Chitietdonhangs { get; set; } = new List<Chitietdonhang>();
+
+        public virtual ICollection<Chitietgiohang> Chitietgiohangs { get; set; } = new List<Chitietgiohang>();
+
+        public virtual ICollection<Hinhanh> Hinhanhs { get; set; } = new List<Hinhanh>();
+
+        public virtual Nhacungcap IdNccNavigation { get; set; }
 
         public Sanphams()
         {
@@ -33,26 +42,5 @@ namespace Web2023Project.Models
         }
 
         // Constructor với tham số
-        public Sanphams(int id, string tenSp, int idNcc, string thuongHieu, Double giaDagiam, Double giaGoc, int? soLuong, string mauSanPham, string manHinh, string heDieuHanh, string camera, string chip, string ram, string dungLuong, string pin, string moTa, string tenVietTat, string trangThai)
-        {
-            this.Id = id;
-            this.TenSp = tenSp;
-            this.IdNcc = idNcc;
-            this.ThuongHieu = thuongHieu;
-            this.GiaDagiam = giaDagiam;
-            this.GiaGoc = giaGoc;
-            this.SoLuong = soLuong;
-            this.MauSanPham = mauSanPham;
-            this.ManHinh = manHinh;
-            this.HeDieuHanh = heDieuHanh;
-            this.Camera = camera;
-            this.Chip = chip;
-            this.Ram = ram;
-            this.DungLuong = dungLuong;
-            this.Pin = pin;
-            this.MoTa = moTa;
-            this.TenVietTat = tenVietTat;
-            this.TrangThai = trangThai;
-        }
     }
 }

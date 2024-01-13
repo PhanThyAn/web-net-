@@ -3,16 +3,18 @@ using System.Collections.Generic;
 
 namespace Web2023Project.Models
 {
-	public partial class Nhacungcap
-	{
-		public int Id { get; set; }
 
-		public string TenNcc { get; set; }
+    public partial class Nhacungcap
+    {
+        public int Id { get; set; }
 
-		public string Diachi { get; set; }
+        public string TenNcc { get; set; }
 
-		public sbyte? Trangthai { get; set; }
+        public string Diachi { get; set; }
 
-		public virtual ICollection<Sanpham> Sanphams { get; set; } = new List<Sanpham>();
-	}
+        public sbyte Trangthai { get; set; }
+
+        public virtual ICollection<Sanphams> Sanphams { get; set; } = new List<Sanphams>();
+    }
 }
+

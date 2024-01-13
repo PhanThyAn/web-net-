@@ -13,8 +13,9 @@ namespace Web2023Project.Models
 
         public sbyte? Trangthai { get; set; }
 
-        public virtual Nguoidung IdNdNavigation { get; set; } = null!;
+        public virtual Nguoidung IdNdNavigation { get; set; } = null;
 
-        public virtual Sanpham IdSpNavigation { get; set; } = null!;
+        public virtual Sanphams IdSpNavigation { get; set; } = null;
+
     }
 }

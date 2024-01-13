@@ -40,21 +40,21 @@
                             {
                                 <div class="justify-align-center">
                                     <span class="update-infoDB">@(infor_update.Substring(2)) </span>
-                                    </div>
+                                </div>
                             }
                             Session.Remove("infor_update");
                         }
                     }
-                    <form id="form-validate" class="form-infoUser form-style" action="Update_Profile_User" method="post">
+                    <form id="form-validate" class="form-infoUser form-style" action="Update_User_Profile" method="post">
                         <div>
                             <span>Họ và Tên*</span>
                             <input type="text" id="name" name="name" value="@(member != null ? member.Ten : "")">
-                            <input type="hidden" id="action" name="action" value="updateInfo">
+
                         </div>
                         <div>
                             <span>Địa chỉ Email*</span>
                             <input type="text" id="email" name="email" value="@(member != null ? member.Email : "")">
-                            <input type="hidden" name="email-temp" value="@(member != null ? member.Email : "")">
+
                         </div>
                         <div id="Giới tính">
                             <span>Giới tính</span>
@@ -62,13 +62,13 @@
                                 @{
                                     if (member != null && member.Gioitinh.Equals(1))
                                     {
-                                        <option value="Nam">Nam</option>
-                                        <option value="Nữ">Nữ</option>
+                                        <option value="1">Nam</option>
+                                        <option value="0">Nữ</option>
                                     }
                                     else
                                     {
-                                        <option value="Nữ">Nữ</option>
-                                        <option value="Nam">Nam</option>
+                                        <option value="0">Nữ</option>
+                                        <option value="1">Nam</option>
                                     }
 
                                 }
@@ -79,11 +79,13 @@
                             <input id="phone" name="phone" type="number"
                                    value="@(member != null ? member.Sdt : "")">
                         </div>
-                      @*  <div>
-                            <span>Địa chỉ*</span>
-                            <input type="text" id="address" name="address" value="@(member != null ? member. : "")">
-                        </div>*@
+                        @*  <div>
+                <span>Địa chỉ*</span>
+                <input type="text" id="address" name="address" value="@(member != null ? member. : "")">
+            </div>*@
                         <button class="update-btn">CẬP NHẬT</button>
+                    </form>
+                    <form id="form-validate" class="form-infoUser form-style" action="Update_User" method="post">
                     </form>
                 </div>
             </div>
