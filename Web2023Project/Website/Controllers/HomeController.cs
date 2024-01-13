@@ -341,8 +341,7 @@ namespace Web2023Project.Controllers
             }
         }*/
 
-        public async Task<ActionResult> SearchKey(string key,int page= 1)
-
+        public async Task<ActionResult> SearchKey(string key, int page = 1)
         {
             if (key != null)
             {
@@ -350,14 +349,13 @@ namespace Web2023Project.Controllers
                 {
                     StringBuilder resp = new StringBuilder();
 
-                    // lấy ra danh sách sản phẩm dựa vào key đó
-                    // Gọi phương thức asynchronous và đợi kết quả
+                    // lấy ra danh sách sản phẩm dựa vào key đó                  
                     Task<List<Sanphams>> task = SearchDAO.SeachTest(key);
                     List<Sanphams> dsct_sp = await task;
-                    int pageSize = 20;
+                    int pageSize = 4;
                     int skip = (page - 1) * pageSize;
                     List<Sanphams> dsct_sp_page = dsct_sp.Skip(skip).Take(pageSize).ToList();
-                    
+
                     Session.Add("pageCurrent", page);
                     Session.Add("category", dsct_sp_page);
                     // đếm tổng số sản phẩm lấy ra được
@@ -366,14 +364,15 @@ namespace Web2023Project.Controllers
                     if (dsct_sp != null)
                     {
                         count_sear = dsct_sp.Count;
+                        // tính tổng số trang
                         totalPage = count_sear / pageSize + 1;
                     }
-                   
-                   
+                    Session.Remove("sort");
+
                     Session.Add("pageSize", totalPage);
                     Session.Add("count_sear", count_sear);
                     Session.Add("key", key);
-                   
+
 
                 }
                 catch (Exception e)
@@ -381,55 +380,6 @@ namespace Web2023Project.Controllers
                     Console.WriteLine(e.Message);
                 }
             }
-            else
-            {
-                string input = Request["input"];
-                StringBuilder resp = new StringBuilder();
-                String giaBan;
-                if (input != null && !input.Equals(""))
-                {
-                    try
-                    {
-                        List<Product> dssp = SearchDAO.Search(input);
-                        if (dssp != null)
-                        {
-                            foreach (Product sp in dssp)
-                            {
-                                if (sp.SalePrice != 0)
-                                {
-                                    giaBan = string.Format("{0:0,0}", sp.SalePrice) + "đ";
-                                }
-                                else
-                                {
-                                    giaBan = "";
-                                }
-
-                                resp.Append("<li><a href='/chi-tiet-san-pham?id=").Append(sp.ProductId).Append("'")
-                                    .Append(">").Append("<img src='").Append(sp.Picture).Append("' alt=''>")
-                                    .Append("<h3>").Append(sp.ProductName).Append("</h3>")
-                                    .Append("<span class='price'>").Append(string.Format("{0:0,0}", sp.Price))
-                                    .Append("</span>").Append("<cite>").Append(giaBan + ",000đ").Append("</cite>")
-                                    .Append("</a></li>");
-                            }
-
-                            HttpContext.Response.Write(resp);
-                        }
-                        else
-                        {
-                            HttpContext.Response.Write("empty");
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.Message);
-                    }
-                }
-                else
-                {
-                    HttpContext.Response.Write("empty");
-                }
-            }
-
             return RedirectToAction("Product", "Home");
         }
 
@@ -454,7 +404,7 @@ namespace Web2023Project.Controllers
                         dsct_sp = dsct_sp.OrderBy(p => p.GiaDagiam).ToList();
                         Session.Add("sort", sort);
                     }
-                    int pageSize = 20;
+                    int pageSize = 4;
                     int skip = (page - 1) * pageSize;
                     List<Sanphams> dsct_sp_page = dsct_sp.Skip(skip).Take(pageSize).ToList();
                     
@@ -468,7 +418,7 @@ namespace Web2023Project.Controllers
                         count_sear = dsct_sp.Count;
                         totalPage = count_sear / pageSize + 1;
                     }
-                
+                 
                     Session.Add("pageSize", totalPage);
                     Session.Add("count_sear", count_sear);
                     Session.Add("key", key);
@@ -486,23 +436,49 @@ namespace Web2023Project.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Search(string key)
+
+        public async Task<ActionResult> Search()
         {
-            //string key = Request["key"];
-            if (key != null)
+            // láy ra data input
+            string input = Request["input"];
+            StringBuilder resp = new StringBuilder();
+            String giaBan;
+            if (input != null && !input.Equals(""))
             {
                 try
                 {
-                    List<ProductDetail> dsct_sp = SearchDAO.SearchKey(key);
-                    Session.Add("category", dsct_sp);
-                    int count_sear = 0;
-                    if (dsct_sp != null)
-                    {
-                        count_sear = dsct_sp.Count;
-                    }
+                    // Lấy ra danh sách kết quả
+                    Task<List<Sanphams>> task = SearchDAO.SeachTest(input);
+                    List<Sanphams> dssp = await task;
 
-                    Session.Add("count_sear", count_sear);
-                    Session.Add("key", key);
+
+                    if (dssp != null)
+                    {
+                        foreach (Sanphams sp in dssp)
+                        {
+                            if (sp.GiaDagiam != 0)
+                            {
+                                giaBan = string.Format("{0:0,0}", sp.GiaDagiam);
+                            }
+                            else
+                            {
+                                giaBan = "";
+                            }
+                            // viết giá trị của dữ liệu vào thẻ li bằng stringbuilder
+                            resp.Append("<li><a href='/Home/Product_Detail?id=").Append(sp.Id).Append("'")
+                                .Append(">")
+                                .Append("<h3>").Append(sp.TenSp).Append("</h3>")
+                                .Append("<span class='price'>").Append(giaBan)
+                                .Append("đ").Append("</span>").Append("<cite>").Append(string.Format("{0:0,0}", sp.GiaGoc + "đ")).Append("</cite>")
+                                .Append("</a></li>");
+                        }
+
+                        HttpContext.Response.Write(resp);
+                    }
+                    else
+                    {
+                        HttpContext.Response.Write("empty");
+                    }
                 }
                 catch (Exception e)
                 {
@@ -511,59 +487,13 @@ namespace Web2023Project.Controllers
             }
             else
             {
-                string input = Request["input"];
-                StringBuilder resp = new StringBuilder();
-                String giaBan;
-                if (input != null && !input.Equals(""))
-                {
-                    try
-                    {
-                        // Gọi phương thức asynchronous và đợi kết quả
-                        Task<List<Sanphams>> task = SearchDAO.SeachTest(input);
-                        List<Sanphams> dssp = await task;
-
-
-                        if (dssp != null)
-                        {
-                            foreach (Sanphams sp in dssp)
-                            {
-                                if (sp.GiaDagiam != 0)
-                                {
-                                    giaBan = string.Format("{0:0,0}", sp.GiaDagiam);
-                                }
-                                else
-                                {
-                                    giaBan = "";
-                                }
-                                // viết giá trị của dữ liệu vào thẻ li
-                                resp.Append("<li><a href='/Home/Product_Detail?id=").Append(sp.Id).Append("'")
-                                    .Append(">")
-                                    .Append("<h3>").Append(sp.TenSp).Append("</h3>")
-                                    .Append("<span class='price'>").Append(giaBan)
-                                    .Append("đ").Append("</span>").Append("<cite>").Append(string.Format("{0:0,0}", sp.GiaGoc + "đ")).Append("</cite>")
-                                    .Append("</a></li>");
-                            }
-
-                            HttpContext.Response.Write(resp);
-                        }
-                        else
-                        {
-                            HttpContext.Response.Write("empty");
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.Message);
-                    }
-                }
-                else
-                {
-                    HttpContext.Response.Write("empty");
-                }
+                HttpContext.Response.Write("empty");
             }
+
 
             return new EmptyResult();
         }
+
 
 
         public ActionResult PaymentController()
@@ -601,82 +531,41 @@ namespace Web2023Project.Controllers
         }
 
         [HttpPost]
-        public ActionResult Update_Profile_User()
+        public async Task<ActionResult> Update_User_Profile()
         {
-            string TABLE = "thanhvien";
-            string action = Request["action"];
-
-            Member member = (Member)Session["memberLogin"];
-            if (action.Equals("doi-mat-khau"))
+            Web2023Project.Models.Nguoidung member = Session["memberLogin"] as Web2023Project.Models.Nguoidung;
+            string name = Request["name"];
+            string email = Request["email"];
+            string gender = Request["gender"];
+            string phone = Request["phone"];
+            Nguoidung n = new Nguoidung();
+            n.Id = member.Id;
+            n.Ten = name;
+            n.Email = email;
+            n.Sdt = phone;
+            n.Gioitinh = ulong.Parse(gender);
+            n.Matkhau = member.Matkhau;
+            n.Anhdaidien = member.Anhdaidien;
+            n.Quyen = member.Quyen;
+            n.GoogleId = member.GoogleId;
+            n.FacebookId = member.FacebookId;
+            n.Ngaytao = member.Ngaytao;
+            n.Ngaycapnhat = member.Ngaycapnhat;
+            n.Trangthai = member.Trangthai;
+            Task<bool> check = Update_User_DAO.updateInfoUser(n);
+            bool checkbool = await check;
+            if (checkbool)
             {
-                try
-                {
-                    string taikhoan = member.UserName;
-                    string matkhau = member.Password;
-                    string inputPass = Request["current-pass"];
-                    if (Update_User_DAO.checkCurrentPass(matkhau, inputPass))
-                    {
-                        String newpass = Request["new-pass"];
-                        if (Update_User_DAO.edit(taikhoan, newpass))
-                        {
-                            Session.Add("success-changePass", "Đổi mật khẩu thành công");
-                            member.Password = MD5.ConvertToMD5(newpass);
-                            Session.Add("memberLogin", member);
-                            //  return  RedirectToAction("Profile_User", "Home");
-                        }
-                    }
-                    else
-                    {
-                        Session.Add("err-changePass", "Mật khẩu hiện tại không đúng!");
-                        // return  RedirectToAction("Profile_User", "Home");
-                    }
-
-                }
-                catch (Exception e)
-                {
-                    Session.Remove("memberLogin");
-                }
+                Session.Remove("memberLogin");
+                Session.Add("memberLogin", n);
+                return View("Profile_User");
             }
-            else if (action.Equals("updateInfo"))
+            else
             {
-                Member members = new Member();
-                string email = Request["email"];
-                string email_temp = Request["email-temp"];
-
-                members.UserName = member.UserName;
-                members.Password = member.Password;
-                members.Name = Request["name"];
-                members.Gender = Request["gender"];
-                members.Phone = Convert.ToString(Request["phone"]);
-                members.Address = Request["address"];
-                members.Email = email;
-                members.Level = member.Level;
-                if (!email.Equals(email_temp))
-                {
-                    if (!CheckObjExists.IsExist(TABLE, "email", email))
-                    {
-                        if (Update_User_DAO.updateInfoUser(members))
-                        {
-                            Session.Add("infor_update", "SuCập nhật thông tin thành công");
-                            Session.Add("memberLogin", members);
-                        }
-                    }
-                    else
-                    {
-                        Session.Add("infor_update", "ErEmail đã có người sử dụng!");
-                        // return RedirectToAction("Profile_User");
-                    }
-                }
-                else
-                {
-                    if (Update_User_DAO.updateInfoUser(members))
-                    {
-                        Session.Add("infor_update", "SuCập nhật thông tin thành công");
-                        Session.Add("memberLogin", members);
-                    }
-                }
+                return View("Login");
             }
-            return RedirectToAction("Profile_User");
+
+
         }
 
         public ActionResult Question()

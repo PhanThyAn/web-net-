@@ -141,11 +141,18 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\BinhLuan.cs" />
+    <Compile Include="Models\Chitietdonhang.cs" />
+    <Compile Include="Models\Chitietgiohang.cs" />
     <Compile Include="Models\Comment.cs" />
+    <Compile Include="Models\Diachi.cs" />
+    <Compile Include="Models\Donhang.cs" />
+    <Compile Include="Models\Hinhanh.cs" />
     <Compile Include="Models\Level.cs" />
     <Compile Include="Models\Log.cs" />
     <Compile Include="Models\MemberFilter.cs" />
     <Compile Include="Models\Image.cs" />
+    <Compile Include="Models\NhaCungCap.cs" />
     <Compile Include="Models\ProductShow.cs" />
     <Compile Include="Models\Techinical.cs" />
     <Compile Include="Models\Nguoidung.cs" />

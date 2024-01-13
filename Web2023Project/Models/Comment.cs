@@ -2,6 +2,7 @@
 using MySql.Data.MySqlClient;
 
 namespace Web2023Project.Model
+
 {
     public class Comment
     {

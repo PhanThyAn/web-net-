@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
+
 namespace Web2023Project.Models
 {
 
@@ -28,4 +29,6 @@ namespace Web2023Project.Models
 
         public virtual Nguoidung IdNdNavigation { get; set; }
     }
+
 }
+

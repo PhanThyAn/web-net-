@@ -4,7 +4,14 @@
 {
     <li>
         <a href="/Home/Product_Detail?id=@p.Id">
-            <img src="https://m.media-amazon.com/images/I/71d7rfSl0wL._AC_SX466_.jpg" alt="images">
+            @if (p.Hinhanhs != null && p.Hinhanhs.Count > 0)
+            {
+                <img src="@p.Hinhanhs.ToList()[0].Url" alt="images" style="width:auto;">
+            }
+            else
+            {
+                <img src="https://m.media-amazon.com/images/I/71d7rfSl0wL._AC_SX466_.jpg" alt="images">
+            }
             <h3>
                 @p.TenSp
             </h3>
@@ -20,36 +27,36 @@
                 }
             </div>
             @*    <div class="ratingresult">
-                    @if (productDetail.Rate == 4.0)
-                    {
-                        <i class="fa fa-star" aria-hidden="true"></i>
-                        <i class="fa fa-star" aria-hidden="true" style="color: darkgray"></i>
-                    }
-                    else if (productDetail.Rate == 4.5)
-                    {
-                        <i class="fa fa-star-half-o" aria-hidden="true"></i>
-                        <i class="fa fa-star" aria-hidden="true" style="color: darkgray"></i>
-                    }
-                    else if (productDetail.Rate == 5.0)
-                    {
-                        <i class="fa fa-star" aria-hidden="true"></i>
-                        <i class="fa fa-star" aria-hidden="true"></i>
-                    }
-                    else
-                    {
-                        <i class="fa fa-star" aria-hidden="true" style="color: darkgray"></i>
-                        <i class="fa fa-star" aria-hidden="true" style="color: darkgray"></i>
-                    }
-                    <span>@(productDetail.Rate) đánh giá</span>
+            @if (productDetail.Rate == 4.0)
+            {
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true" style="color: darkgray"></i>
+            }
+            else if (productDetail.Rate == 4.5)
+            {
+                <i class="fa fa-star-half-o" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true" style="color: darkgray"></i>
+            }
+            else if (productDetail.Rate == 5.0)
+            {
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+            }
+            else
+            {
+                <i class="fa fa-star" aria-hidden="true" style="color: darkgray"></i>
+                <i class="fa fa-star" aria-hidden="true" style="color: darkgray"></i>
+            }
+            <span>@(productDetail.Rate) đánh giá</span>
 
 
-                </div>*@
+        </div>*@
             @* <div class="promo noimage">
-                    @if (productDetail.Gift != null)
-                    {
-                        <p>@productDetail.Gift</p>
-                    }
-                </div>*@
+            @if (productDetail.Gift != null)
+            {
+                <p>@productDetail.Gift</p>
+            }
+        </div>*@
             <figure class="bginfo">
                 <span>@p.ManHinh</span>
                 <span>@p.HeDieuHanh</span>

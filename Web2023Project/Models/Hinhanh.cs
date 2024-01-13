@@ -12,6 +12,7 @@ namespace Web2023Project.Models
 
         public string Url { get; set; }
 
-        public virtual Sanpham IdSpNavigation { get; set; }
+        public virtual Sanphams IdSpNavigation { get; set; }
+
     }
 }
