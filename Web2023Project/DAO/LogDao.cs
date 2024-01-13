@@ -7,7 +7,7 @@ using MySql.Data.MySqlClient;
 using Web2023Project.Model;
 using Web2023Project.Models;
 using Web2023Project.Utils;
-using Web2023Project.Website.Models;
+
 
 namespace Web2023Project.DAO
 {
@@ -15,31 +15,10 @@ namespace Web2023Project.DAO
     {
         public static bool add(Log log)
         {
-            MySqlConnection connection = null;
-            MySqlCommand cmd = null;
-            try
-            {
-                string sql = "INSERT INTO LOG(thongbao, capdo, taikhoan, diachi, ip, ngaythuchien) VALUES (@thongbao, @capdo, @taikhoan, @diachi, @ip, now())";
-                connection = DBConnection.getConnection();
-                connection.Open();
-                cmd = new MySqlCommand(sql, connection);
-                cmd.Parameters.AddWithValue("@thongbao", log.Message);
-                cmd.Parameters.AddWithValue("@capdo", log.Level);
-                cmd.Parameters.AddWithValue("@taikhoan", log.Member.UserName);
-                cmd.Parameters.AddWithValue("@diachi", log.Address);
-                cmd.Parameters.AddWithValue("@ip", log.Ip);
-                return cmd.ExecuteNonQuery() > 0;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return false;
 
-            }
-            finally
-            {
-                ReleaseResources.Release(connection, null, cmd);
-            }
+
+
+            return false;
 
         }
         public static string GetIPAddress()
@@ -88,41 +67,25 @@ namespace Web2023Project.DAO
         }
         public static void LogBase(Log log, string message, string address)
         {
-            log.Message = message;
-            log.Address = address;
-            log.Member = HttpContext.Current.Session["memberLogin"] as Member;
-            log.Ip = GetIPAddress();
-            add(log);
+          
         }
         public static void FAILEDLOGIN(string message, string address)
         {
-            Log log =new Log();
-            log.Message = message;
-            log.Member= new Member();
-            log.Level = Level.INFOR.ToString();
-            log.Address = address;
-            log.Ip = GetIPAddress();
-            add(log);
+           
         }
 
         public static void INFO(string message, string address)
         {
-            Log log= new Log();
-            log.Level = Level.INFOR.ToString();
-            LogBase(log, message, address);
+           
         }
 
         public static void WARNING(string message, string address)
         {
-            Log log= new Log();
-            log.Level = Level.WARNING.ToString();
-            LogBase(log, message, address);
+           
         }
         public static void ALERT(string message, string address)
         {
-            Log log= new Log();
-            log.Level = Level.ALERT.ToString();
-            LogBase(log, message, address);
+           
         }
     }
 }

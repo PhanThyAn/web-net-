@@ -578,7 +578,6 @@ label.discount {
 
 .homeproduct li img {
     display: block;
-    width: 180px;
     height: 180px;
     margin: 15px auto;
     transition: all .3s;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Web2023Project.Website.Models;
+using Web2023Project.Models;
 
 namespace Web2023Project.Models
 {
@@ -35,7 +35,7 @@ namespace Web2023Project.Models
 
         public sbyte? Trangthai { get; set; }
 
-/*        public virtual ICollection<Binhluan> Binhluans { get; set; } = new List<Binhluan>();
+        public virtual ICollection<Binhluan> Binhluans { get; set; } = new List<Binhluan>();
 
         public virtual ICollection<Chitietgiohang> Chitietgiohangs { get; set; } = new List<Chitietgiohang>();
 
@@ -43,7 +43,7 @@ namespace Web2023Project.Models
 
         public virtual ICollection<Donhang> Donhangs { get; set; } = new List<Donhang>();
 
-        public virtual ICollection<Log> Logs { get; set; } = new List<Log>();*/
+        public virtual ICollection<Log> Logs { get; set; } = new List<Log>();
 
         public Nguoidung()
         {

@@ -1,79 +1,27 @@
 ﻿using System;
-using Web2023Project.Model;
+using System.Collections.Generic;
 
-namespace Web2023Project.Website.Models
+namespace Web2023Project.Models
 {
-    public class Log
+
+    public partial class Log
     {
-        private int id;
-        private string message;
-        private string level;
-        private Member member;
-        private string address;
-        private string ip;
-        private DateTime createdDateTime;
+        public int Id { get; set; }
 
-        public Log(int id, string message, string level, Member member, string address, string ip, DateTime createdDateTime)
-        {
-            this.id = id;
-            this.message = message;
-            this.level = level;
-            this.member = member;
-            this.address = address;
-            this.ip = ip;
-            this.createdDateTime = createdDateTime;
-        }
+        public int IdNd { get; set; }
 
-        public Log()
-        {
-        }
+        public string Capdo { get; set; }
 
-        public int Id
-        {
-            get => id;
-            set => id = value;
-        }
+        public string Nguon { get; set; }
 
-        public string Message
-        {
-            get => message;
-            set => message = value;
-        }
+        public string Ip { get; set; }
 
-        public string Level
-        {
-            get => level;
-            set => level = value;
-        }
+        public string Noidung { get; set; }
 
-        public Member Member
-        {
-            get => member;
-            set => member = value;
-        }
+        public sbyte Trangthai { get; set; }
 
-        public string Address
-        {
-            get => address;
-            set => address = value;
-        }
+        public DateTime Ngaytao { get; set; }
 
-        public string Ip
-        {
-            get => ip;
-            set => ip = value;
-        }
-
-        public DateTime CreatedDateTime
-        {
-            get => createdDateTime;
-            set => createdDateTime = value;
-        }
-
-        public override string ToString()
-        {
-            return "ID:"+id+ "Message:"+message +"Level:" +level+
-                   "Username:"+member.UserName+"Address:"+address+"IP:"+ip+"createdDate:"+ createdDateTime;
-        }
+        public virtual Nguoidung IdNdNavigation { get; set; }
     }
 }

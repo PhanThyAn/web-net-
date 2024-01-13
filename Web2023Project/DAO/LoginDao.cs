@@ -44,16 +44,25 @@ namespace Web2023Project.Dao
                         string sdt = jsonObject["sdt"]?.ToString();
                         string gioiTinh = jsonObject["gioitinh"]?.ToString();
                         string email = jsonObject["email"]?.ToString();
-                        string matKhau = jsonObject["matkhau"]?.ToString();
-                        string quyen = jsonObject["quyen"]?.ToString();
+                        string pass = jsonObject["matkhau"]?.ToString();
+                        string ggId = jsonObject["googleId"]?.ToString();
+                        string facebookId = jsonObject["facebookId"]?.ToString();
+                        string ngaytao = jsonObject["ngaytao"]?.ToString();
+                        string ngaycapnhat = jsonObject["ngaycapnhat"]?.ToString();
+                    string quyen = jsonObject["quyen"]?.ToString();
+
                         Nguoidung n = new Nguoidung();
                         n.Id = Int32.Parse(id);
                         n.Ten = ten;
-                        n.Matkhau = matkhau;
+                        n.Matkhau = pass;
                         n.Sdt = sdt;
                         n.Gioitinh = Int32.Parse(gioiTinh);
                         n.Email = email;
-                    n.Quyen = 1;
+                        n.GoogleId = ggId;
+                        n.FacebookId = facebookId;
+                        n.Ngaycapnhat = DateTime.Parse(ngaycapnhat);
+                        n.Ngaytao = DateTime.Parse(ngaytao);
+                        n.Quyen = 1;
                          return n;
                     }
                     else
@@ -63,40 +72,7 @@ namespace Web2023Project.Dao
                 }
 
             }
-        public static Member checkLogin(string userName, string password)
-        {
-            MySqlDataReader reader = null;
-            MySqlConnection connection = null;
-            MySqlCommand cmd = null;
-            string sql = "SELECT * FROM THANHVIEN WHERE TAIKHOAN= @taikhoan AND MATKHAU= @matkhau";
-            try
-            {
-                connection = DBConnection.getConnection();
-                connection.Open();
-                cmd = new MySqlCommand(sql, connection);
-                cmd.Parameters.AddWithValue("@taikhoan", userName);
-                cmd.Parameters.AddWithValue("@matkhau", MD5.ConvertToMD5(password));
-                reader = cmd.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    if (reader.Read())
-                    {
-                        return new Member().GetMember(reader);
-                    }
-                }
-
-                return null;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return null;
-            }
-            finally
-            {
-                ReleaseResources.Release(connection, reader, cmd);
-            }
-        }
+      
         public static async Task<Nguoidung> register( string password, string name, int gender, string emailRegister, string phone)
         {
             String api = "http://103.77.214.148/api/Register";

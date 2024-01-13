@@ -143,16 +143,23 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\BinhLuan.cs" />
+    <Compile Include="Models\Chitietdonhang.cs" />
+    <Compile Include="Models\Chitietgiohang.cs" />
     <Compile Include="Models\Comment.cs" />
+    <Compile Include="Models\Diachi.cs" />
+    <Compile Include="Models\Donhang.cs" />
+    <Compile Include="Models\Hinhanh.cs" />
     <Compile Include="Models\Level.cs" />
+    <Compile Include="Models\Lienhe.cs" />
     <Compile Include="Models\Log.cs" />
     <Compile Include="Models\MemberFilter.cs" />
     <Compile Include="Models\Nguoidung.cs" />
+    <Compile Include="Models\NhaCungCap.cs" />
     <Compile Include="Models\ProductDetail.cs" />
     <Compile Include="Models\CartDB.cs" />
     <Compile Include="Models\Producer.cs" />
     <Compile Include="Models\Product.cs" />
-    <Compile Include="Models\Member.cs" />
     <Compile Include="Models\Sanphams.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\Technical.cs" />
@@ -1591,6 +1598,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Compile Include="Models\Member.cs" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />

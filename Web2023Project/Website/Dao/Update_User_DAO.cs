@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json.Linq;
 using Web2023Project.libs;
@@ -47,33 +49,46 @@ namespace Web2023Project.Website.Dao
             return current.Equals(MD5.ConvertToMD5(inputPass));
         }
 
-        public static bool updateInfoUser(Member member)
+        public static async Task<bool> updateInfoUser(Nguoidung member)
         {
-            MySqlConnection conn = null;
-            MySqlCommand cmd = null;
-            String sql;
-            try {
-            sql = "UPDATE THANHVIEN SET HOTEN= @hoten, GIOITINH=@gioitinh, EMAIL=@email, SODIENTHOAI=@sodienthoai, DIACHI=@diachi WHERE TAIKHOAN=@taikhoan";
+            String api = "http://103.77.214.148/api/Nguoidungs/" + member.Id;
+            // Dữ liệu đăng nhập
+            var registerData = new
+            {
+                id = member.Id,
+                ten = member.Ten,
+                sdt = member.Sdt,
+                gioitinh = member.Gioitinh,
+                matkhau = member.Matkhau,
+                email = member.Email,
+                anhdaidien = member.Anhdaidien,
+                quyen = member.Quyen,
+                googleId = member.GoogleId,
+                facebookId = member.FacebookId,
+                ngaytao = member.Ngaytao,
+                ngaycapnhat = member.Ngaycapnhat,
+                trangthai =  member.Trangthai                                                          
+            };
+            using (HttpClient client = new HttpClient())
+            {
+                // Convert loginData to JSON string
+                var jsonLoginData = Newtonsoft.Json.JsonConvert.SerializeObject(registerData);
 
-            conn = DBConnection.getConnection();
-            conn.Open();
-            cmd= new MySqlCommand(sql, conn);
-            cmd.Parameters.AddWithValue("@hoten", member.Name);
-            cmd.Parameters.AddWithValue("@gioitinh", member.Gender);
-            cmd.Parameters.AddWithValue("@email", member.Email);
-            cmd.Parameters.AddWithValue("@sodienthoai", member.Phone);
-            cmd.Parameters.AddWithValue("@diachi", member.Address);
-            cmd.Parameters.AddWithValue("@taikhoan", member.UserName);
-            cmd.ExecuteNonQuery();
-            
-            return true;
-        } catch (Exception e) {
-           Console.WriteLine(e.Message);
-            return false;
-        } finally {
-                ReleaseResources.Release(conn, null, cmd);
+                // Create StringContent with JSON data
+                var content = new StringContent(jsonLoginData, Encoding.UTF8, "application/json");
+                // Send POST request to the login API
+                HttpResponseMessage response = await client.PutAsync(api, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
         }
-    }
 }
 
 }
