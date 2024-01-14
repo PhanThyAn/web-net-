@@ -44,12 +44,12 @@ namespace Web2023Project.Dao
                         string sdt = jsonObject["sdt"]?.ToString();
                         string gioiTinh = jsonObject["gioitinh"]?.ToString();
                         string email = jsonObject["email"]?.ToString();
-                        string matKhau = jsonObject["matkhau"]?.ToString();
+                        string pass = jsonObject["matkhau"]?.ToString();
                         string quyen = jsonObject["quyen"]?.ToString();
                         Nguoidung n = new Nguoidung();
                         n.Id = Int32.Parse(id);
                         n.Ten = ten;
-                        n.Matkhau = matkhau;
+                        n.Matkhau = pass;
                         n.Sdt = sdt;
                         n.Gioitinh = (ulong)int.Parse(gioiTinh);
                         n.Email = email;

@@ -570,10 +570,11 @@ namespace Web2023Project.Controllers
         {
             Web2023Project.Models.Nguoidung member = Session["memberLogin"] as Web2023Project.Models.Nguoidung;
             string currentPass = Request["current-pass"];
+            Session.Add("a", currentPass + " " + member.Matkhau);
             string newPass = Request["new-pass"];
             Console.WriteLine(currentPass);
             Console.WriteLine(member.Matkhau);
-            Task<bool> checkPass = Update_User_DAO.checkCurrentPass(currentPass, member.Matkhau);
+            Task<bool> checkPass = Update_User_DAO.checkCurrentPass(member.Matkhau,currentPass);
             bool checkboolPass = await checkPass;
             if (checkboolPass)
             {
