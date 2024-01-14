@@ -1,4 +1,4 @@
-﻿@using Web2023Project.Model
+﻿@using Web2023Project.Models
 @using Web2023Project.Website.Model
 @{
     ViewBag.Title = "Giỏ hàng";
@@ -10,7 +10,7 @@
             <div id="info-product">
                 <div class="title-top space-between">
                     @{
-                        Cart gh= Session["giohang"] as Cart;
+                        Cart gh = Session["giohang"] as Cart;
                     }
                     <div class="title-ic">
                         <span><i class="fa fa-shopping-cart"></i>Giỏ hàng của bạn (có</span>
@@ -21,44 +21,46 @@
                 <div class="contain-product">
                     <ul>
                         @{
-                            if (gh !=null && gh.Item.Count > 0)
+                            if (gh != null && gh.Item.Count > 0)
                             {
                                 foreach (Item item in gh.Item)
                                 {
                                     <li class="item-cart">
-                            <div class="d-flex">
-                                <div class="img-pro">
-                                    <a
-                                        href="/Home/Product">
-                                        <img src="" alt="hinh-minh-hoa"/>
-                                    </a>
-                                </div>
-                                <div class="tit-cou">
-                                    <h5>@item.Product.TenSp</h5>
-                                    <div class="d-flex align-i-center">
-                                        <span class="count">Số lượng:</span>
-                                        <div class="frame-num d-flex">
-                                            <button class="subject">-</button>
-                                            <input type="number" class="number-pro" value="@(item.Amount)"
-                                                   min="1" required>
-                                            <button class="plus">+</button>
-                                            <input type="hidden" class="msp"
-                                                   value="@(item.Product.Id)">
+                                        <div class="d-flex">
+                                            <div class="img-pro">
+                                                <a href="/Home/Product">
+                                                    @foreach (var hinhanh in item.Product.Hinhanhs)
+                                                    {
+                                                        <img src="@hinhanh.Url" alt="image" />
+                                                    }
+                                                </a>
+                                            </div>
+                                            <div class="tit-cou">
+                                                <h5>@item.Product.TenSp</h5>
+                                                <div class="d-flex align-i-center">
+                                                    <span class="count">Số lượng:</span>
+                                                    <div class="frame-num d-flex">
+                                                        <button class="subject">-</button>
+                                                        <input type="number" class="number-pro" value="@(item.Amount)"
+                                                               min="1" required>
+                                                        <button class="plus">+</button>
+                                                        <input type="hidden" class="msp"
+                                                               value="@(item.Product.Id)">
+                                                    </div>
+                                                    <span class="upgrade"><i class="fa fa-upload" aria-hidden="true"></i></span>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <span class="upgrade"><i class="fa fa-upload" aria-hidden="true"></i></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="price-pro flex-direction-col">
-                                <div class="flex-direction-col">
-                                    <span class="price"> @string.Format("{0:0,0}", item.Price)  đ</span>
-                                    <span>(Giá đã bao gồm VAT)</span>
-                                </div>
-                                <input type="hidden" class="msp-trash" value="@(item.Product.Id)">
-                                <input type="hidden" class="tensp-trash" value="@(item.Product.TenSp)">
-                                <span class="trash"><i class="fa fa-trash" aria-hidden="true"></i></span>
-                            </div>
-                        </li>
+                                        <div class="price-pro flex-direction-col">
+                                            <div class="flex-direction-col">
+                                                <span class="price"> @string.Format("{0:0,0}", item.Price)  đ</span>
+                                                <span>(Giá đã bao gồm VAT)</span>
+                                            </div>
+                                            <input type="hidden" class="msp-trash" value="@(item.Product.Id)">
+                                            <input type="hidden" class="tensp-trash" value="@(item.Product.TenSp)">
+                                            <span class="trash"><i class="fa fa-trash" aria-hidden="true"></i></span>
+                                        </div>
+                                    </li>
                                 }
                             }
                             else
@@ -66,12 +68,12 @@
                                 <div class="cart-empty">Không có gì trong giỏ hàng.</div>
                             }
                         }
-                        
+
                     </ul>
                 </div>
                 <div class="payment space-between">
                     <div class="total d-flex align-i-center">
-                        @if (gh !=null && gh.Item.Count > 0)
+                        @if (gh != null && gh.Item.Count > 0)
                         {
                             <h5>TỔNG CỘNG</h5>
                             <span id="total"> @string.Format("{0:0,0}", gh.TotalPrice())  đ</span>
@@ -79,10 +81,10 @@
                     </div>
                     @if (gh != null && gh.Item.Count > 0)
                     {
-                        Member member = Session["memberLogin"] as Member;
+                        Nguoidung member = Session["memberLogin"] as Nguoidung;
                         if (member != null)
                         {
-                            <button onclick="return location.href='/Home/Order_Success'" id="btn-submit">ĐẶT HÀNG</button>
+                            <button onclick="return location.href='PaymentController'" id="btn-submit">ĐẶT HÀNG</button>
                         }
                         else
                         {
@@ -103,8 +105,8 @@
                             </div>
                         }
                     }
-                    
-                    
+
+
                 </div>
             </div>
             <div id="info-user">
@@ -115,15 +117,15 @@
                     <form id="form-validate" class="form-style" action="#">
                         <div>
                             @{
-                                Member members = Session["memberLogin"] as Member;
+                                Nguoidung members = Session["memberLogin"] as Nguoidung;
                             }
                             <span>Họ và Tên:</span>
-                            <input type="text" id="name" name="name" value="@(members !=null? members.Name:"")"
+                            <input type="text" id="name" name="name" value="@(members !=null? members.Ten:"")"
                                    disabled>
                         </div>
                         <div>
                             <span>Số điện thoại:</span>
-                            <input name="phone" id="phone" type="number" value="@(members !=null? members.Phone:"")" disabled>
+                            <input name="phone" id="phone" type="number" value="@(members !=null? members.Sdt:"")" disabled>
                         </div>
                         <div>
                             <span>Địa chỉ Email:</span>
@@ -131,8 +133,15 @@
                         </div>
                         <div>
                             <span>Địa chỉ:</span>
-                            <input type="text" id="address-oder" name="address-oder" value="@(members !=null? members.Address:"")"
-                                   disabled>
+                            @if (members != null && members.Diachis != null)
+                            {
+                                foreach (var diachi in members.Diachis)
+                                {
+                                    string address = "" + diachi.Ten + ", " + diachi.Xa + ", " + diachi.Huyen + ", " + diachi.Tinh;
+                                    <input type="text" id="address-oder" name="address-oder" value="@(members !=null? address:"")"
+                                           disabled>
+                                }
+                            }
                         </div>
                     </form>
                 </div>

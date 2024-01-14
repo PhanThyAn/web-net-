@@ -10,6 +10,7 @@ using System.Web.Routing;
 using System.Web.UI;
 
 using System.Web.WebPages;
+using Web2023Project.Admin.Dao;
 using Web2023Project.Controllers.Admin;
 using Web2023Project.Dao;
 using Web2023Project.DAO;
@@ -18,6 +19,7 @@ using Web2023Project.Models;
 using Web2023Project.Utils;
 using Web2023Project.Website.Dao;
 using Web2023Project.Website.Model;
+using Binhluan = Web2023Project.Models.Binhluan;
 
 
 namespace Web2023Project.Controllers
@@ -26,12 +28,14 @@ namespace Web2023Project.Controllers
     {
         private readonly ProductDAO productDAO;
         private readonly ProductDetailDAO productDetailDAO;
+        private readonly CommentDAO commentDAO;
 
         public HomeController()
         {
             this.level = 0;
             this.productDAO = new ProductDAO();
             this.productDetailDAO = new ProductDetailDAO();
+            this.commentDAO = new CommentDAO();
         }
 
         public ActionResult Index()
@@ -188,6 +192,12 @@ namespace Web2023Project.Controllers
             }
             return View("Product");
         }
+        public async Task<ActionResult> GetProductImage(int productId)
+        {
+            Image image = await productDAO.GetProductImage(productId);
+
+            return View(image);
+        }
 
         public async Task<ActionResult> Product_Detail(string tenviettat)
         {
@@ -301,45 +311,40 @@ namespace Web2023Project.Controllers
         }
 
 
-        /*public ActionResult CommentUser
+        public async Task<ActionResult> CommentUser()
         {
-            get
+            Binhluan comment = new Binhluan();
+            comment.Danhgia = Convert.ToInt32(Request["Danhgia"]);
+            comment.Noidung = Request["Noidung"];
+            comment.IdNd = Convert.ToInt32(Request["IdNd"]);
+            comment.IdSp = Convert.ToInt32(Request["IdSp"]);
+            comment.Trangthai = 1;
+
+            if (comment.Noidung.Length != 0 && comment.IdNd != 0 && comment.IdSp != 0)
             {
-                Comment comment = new Comment();
-                string content = Request["content"];
-                comment.Content = content;
-                comment.Name = Request["name"];
-                comment.ProductId = Convert.ToInt32(Request["productID"]);
-                comment.Product = Request["product"];
-
-
-                if (comment.Content.Length != 0 && comment.Name != null && comment.ProductId != null &&
-                    comment.Product != null)
-
+                bool result = await commentDAO.InsertCMT(comment);
+                if (result)
                 {
-                    bool result = CommentDAO.InsertCMT(comment);
-                    if (result)
-                    {
-                        ProductDetail p_detail = CategoryDAO.getPrDetailByID(comment.ProductId);
-                        List<Comment> comments = CommentDAO.LoadCMT(comment.ProductId);
-                        Session.Add("listcomments", comments);
+                    List<Binhluan> comments = await commentDAO.LoadCMT(comment.IdSp);
+                    Session.Add("listcomments", comments);
 
-                        return RedirectToAction("Product_Detail", new RouteValueDictionary(
-                            new
-                            {
-                                controller = "Home",
-                                action = "Product_Detail",
-                                Id = comment.ProductId,
-                                Model = "p_detail"
-                            }));
-                    }
+                    return RedirectToAction("Product_Detail", new RouteValueDictionary(
+                        new
+                        {
+                            controller = "Home",
+                            action = "Product_Detail",
+                            tenviettat = comment.IdSpNavigation.TenVietTat
+                        }));
                 }
-
-                Session.Add("messagecomment", "Nội dung không được bỏ trống");
-                return RedirectToAction("Product_Detail", new RouteValueDictionary(
-                    new { controller = "Home", action = "Product_Detail", Id = comment.ProductId, Model = "p_detail" }));
             }
-        }*/
+
+            Session.Add("messagecomment", "Nội dung không được bỏ trống");
+            return RedirectToAction("Product_Detail", new RouteValueDictionary(
+                new { controller = "Home", action = "Product_Detail",
+                    tenviettat = comment.IdSpNavigation.TenVietTat
+                }));
+
+        }
 
         public async Task<ActionResult> SearchKey(string key, int page = 1)
         {
@@ -498,14 +503,14 @@ namespace Web2023Project.Controllers
 
         public ActionResult PaymentController()
         {
-            Website.Model.Cart gh = Session["giohang"] as Cart;
-            Member member = Session["memberLogin"] as Member;
+            Cart gh = Session["giohang"] as Cart;
+            Nguoidung member = Session["memberLogin"] as Nguoidung;
             if (gh != null)
             {
                 if (member != null)
                 {
                     gh.Member = member;
-                    gh.CartId = member.UserName;
+                    gh.CartId = member.Id;
                 }
 
                 try
@@ -522,7 +527,7 @@ namespace Web2023Project.Controllers
                 }
             }
 
-            return View("Cart");
+            return View("Order_Success");
         }
 
         public ActionResult Profile_User()

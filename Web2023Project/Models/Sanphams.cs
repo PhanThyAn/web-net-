@@ -41,6 +41,5 @@ namespace Web2023Project.Models
             // Khởi tạo giá trị mặc định nếu cần
         }
 
-        // Constructor với tham số
     }
 }

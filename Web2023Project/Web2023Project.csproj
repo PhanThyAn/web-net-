@@ -49,6 +49,9 @@
     <Reference Include="MySql.Data, Version=8.0.21.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d">
       <HintPath>..\..\..\File\Libs\mysql-connector-net-8.0.21-noinstall\v4.8\MySql.Data.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -101,9 +104,6 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
@@ -148,6 +148,7 @@
     <Compile Include="Models\Diachi.cs" />
     <Compile Include="Models\Donhang.cs" />
     <Compile Include="Models\Hinhanh.cs" />
+    <Compile Include="Models\Binhluans.cs" />
     <Compile Include="Models\Level.cs" />
     <Compile Include="Models\Log.cs" />
     <Compile Include="Models\MemberFilter.cs" />
@@ -1277,6 +1278,7 @@
     <Content Include="Content\assets\img\common\logo-nsx\Samsung42-b_25.jpg" />
     <Content Include="Content\assets\img\common\logo-nsx\Vivo42-b_50.jpg" />
     <Content Include="Content\assets\img\common\logo-nsx\Xiaomi42-b_31.png" />
+    <Content Include="Content\assets\img\common\order-successful.jpg" />
     <Content Include="Content\assets\img\common\pattern_142.png" />
     <Content Include="Content\assets\img\news\asus-xiaomi.jpg" />
     <Content Include="Content\assets\img\news\aus-rog.jpg" />
@@ -1601,6 +1603,7 @@
     <Content Include="..\.editorconfig">
       <Link>.editorconfig</Link>
     </Content>
+    <Content Include="libman.json" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />

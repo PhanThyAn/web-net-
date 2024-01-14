@@ -17,12 +17,12 @@ namespace Web2023Project.Controllers.Admin
         {
             this.level = 1;
         }
-        public ActionResult Comment_Manage()
+        /*public ActionResult Comment_Manage()
         {
             ViewBag.Title = "Quản lí bình luận";
             List<Comment> listComment = CommentDAO.LoadComment();
             return View(listComment);
-        }
+        }*/
 
         public ActionResult Comment_Update()
         {

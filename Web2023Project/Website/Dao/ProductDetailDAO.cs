@@ -33,5 +33,22 @@ namespace Web2023Project.Website.Dao
                 return null;
             }
         }
+
+        public async Task<Image> GetProductImage(string tenviettat)
+        {
+            HttpResponseMessage response = await httpClient.GetAsync($"{api}/{tenviettat}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                string jsonResponse = response.Content.ReadAsStringAsync().Result;
+                Image image = JsonConvert.DeserializeObject<Image>(jsonResponse);
+
+                return image;
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }
