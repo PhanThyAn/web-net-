@@ -569,8 +569,48 @@ namespace Web2023Project.Controllers
             {
                 return View("Login");
             }
-
-
+        }
+        [HttpPost]
+        public async Task<ActionResult> ChangePass_User_Profile()
+        {
+            Web2023Project.Models.Nguoidung member = Session["memberLogin"] as Web2023Project.Models.Nguoidung;
+            string currentPass = Request["current-pass"];
+            Session.Add("a", currentPass + " " + member.Matkhau);
+            string newPass = Request["new-pass"];
+            Console.WriteLine(currentPass);
+            Console.WriteLine(member.Matkhau);
+            Task<bool> checkPass = Update_User_DAO.checkCurrentPass(member.Matkhau,currentPass);
+            bool checkboolPass = await checkPass;
+            if (checkboolPass)
+            {
+                Nguoidung n = new Nguoidung();
+                n.Id = member.Id;
+                n.Ten = member.Ten;
+                n.Email = member.Email;
+                n.Sdt = member.Sdt;
+                n.Gioitinh = member.Gioitinh;
+                n.Matkhau = newPass;
+                n.Anhdaidien = member.Anhdaidien;
+                n.Quyen = member.Quyen;
+                n.GoogleId = member.GoogleId;
+                n.FacebookId = member.FacebookId;
+                n.Ngaytao = member.Ngaytao;
+                n.Ngaycapnhat = member.Ngaycapnhat;
+                n.Trangthai = member.Trangthai;
+                Task<bool> check = Update_User_DAO.updateInfoUser(n);
+                bool checkbool = await check;
+                if (checkbool)
+                {
+                    Session.Remove("memberLogin");
+                    Session.Add("memberLogin", n);
+                    return View("Profile_User");
+                }
+            }          
+            else
+            {
+                return View("Login");
+            }
+            return View("Profile_User");
         }
 
         public ActionResult Question()
