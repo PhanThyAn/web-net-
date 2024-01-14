@@ -9,5 +9,6 @@ namespace Web2023Project.Website.Dao
         public List<Sanphams> listProduct_new { get; set; }
         public List<Sanphams> listProduct_hot { get; set; }
         public List<Sanphams> listProduct_sale { get; set; }
+        public Image images { get; set; }
     }
 }

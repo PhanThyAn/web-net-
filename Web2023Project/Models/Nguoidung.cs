@@ -30,7 +30,12 @@ namespace Web2023Project.Models
 
         public sbyte? Trangthai { get; set; }
 
-        /*public virtual ICollection<Binhluan> Binhluans { get; set; } = new List<Binhluan>();
+        public static implicit operator Nguoidung(int v)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual ICollection<Binhluan> Binhluans { get; set; } = new List<Binhluan>();
 
         public virtual ICollection<Chitietgiohang> Chitietgiohangs { get; set; } = new List<Chitietgiohang>();
 
@@ -38,7 +43,7 @@ namespace Web2023Project.Models
 
         public virtual ICollection<Donhang> Donhangs { get; set; } = new List<Donhang>();
 
-        public virtual ICollection<Log> Logs { get; set; } = new List<Log>();*/
+        public virtual ICollection<Log> Logs { get; set; } = new List<Log>();
 
     }
 }
