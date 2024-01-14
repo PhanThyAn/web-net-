@@ -42,9 +42,25 @@ namespace Web2023Project.Website.Dao
             }
         }
 
-        public static bool checkCurrentPass(string current, string inputPass)
+      
+         public static async Task<bool> checkCurrentPass(string current, string inputPass)
         {
-            return current.Equals(MD5.ConvertToMD5(inputPass));
+            String api = "http://103.77.214.148/api/CheckPassword?pass="+inputPass+"&passhashed="+ current;
+            using (HttpClient client = new HttpClient())
+            {
+                // gọi tới api 
+                HttpResponseMessage response = await client.GetAsync(api);
+                // nếu trả vè success
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+
+                }
+                else
+                {
+                    return false;
+                }
+            }        
         }
 
         public static async Task<bool> updateInfoUser(Nguoidung member)
