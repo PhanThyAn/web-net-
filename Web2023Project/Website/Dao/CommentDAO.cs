@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 using Web2023Project.libs;
@@ -42,6 +43,7 @@ namespace Web2023Project.Website.Dao
             }
         }
 
+        [HttpPost]
         public async Task<bool> InsertCMT(Binhluan comment)
         {
             try
@@ -49,6 +51,7 @@ namespace Web2023Project.Website.Dao
                 using (HttpClient client = new HttpClient())
                 {
                     client.BaseAddress = new Uri(api);
+
                     client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
                     string commentJson = JsonConvert.SerializeObject(comment);
@@ -72,15 +75,15 @@ namespace Web2023Project.Website.Dao
             }
         }
 
+        [HttpGet]
         public async Task<List<Binhluan>> LoadCMT(int productID)
         {
             HttpResponseMessage response = await httpClient.GetAsync($"{api}/{productID}");
+            string jsonResponse = await response.Content.ReadAsStringAsync();
+            List<Binhluan> comments = JsonConvert.DeserializeObject<List<Binhluan>>(jsonResponse);
 
             if (response.IsSuccessStatusCode)
             {
-                string jsonResponse = response.Content.ReadAsStringAsync().Result;
-                List<Binhluan> comments = JsonConvert.DeserializeObject<List<Binhluan>>(jsonResponse);
-
                 return comments;
             }
             else

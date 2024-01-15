@@ -70,7 +70,7 @@
                                 foreach (Web2023Project.Models.Sanphams p in p_detail)
                                 {
                                     <li>
-                                                                <a href="/Home/Product_Detail?id=@p.Id">
+                                                                <a href="/Home/Product_Detail?tenviettat=@p.TenVietTat">
                                                                     @if (p.Hinhanhs != null && p.Hinhanhs.Count > 0)
                                                                     {
                                                                         <img src="@p.Hinhanhs.ToList()[0].Url" alt="images"  style="width:auto;">
