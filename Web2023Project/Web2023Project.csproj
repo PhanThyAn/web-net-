@@ -170,6 +170,7 @@
     <Compile Include="Models\Diachi.cs" />
     <Compile Include="Models\Donhang.cs" />
     <Compile Include="Models\Hinhanh.cs" />
+    <Compile Include="Models\Binhluans.cs" />
     <Compile Include="Models\Level.cs" />
     <Compile Include="Models\Log.cs" />
     <Compile Include="Models\MemberFilter.cs" />
@@ -1299,6 +1300,7 @@
     <Content Include="Content\assets\img\common\logo-nsx\Samsung42-b_25.jpg" />
     <Content Include="Content\assets\img\common\logo-nsx\Vivo42-b_50.jpg" />
     <Content Include="Content\assets\img\common\logo-nsx\Xiaomi42-b_31.png" />
+    <Content Include="Content\assets\img\common\order-successful.jpg" />
     <Content Include="Content\assets\img\common\pattern_142.png" />
     <Content Include="Content\assets\img\news\asus-xiaomi.jpg" />
     <Content Include="Content\assets\img\news\aus-rog.jpg" />
@@ -1623,6 +1625,7 @@
     <Content Include="..\.editorconfig">
       <Link>.editorconfig</Link>
     </Content>
+    <Content Include="libman.json" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />

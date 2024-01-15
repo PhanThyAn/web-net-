@@ -80,7 +80,10 @@
                                 <div class="owl-item">
                                     <div class="item">
                                         <a href="/Home/Product_Detail?tenviettat=@sp.TenVietTat">
-                                            <img src="" alt="" />
+                                            @foreach (var hinhanh in sp.Hinhanhs)
+                                            {
+                                                <img src="@hinhanh.Url" alt="image" />
+                                            }
                                             @if (sp.TenSp.Length < 20)
                                             {
                                                 <h3 style="text-align: center">@sp.TenSp</h3>
@@ -102,7 +105,7 @@
                                             </div>
                                             @if (sp.GiaDagiam < sp.GiaGoc)
                                             {
-                                                <label class="discount">GIẢM @string.Format("{0:0,0}", sp.GiaGoc - sp.GiaDagiam)đ</label>
+                                                <label class="discount" style="margin-top: 50px">GIẢM @string.Format("{0:0,0}", sp.GiaGoc - sp.GiaDagiam)đ</label>
                                             }
                                         </a>
                                     </div>
@@ -127,7 +130,10 @@
                                     <div class="owl-item">
                                         <div class="item">
                                             <a href="/Home/Product_Detail?tenviettat=@sp.TenVietTat">
-                                                <img src="" alt="" />
+                                                @foreach (var hinhanh in sp.Hinhanhs)
+                                                {
+                                                    <img src="@hinhanh.Url" alt="image" />
+                                                }
                                                 <h3>@sp.TenSp</h3>
 
                                                 <div class="price" style="@(sp.TenSp.Length < 20 ?"text-align: center":"")">
@@ -145,7 +151,7 @@
                                                 </div>
                                                 @if (@sp.GiaDagiam < @sp.GiaGoc)
                                                 {
-                                                    <label class="discount">GIẢM @string.Format("{0:0,0}", @sp.GiaGoc - sp.GiaDagiam)đ</label>
+                                                    <label class="discount" style="margin-top: 50px">GIẢM @string.Format("{0:0,0}", @sp.GiaGoc - sp.GiaDagiam)đ</label>
                                                 }
 
                                             </a>
@@ -155,7 +161,10 @@
                                     <div class="owl-item">
                                         <div class="item">
                                             <a href="/Home/Product_Detail?tenviettat=@sp.TenVietTat">
-                                                <img src="" alt="" />
+                                                @foreach (var hinhanh in sp.Hinhanhs)
+                                                {
+                                                    <img src="@hinhanh.Url" alt="image" />
+                                                }
                                                 <h3>@sp.TenSp</h3>
 
                                                 <div class="price" style="@(sp.TenSp.Length < 20 ?"text-align: center":"")">
@@ -172,7 +181,7 @@
                                                 </div>
                                                 @if (@sp.GiaDagiam < @sp.GiaGoc)
                                                 {
-                                                    <label class="discount">GIẢM @string.Format("{0:0,0}", @sp.GiaGoc - @sp.GiaDagiam)đ</label>
+                                                    <label class="discount" style="margin-top: 50px">GIẢM @string.Format("{0:0,0}", @sp.GiaGoc - @sp.GiaDagiam)đ</label>
                                                 }
                                             </a>
                                         </div>
@@ -198,7 +207,10 @@
                                     <div class="owl-item">
                                         <div class="item">
                                             <a href="/Home/Product_Detail?tenviettat=@sp.TenVietTat">
-                                                <img src="" alt="" />
+                                                @foreach (var hinhanh in sp.Hinhanhs)
+                                                {
+                                                    <img src="@hinhanh.Url" alt="image" />
+                                                }
                                                 <h3>@sp.TenSp</h3>
 
                                                 <div class="price" style="@(sp.TenSp.Length < 20 ?"text-align: center":"")">
@@ -216,7 +228,7 @@
                                                 </div>
                                                 @if (@sp.GiaDagiam < @sp.GiaGoc)
                                                 {
-                                                    <label class="discount">GIẢM @string.Format("{0:0,0}", @sp.GiaGoc - @sp.GiaDagiam)đ</label>
+                                                    <label class="discount" style="margin-top: 50px">GIẢM @string.Format("{0:0,0}", @sp.GiaGoc - @sp.GiaDagiam)đ</label>
                                                 }
 
                                             </a>
@@ -226,7 +238,10 @@
                                     <div class="owl-item">
                                         <div class="item">
                                             <a href="/Home/Product_Detail?tenviettat=@sp.TenVietTat">
-                                                <img src="" alt="" />
+                                                @foreach (var hinhanh in sp.Hinhanhs)
+                                                {
+                                                    <img src="@hinhanh.Url" alt="image" />
+                                                }
                                                 <h3>@sp.TenSp</h3>
 
                                                 <div class="price" style="@(sp.TenSp.Length < 20 ?"text-align: center":"")">
@@ -243,7 +258,7 @@
                                                 </div>
                                                 @if (@sp.GiaDagiam < @sp.GiaGoc)
                                                 {
-                                                    <label class="discount">GIẢM @string.Format("{0:0,0}", @sp.GiaGoc - @sp.GiaDagiam)đ</label>
+                                                    <label class="discount" style="margin-top: 50px">GIẢM @string.Format("{0:0,0}", @sp.GiaGoc - @sp.GiaDagiam)đ</label>
                                                 }
                                             </a>
                                         </div>

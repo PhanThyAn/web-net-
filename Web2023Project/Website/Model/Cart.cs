@@ -1,37 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
-using Web2023Project.Model;
+using Web2023Project.Models;
 
 namespace Web2023Project.Website.Model
 {
     public class Cart
     {
-        private String cartID;
-        private Member member;
+        private int cartID;
+        private Nguoidung member;
         private List<Item> item;
         private int cartStatus;
-        private String dayOfPayment;
 
-        public Cart(string cartId, Member member, List<Item> item, int cartStatus, string dayOfPayment)
+        public Cart(int cartId, Nguoidung member, List<Item> item, int cartStatus)
         {
             cartID = cartId;
             this.member = member;
             this.item = item;
             this.cartStatus = cartStatus;
-            this.dayOfPayment = dayOfPayment;
         }
         public Cart()
         {
              
         }
 
-        public string CartId
+        public int CartId
         {
             get => cartID;
             set => cartID = value;
         }
 
-        public Member Member
+        public Nguoidung Member
         {
             get => member;
             set => member = value;
@@ -47,12 +45,6 @@ namespace Web2023Project.Website.Model
         {
             get => cartStatus;
             set => cartStatus = value;
-        }
-
-        public string DayOfPayment
-        {
-            get => dayOfPayment;
-            set => dayOfPayment = value;
         }
 
         public int TotalItem()

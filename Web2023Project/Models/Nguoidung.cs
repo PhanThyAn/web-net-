@@ -30,6 +30,12 @@ namespace Web2023Project.Models
 
         public sbyte? Trangthai { get; set; }
 
+        public static implicit operator Nguoidung(int v)
+        {
+            throw new NotImplementedException();
+        }
+
+
         public virtual ICollection<Binhluan> Binhluans { get; set; } = new List<Binhluan>();
 
         public virtual ICollection<Chitietgiohang> Chitietgiohangs { get; set; } = new List<Chitietgiohang>();

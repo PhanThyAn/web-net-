@@ -1,7 +1,5 @@
-﻿
-
-@{
-    ViewBag.Title = "Trang không tồn tại";
+﻿@{
+    ViewBag.Title = "Đặt hàng";
     Layout = "~/Views/Shared/Home/_Header.cshtml";
 }
 
@@ -12,17 +10,20 @@
             <div class="content-error">
                 <div class="main-error">
                     <div class="img-error">
-                        <img src="/Content/assets/img/common/404.jpg" height="513" width="767" alt=""/>
+                        <img src="~/Content/assets/img/common/order-successful.jpg" alt=""/>
                     </div>
 
                     <div class="right-error">
-                        <div class="error_title">404 ERROR!</div>
-                        <div class="error_text">Trang bạn đang tìm kiếm không tồn tại. Chúng tôi xin lỗi vì sự bất tiện
-                            này.
+                        <div class="error_title">Đặt hàng thành công!</div>
+                        <div class="error_text">
+                            Chúc mừng bạn đã đặt hàng thành công. Hãy theo dõi đơn hàng thường xuyên nhé!
                         </div>
-                        <div class="back-home"><a href="/" class="error_back"><i class="fa fa-home"
-                                                                                           aria-hidden="true"></i>Quay Lại
-                            Trang Chủ</a></div>
+                        <div class="back-home">
+                            <a href="/" class="error_back">
+                                <i class="fa fa-home"
+                                   aria-hidden="true"></i>Quay lại Trang chủ
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

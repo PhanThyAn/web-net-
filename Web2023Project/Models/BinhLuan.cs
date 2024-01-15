@@ -9,9 +9,9 @@ namespace Web2023Project.Models
     {
         public int Id { get; set; }
 
-        public int? IdNd { get; set; }
+        public int IdNd { get; set; }
 
-        public int? IdSp { get; set; }
+        public int IdSp { get; set; }
 
         public string Noidung { get; set; }
 
@@ -19,7 +19,7 @@ namespace Web2023Project.Models
 
         public DateTime Ngaybinhluan { get; set; }
 
-        public sbyte? Trangthai { get; set; }
+        public sbyte Trangthai { get; set; }
 
         public virtual Nguoidung IdNdNavigation { get; set; }
 

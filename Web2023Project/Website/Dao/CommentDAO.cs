@@ -1,110 +1,91 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
+using Newtonsoft.Json;
 using Web2023Project.libs;
 using Web2023Project.Model;
 using Web2023Project.Models;
 using Web2023Project.Utils;
+using Binhluan = Web2023Project.Models.Binhluan;
 
 namespace Web2023Project.Website.Dao
 {
     public class CommentDAO
     {
-        public static List<Comment> LoadComment()
-        {
-            MySqlConnection connection = null;
-            MySqlCommand cmd = null;
-            MySqlDataReader reader = null;
-            List<Comment> listComment = new List<Comment>();
-            try
-            {
-                string sql = "SELECT * FROM BINHLUAN";
-                connection = DBConnection.getConnection();
-                connection.Open();
-                cmd = new MySqlCommand(sql, connection);
-                reader = cmd.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        listComment.Add(new Comment().GetComment(reader));
-                    }
-                }
+        private readonly HttpClient httpClient;
+        private readonly string api;
 
-                return listComment.Count != 0 ? listComment : null;
-            }
-            catch (SqlException e)
+        public CommentDAO()
+        {
+            this.httpClient = new HttpClient();
+            this.api = "http://103.77.214.148/api/Binhluans";
+        }
+
+        public async Task<List<Binhluan>> LoadComment()
+        {
+            HttpResponseMessage response = await httpClient.GetAsync($"{api}");
+
+            if (response.IsSuccessStatusCode)
             {
-                Console.WriteLine(e.Message);
+                string jsonResponse = response.Content.ReadAsStringAsync().Result;
+                List<Binhluan> comments = JsonConvert.DeserializeObject<List<Binhluan>>(jsonResponse);
+
+                return comments;
+            }
+            else
+            {
                 return null;
-            }
-            finally
-            {
-                ReleaseResources.Release(connection, reader, cmd);
             }
         }
 
-        public static bool InsertCMT(Comment comment)
+        public async Task<bool> InsertCMT(Binhluan comment)
         {
-            MySqlConnection connection = null;
-            MySqlCommand cmd = null;
             try
             {
-                string sql =
-                    "INSERT INTO BINHLUAN(HOTEN,NOIDUNG,MASANPHAM,SANPHAM,NGAYBINHLUAN) VALUES (@ten,@noidung,@ma_sp,@sp,NOW())";
-                connection = DBConnection.getConnection();
-                connection.Open();
-                cmd = new MySqlCommand(sql, connection);
-                cmd.Parameters.AddWithValue("@ten", comment.Name);
-                cmd.Parameters.AddWithValue("@noidung", comment.Content);
-                cmd.Parameters.AddWithValue("@ma_sp", comment.ProductId);
-                cmd.Parameters.AddWithValue("@sp", comment.Product);
-                return cmd.ExecuteNonQuery() > 0;
+                using (HttpClient client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri(api);
+                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+                    string commentJson = JsonConvert.SerializeObject(comment);
+
+                    HttpResponseMessage response = await client.PostAsync(api, new StringContent(commentJson, Encoding.UTF8, "application/json"));
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
             }
-            catch (SqlException e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine($"Error: {ex.Message}");
                 return false;
             }
-            finally
-            {
-                ReleaseResources.Release(connection, null, cmd);
-            }
         }
 
-        public static List<Comment> LoadCMT(int productID)
+        public async Task<List<Binhluan>> LoadCMT(int productID)
         {
-            MySqlConnection connection = null;
-            MySqlCommand cmd = null;
-            MySqlDataReader reader = null;
-            List<Comment> comments = new List<Comment>();
-            try
-            {
-                string sql = "SELECT HOTEN,SANPHAM,NOIDUNG,NGAYBINHLUAN FROM BINHLUAN WHERE MASANPHAM=@msp";
-                connection = DBConnection.getConnection();
-                connection.Open();
-                cmd = new MySqlCommand(sql, connection);
-                cmd.Parameters.AddWithValue("@msp", productID);
-                reader = cmd.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        comments.Add(new Comment().GetComment(reader));
-                    }
-                }
+            HttpResponseMessage response = await httpClient.GetAsync($"{api}/{productID}");
 
-                return comments.Count != 0 ? comments : null;
-            }
-            catch (SqlException e)
+            if (response.IsSuccessStatusCode)
             {
-                Console.WriteLine(e.Message);
+                string jsonResponse = response.Content.ReadAsStringAsync().Result;
+                List<Binhluan> comments = JsonConvert.DeserializeObject<List<Binhluan>>(jsonResponse);
+
+                return comments;
+            }
+            else
+            {
                 return null;
-            }
-            finally
-            {
-                ReleaseResources.Release(connection, reader, cmd);
             }
         }
     }

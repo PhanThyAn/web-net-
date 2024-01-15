@@ -36,17 +36,39 @@ namespace Web2023Project.Website.Dao
             }
         }
 
+        public async Task<Image> GetProductImage(int idSp)
+        {
+            HttpResponseMessage response = await httpClient.GetAsync($"{api}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                string jsonResponse = response.Content.ReadAsStringAsync().Result;
+                Image image = JsonConvert.DeserializeObject<Image>(jsonResponse);
+
+                return image;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public async Task<string> GetProductImageUrl(int productId)
+        {
+            Image image = await GetProductImage(productId);
+            return image?.Url;
+        }
+
         public Sanphams GetProductById(int id)
         {
             HttpResponseMessage response = httpClient.GetAsync($"{api}/{id}").Result;
 
-            string jsonResponse = response.Content.ReadAsStringAsync().Result;
-            Sanphams product = JsonConvert.DeserializeObject<Sanphams>(jsonResponse);
-
             if (response.IsSuccessStatusCode)
             {
-                return product;
+                string jsonResponse = response.Content.ReadAsStringAsync().Result;
+                Sanphams product = JsonConvert.DeserializeObject<Sanphams>(jsonResponse);
 
+                return product;
             }
             else
             {
@@ -58,13 +80,12 @@ namespace Web2023Project.Website.Dao
         {
             HttpResponseMessage response = httpClient.GetAsync($"{api}?count={count}").Result;
 
-            string jsonResponse = response.Content.ReadAsStringAsync().Result;
-            List<Sanphams> newProducts = JsonConvert.DeserializeObject<List<Sanphams>>(jsonResponse);
-
             if (response.IsSuccessStatusCode)
             {
-                return newProducts;
+                string jsonResponse = response.Content.ReadAsStringAsync().Result;
+                List<Sanphams> newProducts = JsonConvert.DeserializeObject<List<Sanphams>>(jsonResponse);
 
+                return newProducts;
             }
             else
             {
@@ -76,13 +97,12 @@ namespace Web2023Project.Website.Dao
         {
             HttpResponseMessage response = httpClient.GetAsync($"{api}?count={count}").Result;
 
-            string jsonResponse = response.Content.ReadAsStringAsync().Result;
-            List<Sanphams> hotProducts = JsonConvert.DeserializeObject<List<Sanphams>>(jsonResponse);
-
             if (response.IsSuccessStatusCode)
             {
-                return hotProducts;
+                string jsonResponse = response.Content.ReadAsStringAsync().Result;
+                List<Sanphams> hotProducts = JsonConvert.DeserializeObject<List<Sanphams>>(jsonResponse);
 
+                return hotProducts;
             }
             else
             {
@@ -94,13 +114,12 @@ namespace Web2023Project.Website.Dao
         {
             HttpResponseMessage response = httpClient.GetAsync($"{api}?count={count}").Result;
 
-            string jsonResponse = response.Content.ReadAsStringAsync().Result;
-            List<Sanphams> saleProducts = JsonConvert.DeserializeObject<List<Sanphams>>(jsonResponse);
-
             if (response.IsSuccessStatusCode)
             {
-                return saleProducts;
+                string jsonResponse = response.Content.ReadAsStringAsync().Result;
+                List<Sanphams> saleProducts = JsonConvert.DeserializeObject<List<Sanphams>>(jsonResponse);
 
+                return saleProducts;
             }
             else
             {
