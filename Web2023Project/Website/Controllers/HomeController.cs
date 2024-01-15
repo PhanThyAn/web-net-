@@ -127,7 +127,59 @@ namespace Web2023Project.Controllers
                 return RedirectToAction("Register");
             }
         }
+        [HttpPost]
+        public async Task<ActionResult> ForgotPass(string email,string phone)
+        {
+           
+            if (ModelState.IsValid)
+            {
 
+                Nguoidung nguoidung = await LoginDao.getInforFromChangePass(email, phone);
+               
+                if (nguoidung != null)
+                {
+                    /* nguoidung.Quyen = LogDao.loadRolesByUserName(userName);*/
+                    Session.Add("forgotUser", nguoidung);
+                  
+                    return View("Reset_Password");
+                }
+                else
+                {
+                    Session.Add("errForgot", "Email và số điện thoại không đúng");
+                    return RedirectToAction("Login");
+                }
+            }
+            else
+            {
+                return RedirectToAction("Register");
+            }
+        }
+        [HttpPost]
+        public async Task<ActionResult> UpdatePass()
+        {
+
+            Web2023Project.Models.Nguoidung member = Session["forgotUser"] as Web2023Project.Models.Nguoidung;
+           
+            string newPass = Request["new-pass"];
+            member.Matkhau = newPass;
+            
+            Task<bool> checkPass = Update_User_DAO.updateInfoUser(member);
+            bool checkboolPass = await checkPass;
+            if (checkboolPass)
+            {
+                    Task<Nguoidung> n = LoginDao.login(member.Sdt, member.Matkhau);
+                    Nguoidung newUser = await n;
+                    Session.Remove("memberLogin");
+                    Session.Add("memberLogin", newUser);
+                    return View("Profile_User");
+                
+            }
+            else
+            {
+                return View("Reset_Password");
+            }
+           
+        }
         [HttpGet]
         public ActionResult Register()
         {
@@ -552,6 +604,7 @@ namespace Web2023Project.Controllers
             n.Ngaytao = member.Ngaytao;
             n.Ngaycapnhat = member.Ngaycapnhat;
             n.Trangthai = member.Trangthai;
+            n.Diachis = member.Diachis;
             Task<bool> check = Update_User_DAO.updateInfoUser(n);
             bool checkbool = await check;
             if (checkbool)
@@ -566,11 +619,108 @@ namespace Web2023Project.Controllers
             }
         }
         [HttpPost]
+        public async Task<ActionResult> Address_User_Profile()
+        {
+            Web2023Project.Models.Nguoidung member = Session["memberLogin"] as Web2023Project.Models.Nguoidung;
+            string name = Request["name"];
+            string xa = Request["xa"];
+            string huyen = Request["huyen"];
+            string tinh = Request["tinh"];
+            string phone = Request["phone"];
+            Diachi n = new Diachi();
+            n.IdNd = member.Id;
+            n.Ten = name;
+            n.Sdt = phone;
+            n.Tinh = tinh;
+            n.Xa = xa;
+            n.Huyen = huyen;
+          
+            Task<bool> check = Update_User_DAO.AddAddressInfoUser(n,"add");
+            bool checkbool = await check;
+            if (checkbool)
+            {
+                int id = member.Id;
+                Task<List<Diachi>> list = LoginDao.getDiaChi(id.ToString());
+                member.Diachis = await list;
+                Session.Add("memberLogin", member);
+                return View("Profile_User");
+            }
+            else
+            {
+                return View("Login");
+            }
+        }
+        [HttpPost]
+        public async Task<ActionResult> UpdateAddress_User_Profile()
+        {
+            Web2023Project.Models.Nguoidung member = Session["memberLogin"] as Web2023Project.Models.Nguoidung;
+            string name = Request["name"];
+            string xa = Request["xa"];
+            string huyen = Request["huyen"];
+            string tinh = Request["tinh"];
+            string phone = Request["phone"];
+            string ghichu = Request["ghichu"];
+            string idDC = Request["idDC"];
+            string trangthai = Request["trangthai"];
+            Diachi n = new Diachi();
+            n.Id = Int32.Parse(idDC);
+            n.Trangthai = sbyte.Parse(trangthai);
+            n.Ghichu = ghichu;
+            n.IdNd = member.Id;
+            n.Ten = name;
+            n.Sdt = phone;
+            n.Tinh = tinh;
+            n.Xa = xa;
+            n.Huyen = huyen;
+
+            Task<bool> check = Update_User_DAO.AddAddressInfoUser(n, "update");
+            bool checkB = await check;
+            if (checkB)
+            {
+                int id = member.Id;
+                Task<List<Diachi>> list = LoginDao.getDiaChi(id.ToString());
+                List<Diachi> listDc = await list;
+                member.Diachis = listDc;
+                Session.Add("memberLogin", member);
+                return PartialView("UpdateAddress", listDc);
+            }
+            else
+            {
+                return View("Login");
+            }
+                
+           
+           
+        }
+        [HttpPost]
+        public async Task<ActionResult> DeleteAddress_User_Profile()
+        {
+            Web2023Project.Models.Nguoidung member = Session["memberLogin"] as Web2023Project.Models.Nguoidung;
+            string idDC = Request["idDC"];                      
+            Task<bool> check = Update_User_DAO.DeleteAddress(idDC);
+            bool checkB = await check;
+            if (checkB)
+            {
+                int id = member.Id;
+                Task<List<Diachi>> list = LoginDao.getDiaChi(id.ToString());
+                List<Diachi> listDc = await list;
+                member.Diachis = listDc;
+                Session.Add("memberLogin", member);
+                return PartialView("UpdateAddress", listDc);
+            }
+            else
+            {
+                return View("Login");
+            }
+
+
+
+        }
+        [HttpPost]
         public async Task<ActionResult> ChangePass_User_Profile()
         {
             Web2023Project.Models.Nguoidung member = Session["memberLogin"] as Web2023Project.Models.Nguoidung;
             string currentPass = Request["current-pass"];
-            Session.Add("a", currentPass + " " + member.Matkhau);
             string newPass = Request["new-pass"];
             Console.WriteLine(currentPass);
             Console.WriteLine(member.Matkhau);

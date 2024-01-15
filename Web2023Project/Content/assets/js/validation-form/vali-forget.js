@@ -18,41 +18,9 @@ $(document).ready(function () {
                 flag = false;
             }
         }
-        // if (new_pass.val() !== '') {
-        //     if (!(reg_pass.test(new_pass.val()))) {
-        //         notEmpty(new_pass, 'Mật khẩu ít nhất 6 ký tự', new_pass.val());
-        //         flag = false;
-        //     }
-        // } else {
-        //     notEmpty(new_pass, 'Vui lòng nhập Mật khẩu', null);
-        //     flag = false;
-        // }
-        // if (c_new_pass.val() === '') {
-        //     notEmpty(c_new_pass, 'Vui lòng xác nhận mật khẩu', null);
-        //     flag = false;
-        // } else {
-        //     if (c_new_pass.val() !== new_pass.val()) {
-        //         notEmpty(c_new_pass, 'Mật khẩu nhập lại không khớp', c_new_pass.val());
-        //         flag = false;
-        //     }
-        // }
-        if (flag) {
-            $.ajax({
-                url: 'quen-mat-khau',
-                method: 'POST',
-                data: {
-                    email: email.val(),
-                },
-                success: function (result) {
-                    if (result === 'SUCCESS') {
-                        $('#form-forget').html("<div class='succ-email'>Vui lòng kiểm tra Email và đặt lại mật khẩu. Sau 5 phút liên kết sẽ bị hủy</div>");
-                    } else if (result === "ERROR") {
-                        $('#err-mail').css('opacity', '1');
-                    }
-                }
-            })
-        }
-        return false;
+       
+
+        return flag;
     });
 
     function notEmpty(ele, text, value) {

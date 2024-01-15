@@ -4,207 +4,510 @@
     ViewBag.Title = "Thông tin cá nhân";
     Layout = "~/Views/Shared/Home/_Header.cshtml";
 }
+<style>
+    #btnUpdate{
+        background-color: #e8a73c;
+    }
+    #deleteAddressModal {
+        display: none;
+       
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        padding: 20px;
+        z-index: 1000;
+        max-width: 400px;
+        width: 100%;
+        height: 150px;
+        align-items: center;
+        text-align: center;
+    }
 
+    .modal-content {
+        text-align: center;
+    }
+
+    .close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+        font-size: 18px;
+    }
+
+    #confirmDelete {
+        background-color: #e74c3c;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        margin-top: 21px;
+        width: 50%;
+        text-align: center;
+        margin-left: 24%;
+    }
+
+        #confirmDelete:hover {
+            background-color: #c0392b;
+        }
+
+</style>
 <section id="body">
-<div class="container">
-    <div id="user-profile">
-        <div class="avatar-name-user">
-            <div class="avatar-user" data-aos="zoom-in-right">
-                <img src="/Content/assets/img/common/avatar-user/avatar-admin.jpg" height="288" width="400" alt="avatar"/>
+    <div class="container">
+        <div id="user-profile">
+            <div class="avatar-name-user">
+                <div class="avatar-user" data-aos="zoom-in-right">
+                    <img src="/Content/assets/img/common/avatar-user/avatar-admin.jpg" height="288" width="400" alt="avatar" />
+                </div>
+                @{
+                    Web2023Project.Models.Nguoidung member = Session["memberLogin"] as Web2023Project.Models.Nguoidung;
+                }
+                <div class="user-info-name" data-aos="fade-left">
+                    <span>Tài khoản của</span>
+                    <span class="user-text">@member.Ten</span>
+                </div>
             </div>
-             @{
-                                Web2023Project.Models.Nguoidung member = Session["memberLogin"] as Web2023Project.Models.Nguoidung;
-             }
-            <div class="user-info-name" data-aos="fade-left">
-                <span>Tài khoản của</span>
-                <span class="user-text">@member.Ten</span>
-            </div>
-        </div>
-        <div class="info-address">
-            <div class="info-user" data-aos="fade-right">
-                <span><i class="fa fa-user fa-fw"></i>Thông tin tài khoản</span>
-               
-                <div id="update-info" class="like-form">
-                    <h3 style="margin-bottom: 0">THÔNG TIN TÀI KHOẢN</h3>
-                    @{ string infor_update = Session["infor_update"] as string; }
-                    @{
-                        if (infor_update != null)
-                        {
-                            if (infor_update.Contains("Su"))
+            <div class="info-address">
+                <div class="info-user" data-aos="fade-right">
+                    <span><i class="fa fa-user fa-fw"></i>Thông tin tài khoản</span>
+
+                    <div id="update-info" class="like-form">
+                        <h3 style="margin-bottom: 0">THÔNG TIN TÀI KHOẢN</h3>
+                        @{ string infor_update = Session["infor_update"] as string; }
+                        @{
+                            if (infor_update != null)
                             {
-                                <div class="justify-align-center">
-                                    <span class="update-infoDB" style="color: #0a7f7f">@(infor_update.Substring(2))</span>
-                                </div>
-                            }
-                            else if (infor_update.Contains("Er"))
-                            {
-                                <div class="justify-align-center">
-                                    <span class="update-infoDB">@(infor_update.Substring(2)) </span>
-                                </div>
-                            }
-                            Session.Remove("infor_update");
-                        }
-                    }
-                    <form id="form-validate" class="form-infoUser form-style" action="Update_User_Profile" method="post">
-                        <div>
-                            <span>Họ và Tên*</span>
-                            <input type="text" id="name" name="name" value="@(member != null ? member.Ten : "")">
-
-                        </div>
-                        <div>
-                            <span>Địa chỉ Email*</span>
-                            <input type="text" id="email" name="email" value="@(member != null ? member.Email : "")">
-
-                        </div>
-                        <div id="Giới tính">
-                            <span>Giới tính</span>
-                            <select id="gender" name="gender">
-                                @{
-                                    if (member != null && member.Gioitinh.Equals(1))
-                                    {
-                                        <option value="1">Nam</option>
-                                        <option value="0">Nữ</option>
-                                    }
-                                    else
-                                    {
-                                        <option value="0">Nữ</option>
-                                        <option value="1">Nam</option>
-                                    }
-
+                                if (infor_update.Contains("Su"))
+                                {
+                                    <div class="justify-align-center">
+                                        <span class="update-infoDB" style="color: #0a7f7f">@(infor_update.Substring(2))</span>
+                                    </div>
                                 }
-                            </select>
-                        </div>
-                        <div>
-                            <span>Số điện thoại*</span>
-                            <input id="phone" name="phone" type="number"
-                                   value="@(member != null ? member.Sdt : "")">
-                        </div>
-                        @*  <div>
-                <span>Địa chỉ*</span>
-                <input type="text" id="address" name="address" value="@(member != null ? member. : "")">
-            </div>*@
-                        <button class="update-btn">CẬP NHẬT</button>
-                    </form>
-                    <form id="form-validate" class="form-infoUser form-style" action="Update_User" method="post">
-                    </form>
-                </div>
-            </div>
-            <div class="address-user" data-aos="fade-right">
-                <span><i class="fa fa-address-book-o" aria-hidden="true"></i>Sổ địa chỉ</span>
-                <div id="book-address" class="like-form">
-                    <h3>SỔ ĐỊA CHỈ</h3>
-                    <div class="add-address">
-                        <a><i class="fa fa-plus-circle" aria-hidden="true"></i>Thêm địa chỉ</a>
-                    </div>
+                                else if (infor_update.Contains("Er"))
+                                {
+                                    <div class="justify-align-center">
+                                        <span class="update-infoDB">@(infor_update.Substring(2)) </span>
+                                    </div>
+                                }
+                                Session.Remove("infor_update");
+                            }
+                        }
+                        <form id="form-validate" class="form-infoUser form-style" action="Update_User_Profile" method="post">
+                            <div>
+                                <span>Họ và Tên*</span>
+                                <input type="text" id="name" name="name" value="@(member != null ? member.Ten : "")">
 
-                    <div class="content-add">
-                        <div class="default-add">
-                            <ul>
-                                <li>
-                                    <span class="user-text">@(member != null ? member.Ten : "")</span>
-                                    <div class="action">
-                                        <span><i class="fa fa-check-circle" aria-hidden="true"></i>Mặc định</span>
-                                        <span>
-                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                        </span>
-                                    </div>
-                                </li>
-                               @* <li>
-                                    <span>Địa chỉ:</span>
-                                    <span class="address">@(member != null ? member.Address : "")</span>
-                                </li>*@
-                                <li>
-                                    <span>Số điện thoại:</span>
-                                    <span class="phone">@(member != null ? member.Sdt : "")</span>
-                                </li>
-                            </ul>
+                            </div>
+                            <div>
+                                <span>Địa chỉ Email*</span>
+                                <input type="text" id="email" name="email" value="@(member != null ? member.Email : "")">
+
+                            </div>
+                            <div id="Giới tính">
+                                <span>Giới tính</span>
+                                <select id="gender" name="gender">
+                                    @{
+                                        if (member != null && member.Gioitinh.Equals(1))
+                                        {
+                                            <option value="1">Nam</option>
+                                            <option value="0">Nữ</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="0">Nữ</option>
+                                            <option value="1">Nam</option>
+                                        }
+
+                                    }
+                                </select>
+                            </div>
+                            <div>
+                                <span>Số điện thoại*</span>
+                                <input id="phone" name="phone" type="number"
+                                       value="@(member != null ? member.Sdt : "")">
+                            </div>
+                            @*  <div>
+                        <span>Địa chỉ*</span>
+                        <input type="text" id="address" name="address" value="@(member != null ? member. : "")">
+                    </div>*@
+                            <button class="update-btn">CẬP NHẬT</button>
+                        </form>
+                        <form id="form-validate" class="form-infoUser form-style" action="Update_User" method="post">
+                        </form>
+                    </div>
+                </div>
+                <div class="address-user" data-aos="fade-right">
+                    <span><i class="fa fa-address-book-o" aria-hidden="true"></i>Sổ địa chỉ</span>
+                    <div id="book-address" class="like-form">
+                        <h3>SỔ ĐỊA CHỈ</h3>
+
+
+                        <div class="content-add" id="content-add">
+
+
+                            @{
+                                if (member.Diachis != null)
+                                {
+                                    foreach (Web2023Project.Models.Diachi d in member.Diachis)
+                                    {
+                                        if (d.Trangthai == 1)
+                                        {
+                                            <div class="">
+                                                <ul>
+                                                    <li>
+                                                        <input type="hidden" class="input-idDC" value="@d.Id" />
+                                                        <input type="hidden" class="input-idNd" value="@(d.IdNd)" />
+                                                        <input type="hidden" class="input-ghichu" value="@(d.Ghichu)" />
+                                                        <input type="hidden" class="input-huyen" value="@(d.Huyen)" />
+                                                        <input type="hidden" class="input-xa" value="@(d.Xa)" />
+                                                        <input type="hidden" class="input-tinh" value="@(d.Tinh)" />
+                                                        <input type="hidden" class="input-trangthai" value="@(d.Trangthai)" />
+                                                        <input type="hidden" class="input-sdt" value="@(d.Sdt)" />
+                                                        <span class="user-text">@(member != null ? d.Ten : "")</span>
+
+                                                        <div class="action">
+                                                            <span class="edit-icon">
+                                                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                                            </span>
+                                                            <span class="delete-icon">
+                                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                                            </span>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <span>Địa chỉ:</span>
+                                                        <span class="address">@(member != null ? d.Xa+","+d.Huyen+","+d.Tinh : "")</span>
+                                                    </li>
+                                                    <li>
+                                                        <span>Số điện thoại:</span>
+                                                        <span class="phone">@(member != null ? d.Sdt : "")</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        }
+
+                                    }
+                                }
+
+                            }
                         </div>
-                        <div class="">
-                            <ul>
-                                <li>
-                                    <span class="user-text">@(member != null ? member.Ten : "")</span>
-                                    <div class="action">
-                                        <span>
-                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                        </span>
-                                        <span>
-                                            <i class="fa fa-trash" aria-hidden="true"></i>
-                                        </span>
-                                    </div>
-                                </li>
-                             @*   <li>
-                                    <span>Địa chỉ:</span>
-                                    <span class="address">@(member != null ? member.Address : "")</span>
-                                </li>*@
-                                <li>
-                                    <span>Số điện thoại:</span>
-                                    <span class="phone">@(member != null ? member.Sdt : "")</span>
-                                </li>
-                            </ul>
+                        <div class="add-address">
+                            <a id="add-address-form-link"><i class="fa fa-plus-circle" aria-hidden="true"></i>Thêm địa chỉ</a>
                         </div>
-                        <div class="">
-                            <ul>
-                                <li>
-                                    <span class="user-text">@(member != null ? member.Ten : "")</span>
-                                    <div class="action">
-                                        <span>
-                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                        </span>
-                                        <span>
-                                            <i class="fa fa-trash" aria-hidden="true"></i>
-                                        </span>
-                                    </div>
-                                </li>
-                              @*  <li>
-                                    <span>Địa chỉ:</span>
-                                    <span class="address">@(member != null ? member.Address : "")</span>
-                                </li>*@
-                                <li>
-                                    <span>Số điện thoại:</span>
-                                    <span class="phone">@(member != null ? member.Sdt : "")</span>
-                                </li>
-                            </ul>
+                        <div id="form-add">
+                            <form id="form-validate" class="form-infoUser form-style" action="Address_User_Profile" method="post">
+                                <div style="display:grid">
+                                    <span>Họ và Tên*</span>
+                                    <input type="text" id="name" name="name" value="">
+
+                                </div>
+                                <div style="display:grid">
+                                    <span>Số điện thoại*</span>
+                                    <input id="phone" name="phone" type="number"
+                                           value="">
+                                </div>
+                                <div style="display:grid">
+                                    <span>Xã*</span>
+                                    <input type="text" id="xa" name="xa" value="">
+
+                                </div>
+                                <div style="display:grid">
+                                    <span>Huyện*</span>
+                                    <input type="text" id="huyen" name="huyen" value="">
+
+                                </div>
+                                <div style="display:grid">
+                                    <span>Tỉnh*</span>
+                                    <input type="text" id="tinh" name="tinh" value="">
+
+                                </div>
+                                <button id="btnAdd" class="btn" type="submit" style="width: 50%; color: white; ">Thêm địa chỉ</button>
+                            </form>
+
                         </div>
+                        <div id="form-change">
+                            <form id="form-validate" class="form-infoUser form-style" action="" method="post">
+                                <div style="display:grid">
+                                    <span>Họ và Tên*</span>
+                                    <input type="text" id="change-name" name="name" value="">
+
+                                </div>
+                                <div style="display:grid">
+                                    <span>Số điện thoại*</span>
+                                    <input id="change-phone" name="phone" type="number"
+                                           value="">
+                                </div>
+                                <div style="display:grid">
+                                    <span>Xã*</span>
+                                    <input type="text" id="change-xa" name="xa" value="">
+
+                                </div>
+                                <div style="display:grid">
+                                    <span>Huyện*</span>
+                                    <input type="text" id="change-huyen" name="huyen" value="">
+
+                                </div>
+                                <div style="display:grid">
+                                    <span>Tỉnh*</span>
+                                    <input type="text" id="change-tinh" name="tinh" value="">
+
+                                </div>
+                                <div style="display:grid">
+                                    <span>Ghi chú*</span>
+                                    <input type="text" id="change-ghichu" name="ghichu" value="">
+
+                                </div>
+                                <a id="btnUpdate" class="btn" style="width: 50%; color: white; ">Sửa địa chỉ</a>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                @{
+                    string success_change = Session["success-changePass"] as string;
+                    string erro_change = Session["err-changePass"] as string;
+                }
+                <div id="change-pass-user" class="change-pass-user" data-aos="fade-right">
+                    <span><i class="fa fa-lock" aria-hidden="true"></i>Thay đổi mật khẩu</span>
+                    <div id="change-pass" class="like-form">
+                        <h3>ĐỔI MẬT KHẨU</h3>
+                        <div class="justify-align-center">
+                            <span class="changePass-nf" style="color: #0a7f7f">@(success_change != null ? success_change : "")</span>
+                        </div>
+                        <div class="justify-align-center">
+                            <span class="changePass-nf">@(erro_change != null ? erro_change : "")</span>
+                        </div>
+                        <form id="form-change-pass" class="form-style"
+                              action="ChangePass_User_Profile" method="post">
+                            <div>
+                                <span>Mật khẩu hiện tại*</span>
+                                <input type="password" id="current-pass" name="current-pass" value="">
+                                <input type="hidden" name="action" value="doi-mat-khau">
+                            </div>
+                            <div>
+                                <span>Mật khẩu mới*</span>
+                                <input type="text" id="new-pass" name="new-pass" value="">
+                            </div>
+                            <div id="c-pass">
+                                <span>Xác nhận mật khẩu*</span>
+                                <input type="text" id="c-new-pass" name="c-new-pass">
+                            </div>
+                            <button type="submit" class="update-btn">CẬP NHẬT</button>
+                        </form>
+                    </div>
+                </div>
+                <div id="deleteAddressModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <p style="margin-top: 39px;">Bạn có chắc chắn muốn xóa địa chỉ này không?</p>
+                        <button id="confirmDelete">Xác nhận</button>
                     </div>
                 </div>
             </div>
-            @{
-                string success_change = Session["success-changePass"] as string;
-                string erro_change = Session["err-changePass"] as string;
-            }
-            <div id="change-pass-user" class="change-pass-user" data-aos="fade-right">
-                <span><i class="fa fa-lock" aria-hidden="true"></i>Thay đổi mật khẩu</span>
-                <div id="change-pass" class="like-form">
-                    <h3>ĐỔI MẬT KHẨU</h3>
-                    <div class="justify-align-center">
-                        <span class="changePass-nf" style="color: #0a7f7f">@(success_change != null ? success_change : "")</span>
-                    </div>
-                    <div class="justify-align-center">
-                        <span class="changePass-nf">@(erro_change != null ? erro_change : "")</span>
-                    </div>
-                    <form id="form-change-pass" class="form-style"
-                          action="ChangePass_User_Profile" method="post">
-                        <div>
-                            <span>Mật khẩu hiện tại*</span>
-                            <input type="password" id="current-pass" name="current-pass" value="">
-                            <input type="hidden" name="action" value="doi-mat-khau">
-                        </div>
-                        <div>
-                            <span>Mật khẩu mới*</span>
-                            <input type="text" id="new-pass" name="new-pass" value="">
-                        </div>
-                        <div id="c-pass">
-                            <span>Xác nhận mật khẩu*</span>
-                            <input type="text" id="c-new-pass" name="c-new-pass">
-                        </div>
-                        <button type="submit" class="update-btn">CẬP NHẬT</button>
-                    </form>
-                </div>
             </div>
         </div>
-    </div>
-</div>
-<script src="/Content/assets/js/profile-user.js"></script>
-<script src="/Content/assets/validation-form/vali-form.js"></script>
-<script src="/Content/assets/validation-form/vali-chang-pass.js"></script>
+        <script src="/Content/assets/js/profile-user.js"></script>
+        <script src="/Content/assets/validation-form/vali-form.js"></script>
+        <script src="/Content/assets/validation-form/vali-chang-pass.js"></script>
+        <script>
+            /* document.addEventListener("DOMContentLoaded", function () {
+                 // Sử dụng querySelectorAll để chọn tất cả các phần tử có ID là "form-change"
+                 let forms = document.querySelectorAll("#form-add");
+
+                 // Lặp qua từng phần tử trong NodeList và thiết lập thuộc tính display
+                 forms.forEach(function (form) {
+                     form.style.display = "none";
+                 });
+                 var addAddressLink = document.getElementById("add-address-form-link");
+                 // Thêm sự kiện khi click vào link "Thêm địa chỉ"
+                 addAddressLink.addEventListener("click", function (event) {
+                     event.preventDefault();
+                     forms.forEach(function (form) {
+                         form.style.display = "block";
+                     });
+                 });
+                 let editIcons = document.querySelectorAll(".edit-icon");
+
+                 editIcons.forEach(function (editIcon) {
+                     editIcon.addEventListener("click", function () {
+                         let parentLi = this.closest("li");
+                         let idDC = parentLi.querySelector("#input-idDC").value;
+                         let idNd = parentLi.querySelector("#input-idNd").value;
+                         let ghichu = parentLi.querySelector("#input-ghichu").value;
+                         let huyen = parentLi.querySelector("#input-huyen").value;
+                         let xa = parentLi.querySelector("#input-xa").value;
+                         let tinh = parentLi.querySelector("#input-tinh").value;
+                         let tinh = parentLi.querySelector("#input-sdt");
+                         let name = parentLi.querySelector("#user-text").textContent;
+                         let trangthai = parentLi.querySelector("#input-trangthai").value;
+
+
+
+                         document.getElementById("change-name").value = name;
+                         document.getElementById("change-phone").value = phone;
+                         document.getElementById("change-ghichu").value = ghichu;
+                         document.getElementById("change-huyen").value = huyen;
+                         document.getElementById("change-xa").value = xa;
+                         document.getElementById("change-tinh").value = tinh;
+                         // Điền thông tin vào form sửa địa chỉ
+                         var forms = document.getElementById("form-change");
+                         // Thêm sự kiện khi click vào link "Thêm địa chỉ"
+
+                         forms.forEach(function (form) {
+                             form.style.display = "block";
+                         }
+                     });
+                 });
+             });*/
+            document.addEventListener("DOMContentLoaded", function () {
+                // Sử dụng querySelectorAll để chọn tất cả các phần tử có ID là "form-change"
+                let forms = document.querySelectorAll("#form-add");
+                let forms_change = document.querySelectorAll("#form-change");
+                // Lặp qua từng phần tử trong NodeList và thiết lập thuộc tính display
+                forms.forEach(function (form) {
+                    form.style.display = "none";
+                });
+                forms_change.forEach(function (form) {
+                    form.style.display = "none";
+                });
+                var addAddressLink = document.getElementById("add-address-form-link");
+                // Thêm sự kiện khi click vào link "Thêm địa chỉ"
+                addAddressLink.addEventListener("click", function (event) {
+                    event.preventDefault();
+                    forms.forEach(function (form) {
+                        if (form.style.display =="block") {
+                            form.style.display = "none";
+                        } else {
+                            form.style.display = "block";
+                        }
+                        
+                    });
+                });
+
+                let editIcons = document.querySelectorAll(".edit-icon");
+
+                editIcons.forEach(function (editIcon) {
+                    editIcon.addEventListener("click", function () {
+                        let parentLi = this.closest("li");
+                        let idDC = parentLi.querySelector(".input-idDC").value;
+                        let idNd = parentLi.querySelector(".input-idNd").value;
+                        let ghichu = parentLi.querySelector(".input-ghichu").value;
+                        let huyen = parentLi.querySelector(".input-huyen").value;
+                        let xa = parentLi.querySelector(".input-xa").value;
+                        let tinh = parentLi.querySelector(".input-tinh").value;
+                        let phone = parentLi.querySelector(".input-sdt").value;
+                        let name = parentLi.querySelector(".user-text").textContent;
+                        let trangthai = parentLi.querySelector(".input-trangthai").value;
+
+                        document.getElementById("change-name").value = name;
+                        document.getElementById("change-phone").value = phone;
+                        document.getElementById("change-ghichu").value = ghichu;
+                        document.getElementById("change-huyen").value = huyen;
+                        document.getElementById("change-xa").value = xa;
+                        document.getElementById("change-tinh").value = tinh;
+
+                        // Điền thông tin vào form sửa địa chỉ
+                        let forms = document.getElementById("form-change");
+                        forms.dataset.idDC = idDC;
+                        // Thêm sự kiện khi click vào link "Thêm địa chỉ"
+                        forms.style.display = "block";
+                    });
+                });
+            });
+            let deleteIcons = document.querySelectorAll(".delete-icon");
+            function deleteAddress(idDC) {
+                // Gửi Ajax request để xóa địa chỉ
+                $.ajax({
+                    type: "POST",
+                    url: "/Home/DeleteAddress_User_Profile",
+                    data: { idDC: idDC },
+                    success: function (result) {
+                        $("#content-add").html(result);
+                        alert("Xóa địa chỉ thành công!");
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }  // Thêm dấu } ở đây
+                });
+            }
+            deleteIcons.forEach(function (deleteIcon) {
+                deleteIcon.addEventListener("click", function () {
+                    let parentLi = this.closest("li");
+                    let idDC = parentLi.querySelector(".input-idDC").value;
+
+                    // Hiển thị modal xác nhận
+                    let modal = document.getElementById("deleteAddressModal");
+                    modal.style.display = "block";
+
+                    // Xác nhận xóa khi người dùng nhấn nút xác nhận trong modal
+                    let confirmDeleteButton = document.getElementById("confirmDelete");
+                    confirmDeleteButton.onclick = function () {
+                        deleteAddress(idDC);
+                        modal.style.display = "none";
+                    };
+
+                    // Đóng modal nếu người dùng nhấn nút đóng hoặc click bên ngoài modal
+                    let closeModal = modal.querySelector(".close");
+                    closeModal.onclick = function () {
+                        modal.style.display = "none";
+                    };
+
+                    window.onclick = function (event) {
+                        if (event.target == modal) {
+                            modal.style.display = "none";
+                        }
+                    };
+                });
+            });
+           
+        </script>
+        <script>
+
+            function loadAddress() {
+                var formChange = document.getElementById("form-change");
+                var idDC = formChange.dataset.idDC;
+                var trangthai = $(".input-trangthai").val()
+                var name = $("#change-name").val()
+                var phone = $("#change-phone").val()
+                var ghichu = $("#change-ghichu").val()
+                var huyen = $("#change-huyen").val()
+                var xa = $("#change-xa").val()
+                var tinh = $("#change-tinh").val()
+                console.log(idDC + trangthai + name + phone + ghichu)
+                $.ajax({
+                    type: "POST",
+                    url: "/Home/UpdateAddress_User_Profile",
+                    data: { idDC: idDC, name: name, phone: phone, huyen: huyen, ghichu: ghichu, xa: xa, tinh: tinh, trangthai: trangthai },
+                    success: function (result) {
+                        $("#content-add").html(result);
+                        alert("Cập nhật thành công!");
+                        formChange.style.display = "none";
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            }
+
+            $(document).ready(function () {
+                // Attach click event to pagination links
+                $(document).on("click", "#btnUpdate", function () {                            
+                    loadAddress();
+                });
+              
+               /* $(document).on("click", ".click-sort", function () {
+                    var page = $(".pagination a.active").text();
+                    console.log(page);
+                    var sort = $(this).attr("value");
+                    $(".click-sort.active").removeClass("active");
+                    $(this).addClass("active");
+
+                    console.log(page);
+                    console.log(1);
+                    console.log(sort)
+                    loadSearchResults(page, sort);
+                });*/
+            });
+        </script>
 </section>

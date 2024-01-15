@@ -9,6 +9,7 @@ using Web2023Project.libs;
 using Web2023Project.Model;
 using Web2023Project.Models;
 using Web2023Project.Utils;
+using static System.Net.WebRequestMethods;
 
 namespace Web2023Project.Website.Dao
 {
@@ -62,7 +63,77 @@ namespace Web2023Project.Website.Dao
                 }
             }        
         }
+        public static async Task<bool> AddAddressInfoUser(Diachi diachi,string method)
+        {
+            String api = "http://103.77.214.148/api/Diachis";
+            if (method.Equals("update"))
+            {
+                api = api +"/"+ diachi.Id;
+            }
+            var addressData = new
+            {
+               id= diachi.Id,
+              idNd = diachi.IdNd,
+              sdt= diachi.Sdt,
+              ghichu = diachi.Ghichu,
+              ten= diachi.Ten,
+              xa= diachi.Xa,
+              huyen= diachi.Huyen,
+              tinh= diachi.Tinh,
+              trangthai= diachi.Trangthai
+            };
+            using (HttpClient client = new HttpClient())
+            {
+                // Convert loginData to JSON string
+                var jsonAddressData = Newtonsoft.Json.JsonConvert.SerializeObject(addressData);
 
+                // Create StringContent with JSON data
+                var content = new StringContent(jsonAddressData, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = null;
+                // Send POST request to the login API
+                if (method.Equals("update"))
+                {
+                    response = await client.PutAsync(api, content);
+                }
+                else
+                {
+                    response = await client.PostAsync(api, content);
+                }
+                    
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+        public static async Task<bool> DeleteAddress(string id)
+        {
+            String api = "http://103.77.214.148/api/Diachis/"+id;
+          
+           
+            using (HttpClient client = new HttpClient())
+            {
+                // Convert loginData to JSON string
+               
+                // Create StringContent with JSON data            
+                HttpResponseMessage response = null;
+                    response = await client.DeleteAsync(api);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
         public static async Task<bool> updateInfoUser(Nguoidung member)
         {
             String api = "http://103.77.214.148/api/Nguoidungs/" + member.Id;
