@@ -57,8 +57,35 @@
                         <button class="btn_buynow buy-ajax">THÊM VÀO GIỎ HÀNG</button>
 
                         <div style="margin-left: 50px">
-                            <input type="hidden" value="@Model.ThongTin.Id">
-                            <button class="btn_buynow" style="background-color: lightsalmon">Thêm vào yêu thích</button>
+                            @{
+                                Nguoidung nd = Session["memberLogin"] as Nguoidung;
+                            }
+                            @if (nd != null)
+                            {
+                            <button onclick="return location.href='AddToFavorites'"
+                                    class="btn_buynow" style="background-color: lightsalmon">
+                                Thêm vào yêu thích
+                            </button>
+                            }
+                            else
+                            {
+                            <button data-toggle="modal" data-target="#modal-cmt" type="button" id="post" class="btn_buynow" style="background-color: lightsalmon">Thêm vào yêu thích</button>
+                            <div id="modal-cmt" class="modal fade modal-confirm" role="dialog">
+                                <div class="modal-dialog modal-sm">
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            <p class="text-content">Đăng nhập để tiếp tục bình luận!</p>
+                                        </div>
+                                        <div class="modal-footer">
+
+                                            <button type="button" onclick="return location.href='/Home/Login'" class="btn-cf">Đăng nhập</button>
+                                            <button type="button" class="tbn-cancle" data-dismiss="modal">Hủy</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            }
                         </div>
 
                     </div>
@@ -144,9 +171,8 @@
 
                         <form id="cmt-post" action="/Home/CommentUser"
                               method="post">
-                            <input type="hidden" name="name" value="@member.Ten" />
-                            <input type="hidden" name="productID" value="@Model.ThongTin.Id" />
-                            <input type="hidden" name="product" value="@Model.ThongTin.TenSp" />
+                            <input type="hidden" name="IdNd" value="@member.Id" />
+                            <input type="hidden" name="IdSp" value="@Model.ThongTin.Id" />
 
                             <a href="#">
                                 @foreach (var hinhanh in Model.ThongTin.Hinhanhs)
@@ -158,38 +184,38 @@
                                 @Model.ThongTin.TenSp
                             </h6>
                             <div id="rating">
-                                <input type="radio" id="star5" name="rating" value="5" />
+                                <input type="radio" id="star5" name="Danhgia" value="5" />
                                 <label class="full" for="star5" title="Awesome - 5 stars"></label>
 
-                                <input type="radio" id="star4half" name="rating" value="4 and a half" />
+                                <input type="radio" id="star4half" name="Danhgia" value="4 and a half" />
                                 <label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>
 
-                                <input type="radio" id="star4" name="rating" value="4" />
+                                <input type="radio" id="star4" name="Danhgia" value="4" />
                                 <label class="full" for="star4" title="Pretty good - 4 stars"></label>
 
-                                <input type="radio" id="star3half" name="rating" value="3 and a half" />
+                                <input type="radio" id="star3half" name="Danhgia" value="3 and a half" />
                                 <label class="half" for="star3half" title="Meh - 3.5 stars"></label>
 
-                                <input type="radio" id="star3" name="rating" value="3" />
+                                <input type="radio" id="star3" name="Danhgia" value="3" />
                                 <label class="full" for="star3" title="Meh - 3 stars"></label>
 
-                                <input type="radio" id="star2half" name="rating" value="2 and a half" />
+                                <input type="radio" id="star2half" name="Danhgia" value="2 and a half" />
                                 <label class="half" for="star2half" title="Kinda bad - 2.5 stars"></label>
 
-                                <input type="radio" id="star2" name="rating" value="2" />
+                                <input type="radio" id="star2" name="Danhgia" value="2" />
                                 <label class="full" for="star2" title="Kinda bad - 2 stars"></label>
 
-                                <input type="radio" id="star1half" name="rating" value="1 and a half" />
+                                <input type="radio" id="star1half" name="Danhgia" value="1 and a half" />
                                 <label class="half" for="star1half" title="Meh - 1.5 stars"></label>
 
-                                <input type="radio" id="star1" name="rating" value="1" />
+                                <input type="radio" id="star1" name="Danhgia" value="1" />
                                 <label class="full" for="star1" title="Sucks big time - 1 star"></label>
 
-                                <input type="radio" id="starhalf" name="rating" value="half" />
+                                <input type="radio" id="starhalf" name="Danhgia" value="half" />
                                 <label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
                             </div>
 
-                            <textarea id="content" name="content" placeholder="Mời bạn để lại bình luận..."></textarea>
+                            <textarea id="content" name="Noidung" placeholder="Mời bạn để lại bình luận..."></textarea>
                             <div class="justify-center btn-detail">
 
                                 @if (member.Ten != null)

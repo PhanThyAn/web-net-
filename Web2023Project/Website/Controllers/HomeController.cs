@@ -29,6 +29,8 @@ namespace Web2023Project.Controllers
         private readonly ProductDAO productDAO;
         private readonly ProductDetailDAO productDetailDAO;
         private readonly CommentDAO commentDAO;
+        private readonly CartDAO cartDAO;
+        private readonly FavouriteDAO favouriteDAO;
 
         public HomeController()
         {
@@ -36,6 +38,8 @@ namespace Web2023Project.Controllers
             this.productDAO = new ProductDAO();
             this.productDetailDAO = new ProductDetailDAO();
             this.commentDAO = new CommentDAO();
+            this.cartDAO = new CartDAO();
+            this.favouriteDAO = new FavouriteDAO();
         }
 
         public ActionResult Index()
@@ -257,12 +261,81 @@ namespace Web2023Project.Controllers
 
             if (product != null)
             {
+                Session.Add("productDetail", product);
                 return View(product);
             }
             else
             {
                 return View("Error");
             }
+        }
+
+        public ActionResult FavoriteProduct()
+        {
+            Nguoidung member = Session["memberLogin"] as Nguoidung;
+
+            if (member != null)
+            {
+                List<Sanphams> favoriteProducts = favouriteDAO.GetFavoriteProducts(member.Id);
+                Session["favorite"] = favoriteProducts;
+
+                Session["addedToFavorites"] = false;
+
+                return View(favoriteProducts);
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult AddToFavorites()
+        {
+            Yeuthich favoriteProduct = new Yeuthich();
+            Sanphams sanpham = new Sanphams();
+            Nguoidung member = Session["memberLogin"] as Nguoidung;
+            ProductShow product = Session["productDetail"] as ProductShow;
+
+            if (member != null && product != null)
+            {
+                favoriteProduct.IdNd = member.Id;
+                favoriteProduct.IdSp = product.ThongTin.Id;
+
+                sanpham.Id = product.ThongTin.Id;
+                sanpham.TenSp = product.ThongTin.TenSp;
+                sanpham.GiaGoc = product.ThongTin.GiaGoc;
+                sanpham.GiaDagiam = product.ThongTin.GiaDagiam;
+
+                foreach (var pd in product.ThongTin.Hinhanhs)
+                {
+                    foreach (var sp in sanpham.Hinhanhs)
+                    {
+                        sp.Url = pd.Url;
+                    }
+                }
+
+                favouriteDAO.AddProduct(sanpham);
+                favouriteDAO.AddFavoriteProduct(favoriteProduct);
+
+                Session["addedToFavorites"] = true;
+
+                return RedirectToAction("FavoriteProduct");
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult ViewFavorites()
+        {
+            Nguoidung member = Session["memberLogin"] as Nguoidung;
+            ProductShow product = Session["productDetail"] as ProductShow;
+
+            bool addedToFavorites = Session["addedToFavorites"] != null ? (bool)Session["addedToFavorites"] : false;
+
+            if (member != null && product != null && addedToFavorites)
+            {
+                return RedirectToAction("FavoriteProduct");
+            }
+
+            return View();
         }
 
         [HttpPost]
@@ -362,40 +435,45 @@ namespace Web2023Project.Controllers
             return null;
         }
 
-
         public async Task<ActionResult> CommentUser()
         {
             Binhluan comment = new Binhluan();
-            comment.Danhgia = Convert.ToInt32(Request["Danhgia"]);
-            comment.Noidung = Request["Noidung"];
-            comment.IdNd = Convert.ToInt32(Request["IdNd"]);
-            comment.IdSp = Convert.ToInt32(Request["IdSp"]);
-            comment.Trangthai = 1;
+            ProductShow product = Session["productDetail"] as ProductShow;
 
-            if (comment.Noidung.Length != 0 && comment.IdNd != 0 && comment.IdSp != 0)
+            comment.IdNd = Convert.ToInt32(Request.Form["IdNd"]);
+            comment.IdSp = Convert.ToInt32(Request.Form["IdSp"]);
+            comment.Noidung = Request.Form["Noidung"];
+            comment.Danhgia = Convert.ToInt32(Request.Form["Danhgia"]);
+            comment.Ngaybinhluan = DateTime.Now;
+            comment.Trangthai = 0;
+
+            if (comment.Noidung != null && comment.IdNd != 0 && comment.IdSp != 0)
             {
                 bool result = await commentDAO.InsertCMT(comment);
                 if (result)
                 {
-                    List<Binhluan> comments = await commentDAO.LoadCMT(comment.IdSp);
+                    List<Binhluan> comments = await commentDAO.LoadCMT(product.ThongTin.Id);
                     Session.Add("listcomments", comments);
 
-                    return RedirectToAction("Product_Detail", new RouteValueDictionary(
-                        new
-                        {
-                            controller = "Home",
-                            action = "Product_Detail",
-                            tenviettat = comment.IdSpNavigation.TenVietTat
-                        }));
+                    return RedirectToAction("Product_Detail", "Home", new
+                    {
+                        tenviettat = product.TenVietTat
+                    });
                 }
             }
+            else
+            { 
+                Session.Add("messagecomment", "Nội dung không được bỏ trống");
 
-            Session.Add("messagecomment", "Nội dung không được bỏ trống");
-            return RedirectToAction("Product_Detail", new RouteValueDictionary(
-                new { controller = "Home", action = "Product_Detail",
-                    tenviettat = comment.IdSpNavigation.TenVietTat
-                }));
-
+                return RedirectToAction("Product_Detail", "Home", new
+                {
+                    tenviettat = product.TenVietTat
+                });
+            }
+            return RedirectToAction("Product_Detail", "Home", new
+            {
+                tenviettat = product.TenVietTat
+            });
         }
 
         public async Task<ActionResult> SearchKey(string key, int page = 1)
@@ -551,8 +629,6 @@ namespace Web2023Project.Controllers
             return new EmptyResult();
         }
 
-
-
         public ActionResult PaymentController()
         {
             Cart gh = Session["giohang"] as Cart;
@@ -567,15 +643,21 @@ namespace Web2023Project.Controllers
 
                 try
                 {
-                    if (new CartDAO().InsertCart(gh))
+                    if (cartDAO.InsertCart(gh))
                     {
                         gh.Item.Clear();
                         Session.Add("giohang", gh);
+                        return View("Order_Success");
+                    }
+                    else
+                    {
+                        return View("Error");
                     }
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine(e.Message);
+                    return View("Error");
                 }
             }
 
