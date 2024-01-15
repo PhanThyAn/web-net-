@@ -8,6 +8,9 @@
     #btnUpdate{
         background-color: #e8a73c;
     }
+    #btnAdd {
+        background-color: #e8a73c;
+    }
     #deleteAddressModal {
         display: none;
        
@@ -383,6 +386,9 @@
                         }
                         
                     });
+                     forms_change.forEach(function (form) {
+                         form.style.display = "none";
+                     });
                 });
 
                 let editIcons = document.querySelectorAll(".edit-icon");
@@ -409,9 +415,11 @@
 
                         // Điền thông tin vào form sửa địa chỉ
                         let forms = document.getElementById("form-change");
+                        let forms_add = document.getElementById("form-add");
                         forms.dataset.idDC = idDC;
                         // Thêm sự kiện khi click vào link "Thêm địa chỉ"
                         forms.style.display = "block";
+                        forms_add.style.display = "none";
                     });
                 });
             });
