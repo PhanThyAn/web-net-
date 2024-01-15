@@ -1,0 +1,124 @@
+﻿@model List<Web2023Project.Models.Diachi>
+
+@foreach (var d in Model)
+{
+    if (d.Trangthai == 1)
+    {
+        <div class="">
+            <ul>
+                <li>
+                    <input type="hidden" class="input-idDC" value="@d.Id" />
+                    <input type="hidden" class="input-idNd" value="@(d.IdNd)" />
+                    <input type="hidden" class="input-ghichu" value="@(d.Ghichu)" />
+                    <input type="hidden" class="input-huyen" value="@(d.Huyen)" />
+                    <input type="hidden" class="input-xa" value="@(d.Xa)" />
+                    <input type="hidden" class="input-tinh" value="@(d.Tinh)" />
+                    <input type="hidden" class="input-trangthai" value="@(d.Trangthai)" />
+                    <input type="hidden" class="input-sdt" value="@(d.Sdt)" />
+                    <span class="user-text">@(d.Ten)</span>
+
+                    <div class="action">
+                        <span class="edit-icon">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        </span>
+                        <span class="delete-icon">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                </li>
+                <li>
+                    <span>Địa chỉ:</span>
+                    <span class="address">@( d.Xa+","+d.Huyen+","+d.Tinh)</span>
+                </li>
+                <li>
+                    <span>Số điện thoại:</span>
+                    <span class="phone">@(d.Sdt)</span>
+                </li>
+            </ul>
+        </div>
+    }
+    
+
+}
+<script>
+    console.log(1)
+
+
+
+    let editIcons = document.querySelectorAll(".edit-icon");
+
+    editIcons.forEach(function (editIcon) {
+        editIcon.addEventListener("click", function () {
+            console.log(1)
+            let parentLi = this.closest("li");
+            let idDC = parentLi.querySelector(".input-idDC").value;
+            let idNd = parentLi.querySelector(".input-idNd").value;
+            let ghichu = parentLi.querySelector(".input-ghichu").value;
+            let huyen = parentLi.querySelector(".input-huyen").value;
+            let xa = parentLi.querySelector(".input-xa").value;
+            let tinh = parentLi.querySelector(".input-tinh").value;
+            let phone = parentLi.querySelector(".input-sdt").value;
+            let name = parentLi.querySelector(".user-text").textContent;
+            let trangthai = parentLi.querySelector(".input-trangthai").value;
+
+            document.getElementById("change-name").value = name;
+            document.getElementById("change-phone").value = phone;
+            document.getElementById("change-ghichu").value = ghichu;
+            document.getElementById("change-huyen").value = huyen;
+            document.getElementById("change-xa").value = xa;
+            document.getElementById("change-tinh").value = tinh;
+
+            // Điền thông tin vào form sửa địa chỉ
+            let forms = document.getElementById("form-change");
+            forms.dataset.idDC = idDC;
+            // Thêm sự kiện khi click vào link "Thêm địa chỉ"
+            forms.style.display = "block";
+        });
+    });
+    let deleteIcons = document.querySelectorAll(".delete-icon");
+    function deleteAddress(idDC) {
+        // Gửi Ajax request để xóa địa chỉ
+        $.ajax({
+            type: "POST",
+            url: "/Home/DeleteAddress_User_Profile",
+            data: { idDC: idDC },
+            success: function (result) {
+                $("#content-add").html(result);
+                alert("Xóa địa chỉ thành công!");
+            },
+            error: function (error) {
+                console.log(error);
+            }  // Thêm dấu } ở đây
+        });
+    }
+    deleteIcons.forEach(function (deleteIcon) {
+        deleteIcon.addEventListener("click", function () {
+            let parentLi = this.closest("li");
+            let idDC = parentLi.querySelector(".input-idDC").value;
+
+            // Hiển thị modal xác nhận
+            let modal = document.getElementById("deleteAddressModal");
+            modal.style.display = "block";
+
+            // Xác nhận xóa khi người dùng nhấn nút xác nhận trong modal
+            let confirmDeleteButton = document.getElementById("confirmDelete");
+            confirmDeleteButton.onclick = function () {
+                deleteAddress(idDC);
+                modal.style.display = "none";
+            };
+
+            // Đóng modal nếu người dùng nhấn nút đóng hoặc click bên ngoài modal
+            let closeModal = modal.querySelector(".close");
+            closeModal.onclick = function () {
+                modal.style.display = "none";
+            };
+
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            };
+        });
+    });
+
+</script>

@@ -1,7 +1,7 @@
 ﻿@{
     ViewBag.Title = "Đăng nhập";
     Layout = "~/Views/Shared/Home/_Header.cshtml";
-   
+
 }
     <link href="/Content/assets/css/popup-forget-pass.css" rel="stylesheet">
 
@@ -9,6 +9,7 @@
     <div id="login-atm">
         @{
             string err_login = Session["errLogin"] as string;
+            string errForgot = Session["errForgot"] as string;
         }
         <div class="login box-shadow-form">
             @{
@@ -52,17 +53,26 @@
                 </div>
                 <div class="modal-body">
                     <div id="forget-pass">
-                        <form id="form-forget" class="form-style-fg" action="#" method="#">
+                        <form id="form-forget" class="form-style-fg" action="/Home/ForgotPass" method="post">
                             <ul id="frame-forget-pass">
                                 <li class="row">
                                     <div class="col-sm-12 col-xs-6">
-                                        <h5 class="modal-title suc-mail">Vui lòng nhập địa chỉ email bạn đã đăng ký trên <span style="color: #0a535d;font-size: 16px;font-style: italic;font-weight: 600;">ATM</span></h5>
+                                        <h5 class="modal-title suc-mail">Vui lòng nhập địa chỉ email và số điện thoại bạn đã đăng ký </h5>
                                     </div>
-                                    <div id="err-mail">Có gì sai sai!!!</div>
-                                    <div class="col-sm-12 col-xs-6">
-                                        <input type="text" id="email" name="email" placeholder="Email">
-                                    </div>
-                                </li>
+                                    @{
+                                        if (errForgot != null)
+                                        {
+                                            <span class="err-mail"> @errForgot</span>
+                                                Session.Remove("errForgot");
+                                            }
+                                      }
+                                        <div class="col-sm-12 col-xs-6">
+                                            <input type="text" id="email" name="email" placeholder="Email">
+                                        </div>
+                                        <div class="col-sm-12 col-xs-6">
+                                            <input type="text" id="phone" name="phone" placeholder="Số điện thoại">
+                                        </div>
+                                    </li>
                             </ul>
                             <div class="btn-submit">
                                 <button type="submit" class="update-btn">Xác nhận</button>
@@ -75,5 +85,5 @@
         </div>
     </div>
     <script src="/Content/assets/js/validation-form/vali-login.js"></script>
-    <script src="/Content/assets/js/validation-form/vali-forget.js"></script>
+  
 </section>

@@ -35,6 +35,7 @@ namespace Web2023Project.Models
             throw new NotImplementedException();
         }
 
+
         public virtual ICollection<Binhluan> Binhluans { get; set; } = new List<Binhluan>();
 
         public virtual ICollection<Chitietgiohang> Chitietgiohangs { get; set; } = new List<Chitietgiohang>();

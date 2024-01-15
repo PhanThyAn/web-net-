@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Net.Http;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.UI.WebControls;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json.Linq;
 using Web2023Project.libs;
@@ -15,7 +17,104 @@ namespace Web2023Project.Dao
 {
     public class LoginDao
     {
-            public static async Task<Nguoidung> login(string taikhoan, string matkhau)
+        public static async Task<Nguoidung> getInforFromChangePass(string email,string sdt)
+        {
+            String api = "http://103.77.214.148/api/CheckMailSdt?email="+ email +"&sdt="+ sdt;
+            using (HttpClient client = new HttpClient())
+            {
+                // gọi tới api 
+                HttpResponseMessage response = await client.GetAsync(api);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string jsonResponse = await response.Content.ReadAsStringAsync();
+
+                    JObject jsonObject = JObject.Parse(jsonResponse);
+                    string id = jsonObject["id"]?.ToString();
+                    string ten = jsonObject["ten"]?.ToString();                
+                    string gioiTinh = jsonObject["gioitinh"]?.ToString();                  
+                    string pass = jsonObject["matkhau"]?.ToString();
+                    string quyen = jsonObject["quyen"]?.ToString();
+                    string anhdaidien = jsonObject["anhdaidien"]?.ToString();
+                    string googleId = jsonObject["googleId"]?.ToString();
+                    string facebookId = jsonObject["facebookId"]?.ToString();
+                    string ngaytao = jsonObject["ngaytao"]?.ToString();
+                    DateTime ngayCapNhat = DateTime.Now;
+                    Task<List<Diachi>> list = getDiaChi(id);
+                    List<Diachi> listDC = await list;
+                    Nguoidung n = new Nguoidung();
+                    n.Id = Int32.Parse(id);
+                    n.Ten = ten;
+                    n.Matkhau = pass;
+                    n.Sdt = sdt;
+                    n.Gioitinh = (ulong)int.Parse(gioiTinh);
+                    n.Diachis = listDC;
+                    n.Email = email;
+                    n.Quyen = 1;
+                    n.Anhdaidien = anhdaidien;
+                    n.GoogleId = googleId;
+                    n.FacebookId = facebookId;                 
+                    n.Ngaycapnhat = ngayCapNhat;
+                    return n;
+                }
+                else
+                {
+                    return null;
+                }
+               
+             
+            }
+            return null;
+        }
+        public static async Task<List<Diachi>> getDiaChi(string id)
+        {
+            String api = "http://103.77.214.148/api/Diachis/Nguoidung/" + id;
+            using (HttpClient client = new HttpClient())
+            {
+                // gọi tới api 
+                HttpResponseMessage response = await client.GetAsync(api);
+                // nếu trả vè success
+                if (response.IsSuccessStatusCode)
+                {
+                    // đọc kết quả trả về
+                    string jsonResponse = await response.Content.ReadAsStringAsync();
+                    // chuyển dữ liệu thành 1 mảng obj
+                    JArray jsonArray = JArray.Parse(jsonResponse);
+                    List<Diachi> resultList = new List<Diachi>();
+                    // duyệt qua mảng obj
+                    foreach (JObject jsonObject in jsonArray)
+                    {
+                            string idDC = jsonObject["id"]?.ToString();
+                            string idNd = jsonObject["idNd"]?.ToString();
+                            string sdt = jsonObject["sdt"]?.ToString();                    
+                            string ten = jsonObject["ten"]?.ToString();
+                            string ghichu = jsonObject["ghichu"]?.ToString();
+                            string xa = jsonObject["xa"]?.ToString();
+                            string huyen = jsonObject["huyen"]?.ToString();
+                            string tinh = jsonObject["tinh"]?.ToString();
+                            string trangthai = jsonObject["trangthai"]?.ToString();
+                          
+                        
+                            Diachi p = new Diachi();
+                            p.Id = Int32.Parse(idDC);
+                            p.IdNd = Int32.Parse(idNd);
+                            p.Sdt = sdt;
+                            p.Ten = ten;
+                            p.Ghichu = ghichu;                      
+                            p.Xa = xa;
+                            p.Huyen = huyen;
+                            p.Tinh = tinh;
+                            p.Trangthai = sbyte.Parse(trangthai);
+
+                            resultList.Add(p);
+                        }
+                    // In các thuộc tính khác tương tự
+                    return resultList;
+                }                     
+            }
+            return null;
+        }
+        public static async Task<Nguoidung> login(string taikhoan, string matkhau)
             {
                 String api = "http://103.77.214.148/api/Login";
                 // Dữ liệu đăng nhập
@@ -46,12 +145,16 @@ namespace Web2023Project.Dao
                         string email = jsonObject["email"]?.ToString();
                         string pass = jsonObject["matkhau"]?.ToString();
                         string quyen = jsonObject["quyen"]?.ToString();
+
+                        Task<List<Diachi>> list = getDiaChi(id);
+                        List<Diachi> listDC = await list;
                         Nguoidung n = new Nguoidung();
                         n.Id = Int32.Parse(id);
                         n.Ten = ten;
                         n.Matkhau = pass;
                         n.Sdt = sdt;
                         n.Gioitinh = (ulong)int.Parse(gioiTinh);
+                        n.Diachis = listDC;
                         n.Email = email;
                     n.Quyen = 1;
                          return n;
@@ -100,6 +203,8 @@ namespace Web2023Project.Dao
         public static async Task<Nguoidung> register( string password, string name, int gender, string emailRegister, string phone)
         {
             String api = "http://103.77.214.148/api/Register";
+            DateTime create = DateTime.Now;
+            String ngay = create.ToString();
             // Dữ liệu đăng nhập
             var registerData = new
             {
@@ -108,7 +213,8 @@ namespace Web2023Project.Dao
                 gioitinh = gender,
                 matkhau = password,
                 email = emailRegister,
-                trangthai = 0
+                trangthai = 0,
+                ngaytao = ngay
             };
             using (HttpClient client = new HttpClient())
             {
