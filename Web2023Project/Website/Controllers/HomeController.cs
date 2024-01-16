@@ -284,7 +284,7 @@ namespace Web2023Project.Controllers
                 return View(favoriteProducts);
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Error404");
         }
 
         public ActionResult AddToFavorites()
@@ -452,9 +452,6 @@ namespace Web2023Project.Controllers
                 bool result = await commentDAO.InsertCMT(comment);
                 if (result)
                 {
-                    List<Binhluan> comments = await commentDAO.LoadCMT(product.ThongTin.Id);
-                    Session.Add("listcomments", comments);
-
                     return RedirectToAction("Product_Detail", "Home", new
                     {
                         tenviettat = product.TenVietTat

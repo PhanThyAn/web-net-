@@ -1,5 +1,4 @@
-﻿﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -21,7 +20,8 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
-    <NuGetPackageImportStamp />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -75,6 +75,15 @@
       <HintPath>..\packages\System.CodeDom.7.0.0\lib\net462\System.CodeDom.dll</HintPath>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite, Version=1.0.118.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.118.0\lib\net46\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.EF6, Version=1.0.118.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.EF6.1.0.118.0\lib\net46\System.Data.SQLite.EF6.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.Linq, Version=1.0.118.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.Linq.1.0.118.0\lib\net46\System.Data.SQLite.Linq.dll</HintPath>
+    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
     <Reference Include="System.Web.DynamicData" />
@@ -177,6 +186,7 @@
     <Compile Include="Models\Image.cs" />
     <Compile Include="Models\NhaCungCap.cs" />
     <Compile Include="Models\ProductShow.cs" />
+    <Compile Include="Models\Yeuthich.cs" />
     <Compile Include="Models\Techinical.cs" />
     <Compile Include="Models\Nguoidung.cs" />
     <Compile Include="Models\ProductDetail.cs" />
@@ -193,6 +203,7 @@
     <Compile Include="Utils\ReleaseResources.cs" />
     <Compile Include="Utils\RemoveObj.cs" />
     <Compile Include="Website\Controllers\HomeController.cs" />
+    <Compile Include="Website\Dao\FavoriteDAO.cs" />
     <Compile Include="Website\Dao\CartDAO.cs" />
     <Compile Include="Website\Dao\CategoryDAO.cs" />
     <Compile Include="Website\Dao\CommentDAO.cs" />
@@ -1308,6 +1319,9 @@
     <Content Include="Content\assets\img\news\ipad-2019.jpg" />
     <Content Include="Content\assets\img\news\new-img-2.png" />
     <Content Include="Content\assets\img\news\news-img-1.png" />
+    <Content Include="Content\assets\img\news\news-img-2.png" />
+    <Content Include="Content\assets\img\news\news-img-3.png" />
+    <Content Include="Content\assets\img\news\news-img-4.png" />
     <Content Include="Content\assets\img\news\news-new\637112647268385454_zombie-4.jpg" />
     <Content Include="Content\assets\img\news\news-new\637112684358340588_redmi-k30-blue-face.jpg" />
     <Content Include="Content\assets\img\news\news-new\637112976583705857_chip-3nm-se-san-sang-cho-iphone-2022-cover.jpg" />
@@ -1569,7 +1583,7 @@
     <Content Include="Content\assets\img\products\xiaomi\98.jpg" />
     <Content Include="Content\assets\img\products\xiaomi\99.jpg" />
     <Content Include="Content\assets\img\slider\1.png" />
-    <Content Include="Content\assets\img\slider\2.jpg" />
+    <Content Include="Content\assets\img\slider\2.png" />
     <Content Include="Content\assets\img\slider\3.png" />
     <Content Include="Content\assets\img\slider\4.png" />
     <Content Include="Content\assets\img\slider\5.jpg" />
@@ -1686,6 +1700,7 @@
     <Content Include="Views\Home\SearchPagePartial.cshtml" />
     <Content Include="Views\Home\Order_Success.cshtml" />
     <Content Include="Views\Home\UpdateAddress.cshtml" />
+    <Content Include="Views\Home\FavoriteProduct.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Fonts\glyphicons-halflings-regular.woff2" />
@@ -1732,7 +1747,9 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them. For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.118.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.118.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets'))" />
   </Target>
+  <Import Project="..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.118.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets" Condition="Exists('..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.118.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
          Other similar extension points exist, see Microsoft.Common.targets.
     <Target Name="BeforeBuild">
