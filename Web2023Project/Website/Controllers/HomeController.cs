@@ -665,11 +665,10 @@ namespace Web2023Project.Controllers
             string tinh = Request["tinh"];
             string phone = Request["phone"];
             string ghichu = Request["ghichu"];
-            string idDC = Request["idDC"];
-            string trangthai = Request["trangthai"];
+            string idDC = Request["idDC"];     
             Diachi n = new Diachi();
             n.Id = Int32.Parse(idDC);
-            n.Trangthai = sbyte.Parse(trangthai);
+            n.Trangthai = 1;
             n.Ghichu = ghichu;
             n.IdNd = member.Id;
             n.Ten = name;
