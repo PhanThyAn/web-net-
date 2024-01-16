@@ -127,9 +127,10 @@
                     </div>
                     <div class="rating cmt-cus">
                         @{
-                            if (Session["listcomments"] != null)
+                            var cmts = Model.ThongTin.Binhluans;
+
+                            if (cmts.Count != 0)
                             {
-                                var cmts = Session["listcomments"] as List<Binhluan>;
                                 <h6>Có @cmts.Count bình luận</h6>
                                 foreach (var c in Model.ThongTin.Binhluans)
                                 {
