@@ -9,7 +9,7 @@ namespace Web2023Project.Models
 
         public int IdSp { get; set; }
 
-        public int? Soluong { get; set; }
+        public int Soluong { get; set; }
 
         public sbyte? Trangthai { get; set; }
 

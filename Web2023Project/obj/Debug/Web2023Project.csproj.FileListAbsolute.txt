@@ -378,6 +378,7 @@ C:\Users\AN\Desktop\New folder\Web.Net\web-net-\Web2023Project\bin\roslyn\vbc.ex
 C:\Users\AN\Desktop\New folder\Web.Net\web-net-\Web2023Project\bin\roslyn\vbc.rsp
 C:\Users\AN\Desktop\New folder\Web.Net\web-net-\Web2023Project\bin\roslyn\VBCSCompiler.exe
 C:\Users\AN\Desktop\New folder\Web.Net\web-net-\Web2023Project\bin\roslyn\VBCSCompiler.exe.config
+<<<<<<< Updated upstream
 C:\Users\AN\Desktop\New folder\Web.Net\web-net-\Web2023Project\bin\Google.Apis.Auth.dll
 C:\Users\AN\Desktop\New folder\Web.Net\web-net-\Web2023Project\bin\Google.Apis.Auth.PlatformServices.dll
 C:\Users\AN\Desktop\New folder\Web.Net\web-net-\Web2023Project\bin\Google.Apis.Core.dll
@@ -394,3 +395,29 @@ C:\Users\AN\Desktop\New folder\Web.Net\web-net-\Web2023Project\bin\Google.Apis.C
 C:\Users\AN\Desktop\New folder\Web.Net\web-net-\Web2023Project\bin\Google.Apis.Oauth2.v2.pdb
 C:\Users\AN\Desktop\New folder\Web.Net\web-net-\Web2023Project\bin\Google.Apis.Oauth2.v2.xml
 C:\Users\AN\Desktop\New folder\Web.Net\web-net-\Web2023Project\bin\System.CodeDom.xml
+=======
+D:\LT .NET_NLU\web-net-\Web2023Project\bin\EntityFramework.dll
+D:\LT .NET_NLU\web-net-\Web2023Project\bin\EntityFramework.SqlServer.dll
+D:\LT .NET_NLU\web-net-\Web2023Project\bin\System.Data.SQLite.dll
+D:\LT .NET_NLU\web-net-\Web2023Project\bin\System.Data.SQLite.EF6.dll
+D:\LT .NET_NLU\web-net-\Web2023Project\bin\System.Data.SQLite.Linq.dll
+D:\LT .NET_NLU\web-net-\Web2023Project\bin\EntityFramework.xml
+D:\LT .NET_NLU\web-net-\Web2023Project\bin\EntityFramework.SqlServer.xml
+D:\LT .NET_NLU\web-net-\Web2023Project\bin\System.Data.SQLite.xml
+>>>>>>> Stashed changes
+D:\LT .NET_NLU\web-net-\Web2023Project\bin\Google.Apis.Auth.dll
+D:\LT .NET_NLU\web-net-\Web2023Project\bin\Google.Apis.Auth.PlatformServices.dll
+D:\LT .NET_NLU\web-net-\Web2023Project\bin\Google.Apis.Core.dll
+D:\LT .NET_NLU\web-net-\Web2023Project\bin\Google.Apis.dll
+D:\LT .NET_NLU\web-net-\Web2023Project\bin\Google.Apis.Oauth2.v2.dll
+D:\LT .NET_NLU\web-net-\Web2023Project\bin\Google.Apis.PlatformServices.dll
+D:\LT .NET_NLU\web-net-\Web2023Project\bin\System.CodeDom.dll
+D:\LT .NET_NLU\web-net-\Web2023Project\bin\Google.Apis.pdb
+D:\LT .NET_NLU\web-net-\Web2023Project\bin\Google.Apis.xml
+D:\LT .NET_NLU\web-net-\Web2023Project\bin\Google.Apis.Auth.pdb
+D:\LT .NET_NLU\web-net-\Web2023Project\bin\Google.Apis.Auth.xml
+D:\LT .NET_NLU\web-net-\Web2023Project\bin\Google.Apis.Core.pdb
+D:\LT .NET_NLU\web-net-\Web2023Project\bin\Google.Apis.Core.xml
+D:\LT .NET_NLU\web-net-\Web2023Project\bin\Google.Apis.Oauth2.v2.pdb
+D:\LT .NET_NLU\web-net-\Web2023Project\bin\Google.Apis.Oauth2.v2.xml
+D:\LT .NET_NLU\web-net-\Web2023Project\bin\System.CodeDom.xml
