@@ -80,7 +80,7 @@ namespace Web2023Project.Website.Dao
               xa= diachi.Xa,
               huyen= diachi.Huyen,
               tinh= diachi.Tinh,
-              trangthai= diachi.Trangthai
+              trangthai= 1
             };
             using (HttpClient client = new HttpClient())
             {
