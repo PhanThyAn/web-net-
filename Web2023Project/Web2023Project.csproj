@@ -1701,6 +1701,7 @@
     <Content Include="Views\Home\Order_Success.cshtml" />
     <Content Include="Views\Home\UpdateAddress.cshtml" />
     <Content Include="Views\Home\FavoriteProduct.cshtml" />
+    <Content Include="Views\Home\Catogery.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Fonts\glyphicons-halflings-regular.woff2" />
