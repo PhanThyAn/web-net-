@@ -1282,6 +1282,7 @@
     <Content Include="Content\assets\css\footer.css" />
     <Content Include="Content\assets\css\header.css" />
     <Content Include="Content\assets\css\popup-forget-pass.css" />
+    <Content Include="Content\assets\css\sub-body.css" />
     <Content Include="Content\assets\fonts\font-awesome.min.css" />
     <Content Include="Content\assets\fonts\fontawesome-webfont.eot" />
     <Content Include="Content\assets\fonts\fontawesome-webfont.svg" />
@@ -1306,11 +1307,12 @@
     <Content Include="Content\assets\img\common\bg_menu.png" />
     <Content Include="Content\assets\img\common\logo-nsx\Huawei42-b_30.jpg" />
     <Content Include="Content\assets\img\common\logo-nsx\iPhone-(Apple)42-b_16.jpg" />
-    <Content Include="Content\assets\img\common\logo.png" />
     <Content Include="Content\assets\img\common\logo-nsx\OPPO42-b_57.jpg" />
     <Content Include="Content\assets\img\common\logo-nsx\Samsung42-b_25.jpg" />
     <Content Include="Content\assets\img\common\logo-nsx\Vivo42-b_50.jpg" />
     <Content Include="Content\assets\img\common\logo-nsx\Xiaomi42-b_31.png" />
+    <Content Include="Content\assets\img\common\logo-store.png" />
+    <Content Include="Content\assets\img\common\logo.png" />
     <Content Include="Content\assets\img\common\order-successful.jpg" />
     <Content Include="Content\assets\img\common\pattern_142.png" />
     <Content Include="Content\assets\img\news\asus-xiaomi.jpg" />

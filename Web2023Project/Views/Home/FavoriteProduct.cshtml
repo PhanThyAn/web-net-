@@ -28,7 +28,7 @@
                         @foreach (var p in Model)
                         {
                             <li>
-                                <a href="/Home/Product_Detail?tenviettat=@p.TenVietTat">
+                                <a href="#">
                                     @if (p.Hinhanhs != null && p.Hinhanhs.Count > 0)
                                     {
                                         <img src="@p.Hinhanhs.ToList()[0].Url" alt="images" style="width:auto;">

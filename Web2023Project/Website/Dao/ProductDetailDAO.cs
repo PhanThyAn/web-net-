@@ -17,9 +17,9 @@ namespace Web2023Project.Website.Dao
             this.api = "http://103.77.214.148/api/ShowSanpham";
         }
 
-        public async Task<ProductShow> GetProductByShortenWord(string tenviettat)
+        public async Task<ProductShow> GetProductByShortenWord(string tenviettat, string rom, string color)
         {
-            HttpResponseMessage response = await httpClient.GetAsync($"{api}/{tenviettat}");
+            HttpResponseMessage response = await httpClient.GetAsync($"{api}/{tenviettat}?rom={rom}?color={color}");
 
             if (response.IsSuccessStatusCode)
             {

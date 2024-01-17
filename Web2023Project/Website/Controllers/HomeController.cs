@@ -256,9 +256,9 @@ namespace Web2023Project.Controllers
             return View(image);
         }
 
-        public async Task<ActionResult> Product_Detail(string tenviettat)
+        public async Task<ActionResult> Product_Detail(string tenviettat, string rom, string color)
         {
-            ProductShow product = await productDetailDAO.GetProductByShortenWord(tenviettat);
+            ProductShow product = await productDetailDAO.GetProductByShortenWord(tenviettat, rom, color);
 
             if (product != null)
             {
@@ -268,6 +268,27 @@ namespace Web2023Project.Controllers
             else
             {
                 return View("Error");
+            }
+        }
+
+        public async Task<ActionResult> Classify(string dungLuong, string mauSp)
+        {
+            ProductShow pd = Session["productDetail"] as ProductShow;
+            ProductShow product = await productDetailDAO.GetProductByShortenWord(pd.TenVietTat, dungLuong, mauSp);
+
+            if (product != null)
+            {
+                Session.Add("productDetail", product);
+                return RedirectToAction("Product_Detail", "Home", new
+                {
+                    tenviettat = product.TenVietTat,
+                    rom = dungLuong,
+                    color = mauSp,
+                });
+            }
+            else
+            {
+                return View("Error404");
             }
         }
 
