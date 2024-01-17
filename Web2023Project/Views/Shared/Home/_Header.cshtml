@@ -123,9 +123,6 @@
             <div id="menu">
                 <ul class="list-menu d-flex" id="listNcc">
                     @{ string pd = Session["producer"] as string;
-
-<<<<<<< HEAD
-
                         <li class="@(pd != null && pd.Equals("iphone")?"active":"")">
                             <a href="/Home/SearchKey?key=iphone">
                                 <img src="/Content/assets/img/common/logo-nsx/iPhone-(Apple)42-b_16.jpg" alt="i-phone">
@@ -156,7 +153,6 @@
                                 <img src="/Content/assets/img/common/logo-nsx/Huawei42-b_30.jpg" alt="hua">
                             </a>
                         </li>
-=======
 @*
                         <li class="@(pd != null && pd.Equals("iphone") ? "active" : "")">
                             <a href="/Home/Category?cate=iphone">
@@ -188,7 +184,6 @@
                                 <img src="/Content/assets/img/common/logo-nsx/Huawei42-b_30.jpg" alt="hua">
                             </a>
                         </li>*@
->>>>>>> main
                     }
                 </ul>
             </div>
@@ -197,17 +192,12 @@
     <ul style="position: sticky;top: 8px;z-index: 100;margin-top: -97px;float: right;right: 145px;">
         <li id="cart">
             @{ Cart gh = Session["giohang"] as Cart;
-<<<<<<< HEAD
                 <a href="/Home/Cart"><i class="fa fa-shopping-cart"></i></a>
                 <span class="amount">@(gh!=null?gh.TotalItem():0)</span> }
-=======
-                <a href="/Home/Cart">
-                    <i class="fa fa-shopping-cart"></i>
-                </a>
+                
                 <span class="amount">
                     @(gh != null ? gh.TotalItem() : 0)
-                </span> }
->>>>>>> main
+                </span>
         </li>
     </ul>
     <script src="/Content/assets/js/search_key.js" type="text/javascript"></script>

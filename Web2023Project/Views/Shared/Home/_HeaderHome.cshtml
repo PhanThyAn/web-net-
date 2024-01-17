@@ -1,11 +1,8 @@
 ﻿@using Web2023Project.Website.Model
 @using Web2023Project.Model
-<<<<<<< HEAD
 @{
     Web2023Project.Models.Nguoidung member = Session["memberLogin"] as Web2023Project.Models.Nguoidung;
 }
-=======
->>>>>>> main
 <!DOCTYPE html>
 <html>
 <head>
@@ -125,12 +122,6 @@
             <div id="menu">
                 <ul class="list-menu d-flex" id="listNcc">
                     @{ string pd = Session["producer"] as string;
-
-<<<<<<< HEAD
-
-=======
-                       
->>>>>>> main
                         <li class="@(pd != null && pd.Equals("iphone")?"active":"")">
                             <a href="/Home/SearchKey?key=iphone">
                                 <img src="/Content/assets/img/common/logo-nsx/iPhone-(Apple)42-b_16.jpg" alt="i-phone">
