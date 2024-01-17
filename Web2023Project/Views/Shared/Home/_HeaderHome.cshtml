@@ -1,8 +1,11 @@
 ﻿@using Web2023Project.Website.Model
 @using Web2023Project.Model
+<<<<<<< HEAD
 @{
     Web2023Project.Models.Nguoidung member = Session["memberLogin"] as Web2023Project.Models.Nguoidung;
 }
+=======
+>>>>>>> main
 <!DOCTYPE html>
 <html>
 <head>
@@ -120,10 +123,14 @@
     <div id="menu-header">
         <div class="container">
             <div id="menu">
-                <ul class="list-menu d-flex">
+                <ul class="list-menu d-flex" id="listNcc">
                     @{ string pd = Session["producer"] as string;
 
+<<<<<<< HEAD
 
+=======
+                       
+>>>>>>> main
                         <li class="@(pd != null && pd.Equals("iphone")?"active":"")">
                             <a href="/Home/SearchKey?key=iphone">
                                 <img src="/Content/assets/img/common/logo-nsx/iPhone-(Apple)42-b_16.jpg" alt="i-phone">
@@ -289,6 +296,28 @@
         </div>
     </div>
     <!--back-to-top-->
+    <script>
+        
+        document.addEventListener("DOMContentLoaded", function () {
+            console.log(1)
+            // Sử dụng querySelectorAll để chọn tất cả các phần tử có ID là "form-change"
+
+            $.ajax({
+                type: "POST",
+                url: "/Home/loadNCC",
+                data: {},
+                success: function (result) {
+                    console.log(result)
+                    $("#listNcc").html(result);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+
+
+        });
+    </script>
 </body>
 
 </html>

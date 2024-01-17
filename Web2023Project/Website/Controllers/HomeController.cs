@@ -41,7 +41,8 @@ namespace Web2023Project.Controllers
             this.cartDAO = new CartDAO();
             this.favouriteDAO = new FavouriteDAO();
         }
-
+       
+     
         public ActionResult Index()
         {
             var model = new HomeViewModel();
@@ -765,11 +766,10 @@ namespace Web2023Project.Controllers
             string tinh = Request["tinh"];
             string phone = Request["phone"];
             string ghichu = Request["ghichu"];
-            string idDC = Request["idDC"];
-            string trangthai = Request["trangthai"];
+            string idDC = Request["idDC"];     
             Diachi n = new Diachi();
             n.Id = Int32.Parse(idDC);
-            n.Trangthai = sbyte.Parse(trangthai);
+            n.Trangthai = 1;
             n.Ghichu = ghichu;
             n.IdNd = member.Id;
             n.Ten = name;
@@ -862,7 +862,25 @@ namespace Web2023Project.Controllers
             }
             return View("Profile_User");
         }
-
+        public async Task<ActionResult> loadNCC()
+        {
+           
+                try
+                {
+                    // lấy ra danh sách sản phẩm dựa vào key đó
+                    // Gọi phương thức asynchronous và đợi kết quả
+                  
+                    Task<List<Nhacungcap>> task = LoginDao.getNhaCungCap();
+                    List<Nhacungcap> dsct_ncc = await task;
+                    return PartialView("Catogery", dsct_ncc);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+           
+            return null;
+        }
         public ActionResult Question()
         {
             return View();

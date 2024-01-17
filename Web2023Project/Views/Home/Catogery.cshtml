@@ -1,0 +1,10 @@
+@model List<Web2023Project.Models.Nhacungcap>
+
+@foreach (var p in Model)
+{
+   <li class="category">
+       <a href="/Home/SearchKey?key=@p.TenNcc">
+           <img src="@p.Diachi" alt="@p.TenNcc">
+       </a>
+   </li>
+}

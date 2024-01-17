@@ -114,6 +114,50 @@ namespace Web2023Project.Dao
             }
             return null;
         }
+        public static async Task<List<Nhacungcap>> getNhaCungCap()
+        {
+            String api = "http://103.77.214.148/api/Nhacungcaps";
+            using (HttpClient client = new HttpClient())
+            {
+                // gọi tới api 
+                HttpResponseMessage response = await client.GetAsync(api);
+                // nếu trả vè success
+                if (response.IsSuccessStatusCode)
+                {
+                    // đọc kết quả trả về
+                    string jsonResponse = await response.Content.ReadAsStringAsync();
+                    // chuyển dữ liệu thành 1 mảng obj
+                    JArray jsonArray = JArray.Parse(jsonResponse);
+                    List<Nhacungcap> resultList = new List<Nhacungcap>();
+                    // duyệt qua mảng obj
+                    foreach (JObject jsonObject in jsonArray)
+                    {
+                        string id = jsonObject["id"]?.ToString();
+                        string tenNcc = jsonObject["tenNcc"]?.ToString();
+                        string diachi = jsonObject["diachi"]?.ToString();
+                        string trangthai = jsonObject["trangthai"]?.ToString();
+                       
+
+                        Nhacungcap p = new Nhacungcap();
+                        p.Id = Int32.Parse(id);
+                        p.TenNcc = tenNcc;
+                        p.Diachi = diachi;
+                        sbyte status = 0;
+                        if(trangthai != null) { 
+                        p.Trangthai =  sbyte.Parse(trangthai);
+                        }
+                        else
+                        {
+                           p.Trangthai = status;
+                        }
+                        resultList.Add(p);
+                    }
+                    // In các thuộc tính khác tương tự
+                    return resultList;
+                }
+            }
+            return null;
+        }
         public static async Task<Nguoidung> login(string taikhoan, string matkhau)
             {
                 String api = "http://103.77.214.148/api/Login";
