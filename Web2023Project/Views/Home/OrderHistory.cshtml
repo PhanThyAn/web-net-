@@ -1,0 +1,47 @@
+﻿@model PagedList.IPagedList<Web2023Project.Models.Donhang>
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "Đơn hàng của tôi";
+
+    Layout = "~/Views/Shared/Home/_HeaderHome.cshtml";
+}
+
+<section id="body">
+    <div id="products">
+        <div class="container wrapper">
+            <div id="main-products">
+                <div>
+                    <h1>Đơn hàng của tôi</h1>
+                    <ul class="order-history">
+                        @foreach (var od in Model)
+                        {
+                            <li class="order">
+                                <div class="order-details">
+                                    <div class="product">
+                                        <div class="product-details">
+                                            <div class="product-name mb-3">Mã đơn hàng: #@od.Id</div>
+                                            <div class="product-quantity mb-3">Ngày đặt hàng: @od.Ngaydathang</div>
+                                        </div>
+                                        <div class="product-details">
+                                            <div class="product-price">
+                                                <span style="color: #333; font-size: 14px">Tổng tiền: </span>@string.Format("{0:0,0}", od.Tongtien) đ
+                                            </div>
+                                            <div class="button-more">
+                                                <button onclick="return location.href='OrderDetail?userId=@od.IdNd&orderId=@od.Id'" type="button" class="btn btn-success">Xem thêm</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+
+                    <div class="pagination-container">
+                        @Html.PagedListPager(Model, page => Url.Action("OrderHistory", new { userId = Model.FirstOrDefault()?.IdNd, page }))
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

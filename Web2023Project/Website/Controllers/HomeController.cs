@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,6 +32,7 @@ namespace Web2023Project.Controllers
         private readonly CommentDAO commentDAO;
         private readonly CartDAO cartDAO;
         private readonly FavouriteDAO favouriteDAO;
+        private readonly Website.Dao.OrderDAO orderDAO;
 
         public HomeController()
         {
@@ -40,6 +42,7 @@ namespace Web2023Project.Controllers
             this.commentDAO = new CommentDAO();
             this.cartDAO = new CartDAO();
             this.favouriteDAO = new FavouriteDAO();
+            this.orderDAO = new Website.Dao.OrderDAO();
         }
        
      
@@ -113,10 +116,10 @@ namespace Web2023Project.Controllers
         [HttpPost]
         public async Task<ActionResult>  Register(string password, string c_password, string name, string gender, string email, string phone)
         {
-
+            
             if (ModelState.IsValid)
             {
-                
+                Session.Add("nd", password + name + gender + email + phone);
                 Nguoidung nguoidung = await LoginDao.register( password,  name, Int32.Parse(gender) ,  email,  phone);
                 if (nguoidung != null)
                 {
@@ -133,7 +136,7 @@ namespace Web2023Project.Controllers
             }
             else
             {
-                return RedirectToAction("Register");
+                return RedirectToAction("Login");
             }
         }
         [HttpPost]
@@ -256,9 +259,9 @@ namespace Web2023Project.Controllers
             return View(image);
         }
 
-        public async Task<ActionResult> Product_Detail(string tenviettat)
+        public async Task<ActionResult> Product_Detail(string tenviettat, string rom, string color)
         {
-            ProductShow product = await productDetailDAO.GetProductByShortenWord(tenviettat);
+            ProductShow product = await productDetailDAO.GetProductByShortenWord(tenviettat, rom, color);
 
             if (product != null)
             {
@@ -267,7 +270,28 @@ namespace Web2023Project.Controllers
             }
             else
             {
-                return View("Error");
+                return View("Error404");
+            }
+        }
+
+        public async Task<ActionResult> Classify(string dungLuong, string mauSp)
+        {
+            ProductShow pd = Session["productDetail"] as ProductShow;
+            ProductShow product = await productDetailDAO.GetProductByShortenWord(pd.TenVietTat, dungLuong, mauSp);
+
+            if (product != null)
+            {
+                Session.Add("productDetail", product);
+                return RedirectToAction("Product_Detail", "Home", new
+                {
+                    tenviettat = product.TenVietTat,
+                    rom = dungLuong,
+                    color = mauSp,
+                });
+            }
+            else
+            {
+                return View("Error404");
             }
         }
 
@@ -660,6 +684,38 @@ namespace Web2023Project.Controllers
             }
 
             return View("Order_Success");
+        }
+
+        public async Task<ActionResult> OrderHistory(int userId, int? page)
+        {
+            int pageSize = 5;
+            int pageNumber = page ?? 1;
+
+            List<Donhang> orders = await orderDAO.GetOrderByUserId(userId);
+
+            if (orders != null)
+            {
+                var pagedOrders = orders.ToPagedList(pageNumber, pageSize);
+                Session.Add("orders", orders);
+                return View(pagedOrders);
+            }
+            return View("Error404");
+        }
+
+
+        public async Task<ActionResult> OrderDetail(int userId, int orderId, int? page)
+        {
+            int pageSize = 5;
+            int pageNumber = page ?? 1;
+
+            List<Donhang> orders = await orderDAO.GetOrderDetailById(userId, orderId);
+
+            if (orders != null)
+            {
+                var pagedOrders = orders.ToPagedList(pageNumber, pageSize);
+                return View(pagedOrders);
+            }
+            return View("Error404");
         }
 
         public ActionResult Profile_User()

@@ -2,7 +2,7 @@
 @model Web2023Project.Models.ProductShow
 
 @{
-    ViewBag.Title = @Model.ThongTin.TenSp + " | S-Phones";
+    ViewBag.Title = @Model.ThongTin.TenSp + " | ANNNP-Phones";
     Layout = "~/Views/Shared/Home/_Header.cshtml";
 }
 <section id="body">
@@ -12,12 +12,37 @@
                 <div class="img-products" style="width: 50%">
                     @foreach (var hinhanh in Model.ThongTin.Hinhanhs)
                     {
-                        <img src="@hinhanh.Url" alt="image" />
+                        <img src="@hinhanh.Url" alt="image" title="@Model.ThongTin.TenSp" />
                     }
                 </div>
                 <div class="detail-products">
+                    <div>
+                        <div id="phanLoaiContainer">
+                            @foreach (var dungLuong in Model.PhanLoai.Select(item => item.DungLuong).Distinct())
+                            {
+                                <a href="@Url.Action("Classify", "Home", new { dungLuong = dungLuong, mauSp = Model.ThongTin.MauSanPham })"
+                                   data-dungluong="@dungLuong"
+                                   class="box03__item item @(dungLuong.Equals(Model.ThongTin.DungLuong) ? "act" : "")"
+                                   onclick="toggleActiveClass(this, '@dungLuong', null)">
+                                    @dungLuong
+                                </a>
+                            }
+                        </div>
+
+                        <div style="margin-top: 10px" id="mauSanPhamContainer">
+                            @foreach (var mauSanPham in Model.PhanLoai.Select(item => item.MauSanPham).Distinct())
+                            {
+                                <a href="@Url.Action("Classify", "Home", new { dungLuong = Model.ThongTin.DungLuong, mauSp = mauSanPham })"
+                                   data-mausanpham="@mauSanPham"
+                                   class="box03__item item @(mauSanPham.Equals(Model.ThongTin.MauSanPham) ? "act" : "")"
+                                   onclick="toggleActiveClass(this, null, '@mauSanPham')">
+                                    @mauSanPham
+                                </a>
+                            }
+                        </div>
+                    </div>
                     <div class="title-top">
-                        <h3>
+                        <h3 style="margin-top: 10px">
                             @Model.ThongTin.TenSp
                         </h3>
                         <div class="d-flex">
@@ -62,29 +87,29 @@
                             }
                             @if (nd != null)
                             {
-                            <button onclick="return location.href='AddToFavorites'"
-                                    class="btn_buynow" style="background-color: lightsalmon">
-                                Thêm vào yêu thích
-                            </button>
+                                <button onclick="return location.href='AddToFavorites'"
+                                        class="btn_buynow" style="background-color: lightsalmon">
+                                    Thêm vào yêu thích
+                                </button>
                             }
                             else
                             {
-                            <button data-toggle="modal" data-target="#modal-cmt" type="button" id="post" class="btn_buynow" style="background-color: lightsalmon">Thêm vào yêu thích</button>
-                            <div id="modal-cmt" class="modal fade modal-confirm" role="dialog">
-                                <div class="modal-dialog modal-sm">
-                                    <!-- Modal content-->
-                                    <div class="modal-content">
-                                        <div class="modal-body">
-                                            <p class="text-content">Đăng nhập để tiếp tục bình luận!</p>
-                                        </div>
-                                        <div class="modal-footer">
+                                <button data-toggle="modal" data-target="#modal-cmt" type="button" id="post" class="btn_buynow" style="background-color: lightsalmon">Thêm vào yêu thích</button>
+                                <div id="modal-cmt" class="modal fade modal-confirm" role="dialog">
+                                    <div class="modal-dialog modal-sm">
+                                        <!-- Modal content-->
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <p class="text-content">Đăng nhập để tiếp tục bình luận!</p>
+                                            </div>
+                                            <div class="modal-footer">
 
-                                            <button type="button" onclick="return location.href='/Home/Login'" class="btn-cf">Đăng nhập</button>
-                                            <button type="button" class="tbn-cancle" data-dismiss="modal">Hủy</button>
+                                                <button type="button" onclick="return location.href='/Home/Login'" class="btn-cf">Đăng nhập</button>
+                                                <button type="button" class="tbn-cancle" data-dismiss="modal">Hủy</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                             }
                         </div>
 
@@ -178,7 +203,7 @@
                             <a href="#">
                                 @foreach (var hinhanh in Model.ThongTin.Hinhanhs)
                                 {
-                                    <img src="@hinhanh.Url" alt="image" width="200" height="100" />
+                                    <img src="@hinhanh.Url" alt="image" title="@Model.ThongTin.TenSp" width="200" height="100" />
                                 }
                             </a>
                             <h6>
@@ -253,12 +278,34 @@
             </div>
         </div>
     </div>
+
     <script src="/Content/assets/js/addToCart_AJAX2.js" type="text/javascript"></script>
+
     <script>
         function calcRate(r) {
             const f = ~~r,//Tương tự Math.floor(r)
                 id = 'star' + f + (r % f ? 'half' : '')
             id && (document.getElementById(id).checked = !0)
+        }
+    </script>
+
+    <script>
+        function toggleActiveClass(element, dungLuong, mauSanPham) {
+            var index;
+
+            if (dungLuong !== null) {
+                index = element.getAttribute('data-dungluong');
+            } else {
+                index = element.getAttribute('data-mausanpham');
+            }
+
+            var elements = document.querySelectorAll('[data-dungluong="' + dungLuong + '"][data-mausanpham="' + mauSanPham + '"]');
+
+            elements.forEach(function (el) {
+                el.classList.remove('act');
+            });
+
+            element.classList.add('act');
         }
     </script>
 </section>

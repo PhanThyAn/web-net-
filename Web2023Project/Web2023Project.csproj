@@ -70,6 +70,12 @@
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.CodeDom, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.CodeDom.7.0.0\lib\net462\System.CodeDom.dll</HintPath>
@@ -185,14 +191,13 @@
     <Compile Include="Models\MemberFilter.cs" />
     <Compile Include="Models\Image.cs" />
     <Compile Include="Models\NhaCungCap.cs" />
+    <Compile Include="Models\ProductDetail.cs" />
     <Compile Include="Models\ProductShow.cs" />
     <Compile Include="Models\Yeuthich.cs" />
     <Compile Include="Models\Techinical.cs" />
     <Compile Include="Models\Nguoidung.cs" />
-    <Compile Include="Models\ProductDetail.cs" />
     <Compile Include="Models\CartDB.cs" />
     <Compile Include="Models\Producer.cs" />
-    <Compile Include="Models\Product.cs" />
     <Compile Include="Models\Member.cs" />
     <Compile Include="Models\Sanphams.cs" />
     <Compile Include="Models\Role.cs" />
@@ -209,6 +214,7 @@
     <Compile Include="Website\Dao\CommentDAO.cs" />
     <Compile Include="Website\Dao\MyViewModel.cs" />
     <Compile Include="Website\Dao\HomeViewModel.cs" />
+    <Compile Include="Website\Dao\OrderDAO.cs" />
     <Compile Include="Website\Dao\ProductDetailDAO.cs" />
     <Compile Include="Website\Dao\ProductDAO.cs" />
     <Compile Include="Website\Dao\SearchDAO.cs" />
@@ -1282,6 +1288,7 @@
     <Content Include="Content\assets\css\footer.css" />
     <Content Include="Content\assets\css\header.css" />
     <Content Include="Content\assets\css\popup-forget-pass.css" />
+    <Content Include="Content\assets\css\sub-body.css" />
     <Content Include="Content\assets\fonts\font-awesome.min.css" />
     <Content Include="Content\assets\fonts\fontawesome-webfont.eot" />
     <Content Include="Content\assets\fonts\fontawesome-webfont.svg" />
@@ -1306,11 +1313,12 @@
     <Content Include="Content\assets\img\common\bg_menu.png" />
     <Content Include="Content\assets\img\common\logo-nsx\Huawei42-b_30.jpg" />
     <Content Include="Content\assets\img\common\logo-nsx\iPhone-(Apple)42-b_16.jpg" />
-    <Content Include="Content\assets\img\common\logo.png" />
     <Content Include="Content\assets\img\common\logo-nsx\OPPO42-b_57.jpg" />
     <Content Include="Content\assets\img\common\logo-nsx\Samsung42-b_25.jpg" />
     <Content Include="Content\assets\img\common\logo-nsx\Vivo42-b_50.jpg" />
     <Content Include="Content\assets\img\common\logo-nsx\Xiaomi42-b_31.png" />
+    <Content Include="Content\assets\img\common\logo-store.png" />
+    <Content Include="Content\assets\img\common\logo.png" />
     <Content Include="Content\assets\img\common\order-successful.jpg" />
     <Content Include="Content\assets\img\common\pattern_142.png" />
     <Content Include="Content\assets\img\news\asus-xiaomi.jpg" />
@@ -1626,6 +1634,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="Data\images\Data\78817125_811944709263736_2840465046272737280_n.jpg" />
     <Content Include="Data\images\Data\Step1.jpg" />
     <Content Include="Data\_thumbs\Images\Data\78817125_811944709263736_2840465046272737280_n.jpg" />
@@ -1634,6 +1643,7 @@
     <Content Include="Fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Compile Include="Models\Product.cs" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="..\.editorconfig">
@@ -1661,7 +1671,6 @@
     <Content Include="Views\Home\Guarentee.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\Product.cshtml" />
-    <Content Include="Views\Home\Product_Detail.cshtml" />
     <Content Include="Views\Home\Profile_User.cshtml" />
     <Content Include="Views\Home\Question.cshtml" />
     <Content Include="Views\Home\Register.cshtml" />
@@ -1702,6 +1711,9 @@
     <Content Include="Views\Home\UpdateAddress.cshtml" />
     <Content Include="Views\Home\FavoriteProduct.cshtml" />
     <Content Include="Views\Home\Catogery.cshtml" />
+    <Content Include="Views\Home\OrderHistory.cshtml" />
+    <Content Include="Views\Home\OrderDetail.cshtml" />
+    <Content Include="Views\Home\Product_Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Fonts\glyphicons-halflings-regular.woff2" />

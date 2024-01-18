@@ -1,0 +1,50 @@
+﻿@model PagedList.IPagedList<Web2023Project.Models.Donhang>
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "Đơn hàng của tôi";
+
+    Layout = "~/Views/Shared/Home/_HeaderHome.cshtml";
+}
+
+<section id="body">
+    <div id="products">
+        <div class="container wrapper">
+            <div id="main-products">
+                <div>
+                    <h1>Đơn hàng của tôi</h1>
+                    <ul class="order-history">
+                        @foreach (var od in Model)
+                        {
+                            <li class="order">
+                                <div class="order-details">
+                                    @foreach (var odd in od.Chitietdonhangs)
+                                    {
+                                        if (odd.IdDh == od.Id)
+                                        {
+                                            <div class="product">
+                                                @foreach (var hinhanh in odd.IdSpNavigation.Hinhanhs)
+                                                {
+                                                    <img src="@hinhanh.Url" alt="@odd.IdSpNavigation.TenSp" class="product-image" width="50" height="50" />
+                                                }
+                                                <div class="product-details">
+                                                    <div class="product-name">@odd.IdSpNavigation.TenSp</div>
+                                                    <div class="product-quantity">Số lượng: @odd.Soluong</div>
+                                                </div>
+                                                <div class="product-price">@string.Format("{0:0,0}", odd.Dongia) đ</div>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                            </li>
+                        }
+                    </ul>
+
+                    <div class="pagination-container">
+                        @Html.PagedListPager(Model, page => Url.Action("OrderHistory", new { userId = Model.FirstOrDefault()?.IdNd, page }))
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

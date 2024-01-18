@@ -32,7 +32,12 @@
                     <option value="0">Nữ</option>
                     }
                 </select>
+                @{
+                    string err_login = Session["nd"] as string;
 
+                }
+                <span class="err-mail"> @err_login</span>
+                
 
                 <button id="confirm-btn" type="submit">TẠO TÀI KHOẢN</button>
                 @{
@@ -44,6 +49,5 @@
         </div>
     </div>
 </section>
-
-
 <script src="/Content/assets/js/validation-form/vali-form.js"></script>
+
