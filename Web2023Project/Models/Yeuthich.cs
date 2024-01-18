@@ -13,7 +13,7 @@ namespace Web2023Project.Models
 
         public int IdSp { get; set; }
 
-        public string Ngaytao { get; set; }
+        public DateTime Ngaytao { get; set; }
 
         public virtual Nguoidung IdNdNavigation { get; set; }
 
