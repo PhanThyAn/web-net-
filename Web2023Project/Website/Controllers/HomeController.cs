@@ -1,7 +1,9 @@
-﻿using PagedList;
+﻿using MySqlX.XDevAPI;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -294,51 +296,57 @@ namespace Web2023Project.Controllers
                 return View("Error404");
             }
         }
-
-        public ActionResult FavoriteProduct()
+        
+        public ActionResult FavoriteProduct(int? page)
         {
-            Nguoidung member = Session["memberLogin"] as Nguoidung;
+        int pageSize = 8;
+        int pageNumber = page ?? 1;
+        var sessionManager = Session["favorite"] as FavouriteDAO;
 
-            if (member != null)
+            if (sessionManager != null)
             {
-                List<Sanphams> favoriteProducts = favouriteDAO.GetFavoriteProducts(member.Id);
-                Session["favorite"] = favoriteProducts;
-
-                Session["addedToFavorites"] = false;
-
+                List<Yeuthich> favoriteProducts = sessionManager.GetFavoriteProducts();
+                var pagedFavorites = favoriteProducts.ToPagedList(pageNumber, pageSize);
+                Session.Add("favorites", pagedFavorites);
                 return View(favoriteProducts);
             }
 
-            return RedirectToAction("Error404");
+            return RedirectToAction("Index");
         }
 
         public ActionResult AddToFavorites()
         {
-            Yeuthich favoriteProduct = new Yeuthich();
-            Sanphams sanpham = new Sanphams();
             Nguoidung member = Session["memberLogin"] as Nguoidung;
             ProductShow product = Session["productDetail"] as ProductShow;
 
             if (member != null && product != null)
             {
-                favoriteProduct.IdNd = member.Id;
-                favoriteProduct.IdSp = product.ThongTin.Id;
+                string imageUrl = product.ThongTin.Hinhanhs?.FirstOrDefault()?.Url ?? "https://m.media-amazon.com/images/I/71d7rfSl0wL._AC_SX466_.jpg";
 
-                sanpham.Id = product.ThongTin.Id;
-                sanpham.TenSp = product.ThongTin.TenSp;
-                sanpham.GiaGoc = product.ThongTin.GiaGoc;
-                sanpham.GiaDagiam = product.ThongTin.GiaDagiam;
-
-                foreach (var pd in product.ThongTin.Hinhanhs)
+                Yeuthich favoriteProduct = new Yeuthich
                 {
-                    foreach (var sp in sanpham.Hinhanhs)
+                    IdNd = member.Id,
+                    IdSp = product.ThongTin.Id,
+                    IdNdNavigation = member,
+                    IdSpNavigation = new Sanphams
                     {
-                        sp.Url = pd.Url;
+                        Id = product.ThongTin.Id,
+                        TenSp = product.ThongTin.TenSp,
+                        GiaGoc = product.ThongTin.GiaGoc,
+                        GiaDagiam = product.ThongTin.GiaDagiam,
+                        Hinhanhs = new List<Hinhanh> { new Hinhanh { Url = imageUrl } }
                     }
+                };
+
+                var sessionManager = Session["favorite"] as FavouriteDAO;
+
+                if (sessionManager == null)
+                {
+                    sessionManager = new FavouriteDAO();
+                    Session["favorite"] = sessionManager;
                 }
 
-                favouriteDAO.AddProduct(sanpham);
-                favouriteDAO.AddFavoriteProduct(favoriteProduct);
+                sessionManager.AddFavoriteProduct(favoriteProduct);
 
                 Session["addedToFavorites"] = true;
 
