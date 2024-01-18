@@ -342,60 +342,63 @@ namespace Web2023Project.Controllers
 			}
 		}
 
-		public ActionResult FavoriteProduct()
-		{
-			Nguoidung member = Session["memberLogin"] as Nguoidung;
+        public ActionResult FavoriteProduct()
+        {
+            var sessionManager = Session["favorite"] as FavouriteDAO;
 
-			if (member != null)
-			{
-				List<Sanphams> favoriteProducts = favouriteDAO.GetFavoriteProducts(member.Id);
-				Session["favorite"] = favoriteProducts;
+            if (sessionManager != null)
+            {
+                List<Yeuthich> favoriteProducts = sessionManager.GetFavoriteProducts();
 
-				Session["addedToFavorites"] = false;
+                return View(favoriteProducts);
+            }
 
-				return View(favoriteProducts);
-			}
+            return RedirectToAction("Index");
+        }
 
-			return RedirectToAction("Error404");
-		}
+        public ActionResult AddToFavorites()
+        {
+            Nguoidung member = Session["memberLogin"] as Nguoidung;
+            ProductShow product = Session["productDetail"] as ProductShow;
 
-		public ActionResult AddToFavorites()
-		{
-			Yeuthich favoriteProduct = new Yeuthich();
-			Sanphams sanpham = new Sanphams();
-			Nguoidung member = Session["memberLogin"] as Nguoidung;
-			ProductShow product = Session["productDetail"] as ProductShow;
+            if (member != null && product != null)
+            {
+                string imageUrl = product.ThongTin.Hinhanhs?.FirstOrDefault()?.Url ?? "https://m.media-amazon.com/images/I/71d7rfSl0wL._AC_SX466_.jpg";
 
-			if (member != null && product != null)
-			{
-				favoriteProduct.IdNd = member.Id;
-				favoriteProduct.IdSp = product.ThongTin.Id;
+                Yeuthich favoriteProduct = new Yeuthich
+                {
+                    IdNd = member.Id,
+                    IdSp = product.ThongTin.Id,
+                    IdNdNavigation = member,
+                    IdSpNavigation = new Sanphams
+                    {
+                        Id = product.ThongTin.Id,
+                        TenSp = product.ThongTin.TenSp,
+                        GiaGoc = product.ThongTin.GiaGoc,
+                        GiaDagiam = product.ThongTin.GiaDagiam,
+                        Hinhanhs = new List<Hinhanh> { new Hinhanh { Url = imageUrl } }
+                    }
+                };
 
-				sanpham.Id = product.ThongTin.Id;
-				sanpham.TenSp = product.ThongTin.TenSp;
-				sanpham.GiaGoc = product.ThongTin.GiaGoc;
-				sanpham.GiaDagiam = product.ThongTin.GiaDagiam;
+                var sessionManager = Session["favorite"] as FavouriteDAO;
 
-				foreach (var pd in product.ThongTin.Hinhanhs)
-				{
-					foreach (var sp in sanpham.Hinhanhs)
-					{
-						sp.Url = pd.Url;
-					}
-				}
+                if (sessionManager == null)
+                {
+                    sessionManager = new FavouriteDAO();
+                    Session["favorite"] = sessionManager;
+                }
 
-				favouriteDAO.AddProduct(sanpham);
-				favouriteDAO.AddFavoriteProduct(favoriteProduct);
+                sessionManager.AddFavoriteProduct(favoriteProduct);
 
-				Session["addedToFavorites"] = true;
+                Session["addedToFavorites"] = true;
 
-				return RedirectToAction("FavoriteProduct");
-			}
+                return RedirectToAction("FavoriteProduct");
+            }
 
-			return RedirectToAction("Index");
-		}
+            return RedirectToAction("Index");
+        }
 
-		public ActionResult ViewFavorites()
+        public ActionResult ViewFavorites()
 		{
 			Nguoidung member = Session["memberLogin"] as Nguoidung;
 			ProductShow product = Session["productDetail"] as ProductShow;

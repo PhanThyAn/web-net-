@@ -20,10 +20,41 @@
                                 <div class="order-details">
                                     <div class="product">
                                         <div class="product-details">
+                                            @if (od.Trangthai == 0)
+                                            {
+                                                <div class="product-name mb-3" style="font-size: 15px; color: red">
+                                                    <i class="fa fa-truck"></i> Đã hủy
+                                                </div>
+                                            }
+                                            else if (od.Trangthai == 1)
+                                            {
+                                                <div class="product-name mb-3" style="font-size: 15px; color: orange">
+                                                    <i class="fa fa-truck"></i> Đã đặt hàng
+                                                </div>
+                                            }
+                                            else if (od.Trangthai == 2)
+                                            {
+                                                <div class="product-name mb-3" style="font-size: 15px; color: darkviolet">
+                                                    <i class="fa fa-truck"></i> Đã xác nhận đơn hàng
+                                                </div>
+                                            }
+                                            else if (od.Trangthai == 3)
+                                            {
+                                                <div class="product-name mb-3" style="font-size: 15px; color: blue">
+                                                    <i class="fa fa-truck"></i> Đang vận chuyển
+                                                </div>
+                                            }
+                                            else if (od.Trangthai == 4)
+                                            {
+                                                <div class="product-name mb-3" style="font-size: 15px; color: green">
+                                                    <i class="fa fa-truck"></i> Đã thanh toán
+                                                </div>
+                                            }
                                             <div class="product-name mb-3">Mã đơn hàng: #@od.Id</div>
                                             <div class="product-quantity mb-3">Ngày đặt hàng: @od.Ngaydathang</div>
                                         </div>
                                         <div class="product-details">
+                                            <div class="product-price"></div>
                                             <div class="product-price">
                                                 <span style="color: #333; font-size: 14px">Tổng tiền: </span>@string.Format("{0:0,0}", od.Tongtien) đ
                                             </div>
