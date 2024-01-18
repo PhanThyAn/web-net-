@@ -1,9 +1,22 @@
-﻿@model Web2023Project.Model.Producer
-
-@{
+﻿@{
     @ViewBag.Title
     Layout = "~/Views/Shared/Admin/_FramesFull.cshtml";
 
+}
+@section jsFooter{
+    <script>
+        $('#picture').on('click', function (e) {
+            e.preventDefault();
+            var finder = new CKFinder();
+            finder.selectActionFunction = function (url) {
+                $('#picture').val(url);
+            };
+            finder.popup();
+        });
+        var editor = CKEDITOR.replace('content', {
+            customConfig: '/Content/assets/ckeditor/config.js'
+        })
+    </script>
 }
 <div id="page-wrapper">
     <div class="container-fluid">
@@ -41,24 +54,32 @@
                             <form id="form-validate" class="form-style" action="/Producer/Producer_Update"
                                   method="post">
                                 <input type="hidden" name="action" value="edit">
+                                <input type="hidden" id="producerID" name="producerID" value="@Model.Id">
                                 <ul class="row">
-                                    @* <!--                                        <%  String ma_ncc = request.getParameter("id-producer");--> *@
-                                    @* <!--                                            String ten_ncc = request.getParameter("name-producer");--> *@
-                                    @* <!--                                            String diachi_ncc = request.getParameter("producerAddress");%>--> *@
                                     <li class="row">
                                         <div class="col-sm-4 col-xs-6">
-                                            <input type="text" id="producerID" name="producerID" value="@Model.ProducerId">
-                                            <input type="hidden" name="producerID_temp" value="@Model.ProducerId">
-                                            <label for="producerID">Mã nhà cung cấp<span>*</span></label>
-                                        </div>
-                                        <div class="col-sm-4 col-xs-6">
-                                            <input type="text" id="producerName" name="producerName" value="@Model.ProducerName">-
-                                            <input type="hidden" name="producerName_temp" value="@Model.ProducerName">
+                                            <input type="text" id="producerName" name="producerName" value="@Model.TenNcc">
                                             <label for="producerName">Tên nhà cung cấp<span>*</span></label>
                                         </div>
                                         <div class="col-sm-4 col-xs-6">
-                                            <input type="text" id="producerAddress" name="producerAddress" value="@Model.ProducerAddress">
-                                            <label for="producerAddress">Địa chỉ<span>*</span></label>
+                                            <input type="text" id="picture" name="picture" placeholder="Chọn ảnh..."
+                                                   value="@Model.Diachi">
+                                            <label for="producerAddress">Hình ảnh<span>*</span></label>
+                                        </div>
+                                        <div class="col-sm-2 col-xs-6">
+                                            <select id="producerStatus" name="producerStatus">
+                                                @if (Model.Trangthai == 1)
+                                                {
+                                                    <option value="1">Mở</option>
+                                                    <option value="0">Ẩn</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="0">Ẩn</option>
+                                                    <option value="1">Mở</option>
+                                                }
+                                            </select>
+                                            <label for="status" class="level-span">Trạng thái</label>
                                         </div>
                                     </li>
                                 </ul>

@@ -1,4 +1,4 @@
-﻿@model Web2023Project.Model.Member
+﻿
 @{
     @ViewBag.Title
     Layout = "~/Views/Shared/Admin/_FramesFull.cshtml";
@@ -36,52 +36,47 @@
                     </div>
                     <div class="panel-body">
                         <div id="update" class="like-form">
-                            <form id="form-validate" class="form-style"
-                                  action="/Account/Account_Manage" method="post">
+                            <form class="form-style" action="/Account/Account_Update" method="post" id="form-validate">
                                 <input type="hidden" name="action" value="edit">
+                                <input type="hidden" name="id" value="@Model.Id">
                                 <ul class="row">
                                     <li class="row">
-                                        <input type="hidden" name="userName" value="@Model.UserName">
                                         <div class="col-sm-4 col-xs-6">
+                                            <input type="text" id="email" name="email"
+                                                   value="@Model.Email">
+                                            <label for="email">Email<span>*</span></label>
+                                        </div>
+                                        <input type="hidden" id="password" name="password"
+                                               value="@Model.Matkhau">
+                                        <div class="col-sm-3 col-xs-6">
                                             <input type="text" id="name" name="name"
-                                                   value="@Model.Name">
+                                                   value="@Model.Ten">
                                             <label for="name">Họ tên<span>*</span></label>
                                         </div>
                                         <div class="col-sm-2 col-xs-6">
                                             <select id="gender" name="gender">
-                                                @if (Model.Gender.Equals("Nam"))
+                                                @if (Model.Gioitinh == 0)
                                                 {
-                                                    <option value="Nam">Nam</option>
-                                                    <option value="Nữ">Nữ</option>
+                                                    <option value="0">Nam</option>
+                                                    <option value="1">Nữ</option>
                                                 }
                                                 else
                                                 {
-                                                    <option value="Nữ">Nữ</option>
-                                                    <option value="Nam">Nam</option>
+                                                    <option value="0">Nữ</option>
+                                                    <option value="1">Nam</option>
                                                 }
                                             </select>
                                             <label for="gender" class="level-span">Giới tính</label>
                                         </div>
                                         <div class="col-sm-3 col-xs-6">
-                                            <input type="text" id="email" name="email"
-                                                   value="@Model.Email">
-                                            <input type="hidden" name="email_temp" value="@Model.Email">
-                                            <label for="email">Email<span>*</span></label>
-                                        </div>
-                                        <div class="col-sm-3 col-xs-6">
-                                            <input type="number" id="phone" name="phone" value="@Model.Phone">
+                                            <input type="number" id="phone" name="phone" value="@Model.Sdt">
                                             <label for="phone">Điện thoại<span>*</span></label>
                                         </div>
                                     </li>
                                     <li class="row">
-                                        <div class="col-sm-10 col-xs-6">
-                                            <input type="text" id="address" name="address"
-                                                   value="@Model.Address">
-                                            <label for="address">Địa chỉ</label>
-                                        </div>
                                         <div class="col-sm-2 col-xs-6">
                                             <select id="level" name="level">
-                                                @if (Model.Level == 0)
+                                                @if (Model.Quyen == 0)
                                                 {
                                                     <option value="0">User</option>
                                                     <option value="1">Admin</option>
@@ -94,7 +89,6 @@
                                             </select>
                                             <label for="level" class="level-span">Level</label>
                                         </div>
-
                                     </li>
                                 </ul>
                                 <div class="btn-submit">
@@ -102,7 +96,8 @@
                                     <button type="submit" id="update-btn">
                                         <i class="fa fa-pencil-square-o fa-fw"
                                            aria-hidden="true">
-                                        </i>Cập nhật
+                                        </i>
+                                        Cập nhật
                                     </button>
                                 </div>
                             </form>
@@ -113,3 +108,18 @@
         </div>
     </div>
 </div>
+@*<script>
+        document.getElementById('form-validate').addEventListener('submit', function (e) {
+            // Kiểm tra điều kiện trước khi ngăn chặn mặc định
+            if (!document.getElementById('update-btn').classList.contains('disablePreventDefault')) {
+                e.preventDefault();
+            }
+        });
+
+        document.getElementById('update-btn').addEventListener('click', function (e) {
+            console.log('Nút "Cập nhật" được nhấn!');
+            // Thêm class để chỉ định rằng không nên ngăn chặn mặc định trong sự kiện submit
+            this.classList.add('disablePreventDefault');
+        });
+
+    </script>*@

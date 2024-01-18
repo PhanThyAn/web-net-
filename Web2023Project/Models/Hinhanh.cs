@@ -14,5 +14,20 @@ namespace Web2023Project.Models
 
         public virtual Sanphams IdSpNavigation { get; set; }
 
-    }
+		public Hinhanh()
+		{
+		}
+
+		public Hinhanh(int idSp, string url)
+		{
+			IdSp = idSp;
+			Url = url;
+		}
+		public Hinhanh(int id, int? idSp, string url)
+		{
+			Id = id;
+			IdSp = idSp;
+			Url = url;
+		}
+	}
 }
