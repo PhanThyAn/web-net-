@@ -25,5 +25,16 @@ namespace Web2023Project.Models
         public virtual Diachi IdDcNavigation { get; set; }
 
         public virtual Nguoidung IdNdNavigation { get; set; }
-    }
+		public Donhang()
+		{
+
+		}
+		public Donhang(int? idNd, int? idDc, double? tongTien, sbyte? trangThai)
+		{
+			IdNd = idNd;
+			IdDc = idDc;
+			Tongtien = tongTien;
+			Trangthai = trangThai;
+		}
+	}
 }

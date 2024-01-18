@@ -28,7 +28,11 @@ namespace Web2023Project.Models
         public virtual ICollection<Donhang> Donhangs { get; set; } = new List<Donhang>();
 
         public virtual Nguoidung IdNdNavigation { get; set; }
-    }
+		public override string ToString()
+		{
+			return $"{Xa},{Huyen},{Tinh}";
+		}
+	}
 
 }
 

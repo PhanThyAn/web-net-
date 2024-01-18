@@ -1,111 +1,102 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Mvc;
-using Web2023Project.Admin.Dao;
-using Web2023Project.Model;
-using Web2023Project.Utils;
+using Web2023Project.Models;
+
 
 namespace Web2023Project.Controllers.Admin
 {
-    public class ProducerController : PhoneController
-    {
-        public const string PRODUCER_TABLE = "NHACUNGCAP";
-        public const string ID_PRODUCER = "MANHACUNGCAP";
-        public const string NAME_PRODUCER = "TENNHACUNGCAP";
+	public class ProducerController : PhoneController
+	{
+		private readonly ApiService _apiService = new ApiService(new HttpClient());
 
-        public ProducerController()
-        {
-            this.level = 1;
-        }
-        // GET
+		public ProducerController()
+		{
+			this.level = 1;
+		}
+		// GET 
+		[HttpGet]
+		public async Task<ActionResult> Producer_Update(string ProducerID)
+		{
+			ViewBag.Title = "Cập nhật nhà cung cấp";
+			Nhacungcap producer = await _apiService.GetAsync<Nhacungcap>($"Nhacungcaps/{ProducerID}");
+			return View(producer);
+		}
+		// GET ALL
+		public async Task<ActionResult> Producer()
+		{
+			ViewBag.Title = "Nhà cung cấp";
+			List<Nhacungcap> listProducer = await _apiService.GetAsync<List<Nhacungcap>>("Nhacungcaps");
+			return View(listProducer);
+		}
+		// DELETE
+		[ActionName("Producer_Delete")]
+		public async Task<ActionResult> Producer_Manage(string ProducerID)
+		{
+			bool remove = await _apiService.DeleteAsync($"Nhacungcaps/{ProducerID}");
+			if (remove)
+			{
+				Session.Add("dia-log", "sucXóa Thành Công");
+			}
+			return RedirectToAction("Producer");
+		}
 
-        public ActionResult Producer()
-        {
-            ViewBag.Title = "Nhà cung cấp";
-            List<Producer> listProducer = ProducerDAO.LoadProducer();
-            return View(listProducer);
-        }
+		// PUT & POST
+		[ValidateInput(false)]
+		[HttpPost]
+		public async Task<ActionResult> Producer_Update(string producerName, string picture, string producerStatus)
+		{
+			if (ModelState.IsValid)
+			{
+				string action = Request["action"];
+				string producerID = Request["producerID"];
+				sbyte trangThaiValue = (sbyte)(sbyte.TryParse(producerStatus, out sbyte parsedtrangThai) ? parsedtrangThai : 0);
+				string tepHinhAnh = null; // base
+				if (!picture.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+				{
+					string physicalPath = Server.MapPath(picture);
+					if (System.IO.File.Exists(physicalPath))
+					{
+						byte[] imageBytes = System.IO.File.ReadAllBytes(physicalPath);
+						tepHinhAnh = Convert.ToBase64String(imageBytes);
+					}
+				}
+				if (action.Equals("edit"))
+				{
+					int id = 0;
+					if (producerID != null)
+					{
+						id = Int32.Parse(producerID);
 
-        [ActionName("Producer_Delete")]
-        public ActionResult Producer_Manage(string ProducerID)
-        {
-            if (RemoveObj.Remove(PRODUCER_TABLE, ID_PRODUCER, ProducerID, false))
-            {
-                Session.Add("dia-log", "sucXóa Thành Công");
-            }
+					}
+					//Nhacungcap nccUpdate = new Nhacungcap(id, producerName, producerAddress, trangThaiValue);
+					Nhacungcap nhacungcap = await _apiService.GetAsync<Nhacungcap>($"Nhacungcaps/{id}");
+					nhacungcap.TenNcc = producerName;
+					nhacungcap.Trangthai = trangThaiValue;
+					nhacungcap.TepHinhAnh = tepHinhAnh;
+					nhacungcap.TenTepHinhAnh = picture;
+					if (nhacungcap != null)
+					{
+						bool checkPutNcc = await _apiService.PutAsync<Nhacungcap>($"Nhacungcaps/{id}", nhacungcap);
+						Session.Add("dia-log", checkPutNcc ? "sucSửa Thành Công" : "errThất Bại! Không tồn tại Nhà cung cấp.");
+					}
+				}
+				else if (action.Equals("add"))
+				{
+					Nhacungcap nccCreate = new Nhacungcap(producerName, "", trangThaiValue, tepHinhAnh, picture);
+					Nhacungcap nhacungcap = await _apiService.PostAsync<Nhacungcap>("Nhacungcaps", nccCreate);
+					Session.Add("dia-log", (nhacungcap != null) ? "sucThêm mới nhà cung cấp thành Công" : "errThất Bại! Nhà cung cấp thêm không thành công.");
+				}
+			}
 
-            return RedirectToAction("Producer");
-        }
+			return RedirectToAction("Producer");
+		}
 
-        [HttpGet] //Phần này dùng để lấy ra đối tượng member để gán giá trị trong form update member nè
-        public ActionResult Producer_Update(string ProducerID)
-        {
-            ViewBag.Title = "Cập nhật nhà cung cấp";
-            Producer producer = ProducerDAO.GetProducer(ProducerID);
-            return View(producer);
-        }
-
-        [HttpPost] //Phần này thêm, sửa thành viên nè
-        public ActionResult Producer_Update(Producer producer)
-        {
-            if (ModelState.IsValid)
-            {
-                string action = Request["action"];
-                if (action.Equals("edit"))
-                {
-                    string producerID_temp = Request["producerID_temp"];
-                    string producerName_temp = Request["producerID_temp"];
-                    if (!producerID_temp.Equals(producer.ProducerId) &&
-                        CheckObjExists.IsExist(PRODUCER_TABLE, ID_PRODUCER, producer.ProducerId))
-                    {
-                        Session.Add("dia-log", "errThất Bại! Email " + producer.ProducerId + " đã tồn tại.");
-                    }
-                    else if (ProducerDAO.EditProducer(producer))
-                    {
-                        Session.Add("dia-log", "sucSửa Thành Công");
-                    }
-
-                    if (!producerID_temp.Equals(producer.ProducerId) && !producerName_temp.Equals(producer.ProducerName)
-                                                                     && CheckObjExists.IsExist(PRODUCER_TABLE,
-                                                                         ID_PRODUCER, producer.ProducerId)
-                                                                     && CheckObjExists.IsExist(PRODUCER_TABLE,
-                                                                         NAME_PRODUCER, producer.ProducerName))
-                    {
-                        Session.Add("dia-log",
-                            "errThất Bại! Email " + producer.ProducerId + " và " + producer.ProducerName +
-                            " đã tồn tại.");
-                    }
-                    else if (ProducerDAO.EditNewID(producer, producerID_temp))
-                    {
-                        Session.Add("dia-log", "sucSửa Thành Công");
-                    }
-                }
-
-                else if (action.Equals("add"))
-                {
-                    if (!CheckObjExists.IsExist(PRODUCER_TABLE, ID_PRODUCER, producer.ProducerId))
-                    {
-                        if (ProducerDAO.AddProducer(producer))
-                        {
-                            Session.Add("dia-log", "sucThêm mới tài khoản thành Công");
-                        }
-                    }
-                    else
-                    {
-                        Session.Add("producer", producer);
-                        if (CheckObjExists.IsExist(PRODUCER_TABLE, ID_PRODUCER, producer.ProducerId))
-                        {
-                            Session.Add("dia-log", "errThất Bại! Tài khoản " + producer.ProducerId + " đã tồn tại.");
-                        }
-                    }
-                }
-            }
-
-            return RedirectToAction("Producer");
-        }
-
-        public ActionResult Producer_Update()
-        {
-            return View();
-        }
-    }
+		public ActionResult Producer_Update()
+		{
+			return View();
+		}
+	}
 }

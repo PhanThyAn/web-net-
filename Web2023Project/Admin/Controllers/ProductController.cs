@@ -1,113 +1,110 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
-using Web2023Project.Admin.Dao;
-using Web2023Project.Model;
-using Web2023Project.Utils;
+using Web2023Project.Models;
 
 namespace Web2023Project.Controllers.Admin
 {
-    public class ProductController : PhoneController
-    {
-        public const string PRODUCT_TABLE = "SANPHAM";
-        public const string PRODUCT_NAME = "TENSANPHAM";
+	public class ProductController : PhoneController
+	{
+		private readonly ApiService _apiService = new ApiService(new HttpClient());
 
-        public const string ID_PRODUCT = "MASANPHAM";
+		public ProductController()
+		{
+			this.level = 1;
+		}
+		// GET
+		public async Task<ActionResult> Product_Manage()
+		{
+			ViewBag.Title = "Quản lí sản phẩm";
+			ViewBag.ListProducer = await _apiService.GetAsync<List<Nhacungcap>>("Nhacungcaps");
+			List<Sanpham> listProducts = await _apiService.GetAsync<List<Sanpham>>("Sanphams");
+			return View(listProducts);
+		}
 
-        public ProductController()
-        {
-            this.level = 1;
-        }
-        // GET
+		[ActionName("Product_Delete")]
+		public async Task<ActionResult> Product_Manage(string IDProduct)
+		{
+			bool remove = await _apiService.DeleteAsync($"Sanphams/{IDProduct}");
+			if (remove)
+			{
+				Session.Add("dia-log", "sucXóa Thành Công");
+			}
 
-        public ActionResult Product_Manage()
-        {
-            ViewBag.Title = "Quản lí sản phẩm";
-            ViewBag.ListProducer = ProducerDAO.LoadProducer();
-            List<Product> listProducts = ProductsDAO.LoadProducts();
-            return View(listProducts);
-        }
+			return RedirectToAction("Product_Manage");
+		}
 
-        [ActionName("Product_Delete")]
-        public ActionResult Product_Manage(string IDProduct)
-        {
-            //
-            if (RemoveObj.Remove(PRODUCT_TABLE, ID_PRODUCT, IDProduct, true))
-            {
-                Session.Add("dia-log", "sucXóa Thành Công");
-            }
+		[HttpGet]
+		public async Task<ActionResult> Product_Update(string productID)
+		{
+			ViewBag.Title = "Cập nhật sản phẩm";
+			ViewBag.ListProducer = await _apiService.GetAsync<List<Nhacungcap>>("Nhacungcaps");
+			Sanpham sanpham = await _apiService.GetAsync<Sanpham>($"Sanphams/{productID}");
+			return View(sanpham);
+		}
 
-            return RedirectToAction("Product_Manage");
-        }
-
-        [HttpGet] //Phần này dùng để lấy ra đối tượng member để gán giá trị trong form update member nè
-        public ActionResult Product_Update(string productID)
-        {
-            ViewBag.Title = "Cập nhật sản phẩm";
-            ViewBag.ListProducer = ProducerDAO.LoadProducer();
-            ProductDetail productDetail = ProductsDAO.LoadProductDetail(productID);
-            return View(productDetail);
-        }
-
-        [HttpPost] //Phần này thêm, sửa thành viên nè
-        public ActionResult Product_Update(string productName, string producer, string salePrice, string price,
-            string kind, string amount, string picture, string status, string gift, string screen,
-            string operatingSystem, string CPU, string RAM, string CAMERA, string PIN)
-        {
-            if (ModelState.IsValid)
-            {
-                Console.WriteLine(price);
-                string action = Request["action"];
-                string productID = Request["productID"];
-                int id = 0;
-                if (productID != null)
-                {
-                    id = Int32.Parse(productID);
-                }
-
-
-                double prices = price == null || price == ".0" || price == ""? 0 : Double.Parse(price);
-                double salePrices = salePrice == null || salePrice == ".0" || salePrice == "" ? 0 : Double.Parse(salePrice);
-                Product product = new Product(id, productName, producer, salePrices, prices,
-                    picture, Int32.Parse(amount), Int32.Parse(status), Int32.Parse(kind));
-                Technical technical = new Technical(screen, operatingSystem, CPU, RAM, CAMERA, PIN);
-                ProductDetail productDetail = new ProductDetail(product, gift, technical);
-                if (action.Equals("edit"))
-                {
-                    string productName_tmp = Request["productName"];
-                    if (!productName_tmp.Equals(productDetail.Product.ProductName) &&
-                        CheckObjExists.IsExist(PRODUCT_TABLE, PRODUCT_NAME, productDetail.Product.ProductName))
-                    {
-                        Session.Add("dia-log",
-                            "errThất Bại! Email " + productDetail.Product.ProductName + " đã tồn tại.");
-                    }
-                    else if (ProductsDAO.EditProduct(productDetail))
-                    {
-                        Session.Add("dia-log", "sucSửa Thành Công");
-                    }
-                }
-                else if (action.Equals("add"))
-                {
-                    if (!CheckObjExists.IsExist(PRODUCT_TABLE, PRODUCT_NAME, productDetail.Product.ProductName))
-                    {
-                        if (ProductsDAO.add(productDetail))
-                        {
-                            Session.Add("dia-log", "sucThêm mới sản phẩm thành Công");
-                        }
-                    }
-                    else
-                    {
-                        Session.Add("productDetail", productDetail);
-                        if (CheckObjExists.IsExist(PRODUCT_TABLE, PRODUCT_NAME, productDetail.Product.ProductName))
-                        {
-                            Session.Add("dia-log",
-                                "errThất Bại! Sản phẩm " + productDetail.Product.ProductName + " đã tồn tại.");
-                        }
-                    }
-                }
-            }
-
-            return RedirectToAction("Product_Manage");
-        }
-    }
+		[ValidateInput(false)]
+		[HttpPost]
+		public async Task<ActionResult> Product_Update(string productName, int producer, string salePrice, string price, int amount, string picture,
+	string color, string screen, string operatingSystem, string CAMERA, string CPU, string RAM,
+	string memory, string PIN, string content, string tenviettat, string status)
+		{
+			ViewData["Title"] = "Cập nhật sản phẩm";
+			string action = Request["action"];
+			string productID = Request["productID"];
+			if (!ModelState.IsValid)
+			{
+				Console.WriteLine("ModelState không hợp lệ!");
+				Session.Add("dia-log", "errThất Bại! Sản phẩm " + (action.Equals("add") ? "Thêm" : "Sửa") + " không thành công.");
+				return RedirectToAction("Product_Manage");
+			}
+			string tepHinhAnh = null; // base
+			if(!picture.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+			{
+				string physicalPath = Server.MapPath(picture);
+				if (System.IO.File.Exists(physicalPath))
+				{
+					byte[] imageBytes = System.IO.File.ReadAllBytes(physicalPath);
+					tepHinhAnh = Convert.ToBase64String(imageBytes);
+				}
+			}
+			int id = 0;	
+			if (productID != null)
+			{
+				id = Int32.Parse(productID);
+				
+			}
+			sbyte trangThaiValue = (sbyte)(sbyte.TryParse(status, out sbyte parsedtrangThai) ? parsedtrangThai : 0);
+			double prices = double.TryParse(price, out double parsedGiaGoc) ? parsedGiaGoc : 0;
+			double salePrices = double.TryParse(salePrice, out double parsedGiaDaGiam) ? parsedGiaDaGiam : 0;
+			if (action.Equals("edit"))
+			{
+				Sanpham spUpdate = new Sanpham(id, productName, producer, "", salePrices, prices, amount,
+				color, screen, operatingSystem, CAMERA, CPU, RAM,
+				memory, PIN, content, tenviettat, trangThaiValue,tepHinhAnh,picture);
+				Sanpham sanpham = await _apiService.GetAsync<Sanpham>($"Sanphams/{id}");
+				if (sanpham != null)
+				{
+					bool checkPutSp = await _apiService.PutAsync<Sanpham>($"Sanphams/{id}", spUpdate);
+					//bool checkPutHa = await _apiService.PutAsync<Hinhanh>($"Hinhanh/{id}", spUpdate);
+					Session.Add("dia-log", checkPutSp ? "sucSửa Thành Công" : "errThất Bại! Không tồn tại Sản phẩm.");
+				}
+			}
+			else if (action.Equals("add"))
+			{
+				Sanpham spCreate = new Sanpham(productName, producer, "", salePrices, prices, amount,
+					color, screen, operatingSystem, CAMERA, CPU, RAM,
+					memory, PIN, content, tenviettat, trangThaiValue, tepHinhAnh, picture);
+				Sanpham sanpham = await _apiService.PostAsync<Sanpham>("Sanphams", spCreate);
+				//Hinhanh haCreate = new Hinhanh(sanpham.Id, picture);
+				//Hinhanh hinhanh = await _apiService.PostAsync<Hinhanh>("Hinhanhs", haCreate);
+				Session.Add("dia-log", (sanpham != null/* && hinhanh != null*/) ? "sucThêm mới sản phẩm thành Công" : "errThất Bại! Sản phẩm thêm không thành công.");
+			}
+			return RedirectToAction("Product_Manage");
+		}
+	}
 }
