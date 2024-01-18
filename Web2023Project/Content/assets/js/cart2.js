@@ -11,34 +11,7 @@ $(document).ready(function () {
         }
         id = $(this).parent().children('.msp').val();
         let parent = $(this).parent();
-        $(parent).parent().children('.upgrade').css('display', 'block');
-    });
-    $('.plus').on('click', function () {
-        let parent = $(this).parent();
-        $(parent).parent().children('.upgrade').css('display', 'block');
-        let input_amount = $(this).parent().children('.number-pro');
-        id = $(this).parent().children('.msp').val();
-        let amount = parseInt($(input_amount).val());
-        $(input_amount).val(amount + 1);
-        soluong = parseInt($(input_amount).val());
-
-    });
-    $('.subject').on('click', function () {
-        let parent = $(this).parent();
-        let input_amount = $(this).parent().children('.number-pro');
-        id = $(this).parent().children('.msp').val();
-        let amout = parseInt($(input_amount).val()) - 1;
-        if (amout < 1) {
-            amout = 1;
-        } else {
-            $(parent).parent().children('.upgrade').css('display', 'block');
-        }
-        $(input_amount).val(amout.toString());
-        soluong = parseInt($(input_amount).val());
-    });
-
-    $('.upgrade').on('click', function () {
-        $(this).css('display', 'none');
+        /*$(parent).parent().children('.upgrade').css('display', 'block');*/
         $.ajax({
             url: 'Cart_Process',
             method: 'POST',
@@ -54,6 +27,76 @@ $(document).ready(function () {
             }
         })
     });
+    $('.plus').on('click', function () {
+        console.log("hj");
+        let parent = $(this).parent();
+        $(parent).parent().children('.upgrade').css('display', 'block');
+        let input_amount = $(this).parent().children('.number-pro');
+        id = $(this).parent().children('.msp').val();
+        let amount = parseInt($(input_amount).val());
+        $(input_amount).val(amount + 1);
+        soluong = parseInt($(input_amount).val());
+        $.ajax({
+            url: 'Cart_Process',
+            method: 'POST',
+            data: {
+                id: id,
+                soluong: soluong,
+                update: "ON",
+            },
+            success: function (result) {
+                let value = result.split("-");
+                $('#count-pro').html(value[0]);
+                $('#total').html(value[1]);
+            }
+        })
+    });
+    $('.subject').on('click', function () {
+        let parent = $(this).parent();
+        let input_amount = $(this).parent().children('.number-pro');
+        id = $(this).parent().children('.msp').val();
+        let amout = parseInt($(input_amount).val()) - 1;
+        if (amout < 1) {
+            amout = 1;
+        }
+        //} else {
+        //    $(parent).parent().children('.upgrade').css('display', 'block');
+        //}
+        $(input_amount).val(amout.toString());
+        soluong = parseInt($(input_amount).val());
+        $.ajax({
+            url: 'Cart_Process',
+            method: 'POST',
+            data: {
+                id: id,
+                soluong: soluong,
+                update: "ON",
+            },
+            success: function (result) {
+                let value = result.split("-");
+                $('#count-pro').html(value[0]);
+                $('#total').html(value[1]);
+            }
+        })
+    });
+
+    //$('.upgrade').on('click', function () {
+    //    $(this).css('display', 'none');
+    //    $.ajax({
+    //        url: 'Cart_Process',
+    //        method: 'POST',
+    //        data: {
+    //            id: id,
+    //            soluong: soluong,
+    //            update: "ON",
+    //        },
+    //        success: function (result) {
+    //            let value = result.split("-");
+    //            $('#count-pro').html(value[0]);
+    //            $('#total').html(value[1]);
+    //        }
+    //    })
+    //});
     $('.trash').on('click', function () {
         let parentNode = this.parentNode;
         let id = $(this).parent().children('.msp-trash').val();

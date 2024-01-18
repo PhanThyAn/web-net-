@@ -200,7 +200,7 @@ namespace Web2023Project.Dao
                         n.Gioitinh = (ulong)int.Parse(gioiTinh);
                         n.Diachis = listDC;
                         n.Email = email;
-                    n.Quyen = 1;
+                        n.Quyen = (sbyte)sbyte.Parse(quyen);
                          return n;
                     }
                     else
