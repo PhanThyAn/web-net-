@@ -1,11 +1,9 @@
-﻿using System;
+using System;
 using System.Web.UI.WebControls;
 using MySql.Data.MySqlClient;
 
-namespace Web2023Project.Model
-{
-    public class Product
-    {
+namespace Web2023Project.Model {
+    public class Product {
         private int productID;
         private String productName;
         private String producer;
@@ -16,13 +14,11 @@ namespace Web2023Project.Model
         private int status;
         private int kind;
 
-        public Product()
-        {
+        public Product() {
         }
 
         public Product(int productId, string productName, string producer, double salePrice, double price,
-            string picture, int amount, int status, int kind)
-        {
+            string picture, int amount, int status, int kind) {
             productID = productId;
             this.productName = productName;
             this.producer = producer;
@@ -36,70 +32,70 @@ namespace Web2023Project.Model
 
         public int ProductId
         {
-            get => productID;
-            set => productID = value;
-        }
+        get => productID;
+        set => productID = value;
+    }
 
         public string ProductName
-        {
-            get => productName;
-            set => productName = value;
-        }
+    {
+        get => productName;
+        set => productName = value;
+    }
 
         public string Producer
-        {
-            get => producer;
-            set => producer = value;
-        }
+    {
+        get => producer;
+        set => producer = value;
+    }
 
         public double SalePrice
-        {
-            get => salePrice;
-            set => salePrice = value;
-        }
+    {
+        get => salePrice;
+        set => salePrice = value;
+    }
 
         public double Price
-        {
-            get => price;
-            set => price = value;
-        }
+    {
+        get => price;
+        set => price = value;
+    }
 
         public string Picture
-        {
-            get => picture;
-            set => picture = value;
-        }
+    {
+        get => picture;
+        set => picture = value;
+    }
 
         public int Amount
-        {
-            get => amount;
-            set => amount = value;
-        }
+    {
+        get => amount;
+        set => amount = value;
+    }
 
         public int Status
-        {
-            get => status;
-            set => status = value;
-        }
+    {
+        get => status;
+        set => status = value;
+    }
 
         public int Kind
-        {
-            get => kind;
-            set => kind = value;
-        }
+    {
+        get => kind;
+        set => kind = value;
+    }
 
         public Product GetProduct(MySqlDataReader reader)
-        {
-            ProductId = reader.GetInt16("masanpham");
-            ProductName = reader.GetString("tensanpham");
-            Producer = reader.GetString("nhacungcap");
-            SalePrice = reader.GetDouble("giadagiam");
-            Price = reader.GetDouble("giaban");
-            Amount = reader.GetInt16("soluong");
-            Picture = reader.GetString("hinhanh");
-            Status = reader.GetInt16("trangthai");
-            Kind = reader.GetInt16("loaisanpham");
-            return this;
-        }
+    {
+        ProductId = reader.GetInt16("masanpham");
+        ProductName = reader.GetString("tensanpham");
+        Producer = reader.GetString("nhacungcap");
+        SalePrice = reader.GetDouble("giadagiam");
+        Price = reader.GetDouble("giaban");
+        Amount = reader.GetInt16("soluong");
+        Picture = reader.GetString("hinhanh");
+        Status = reader.GetInt16("trangthai");
+        Kind = reader.GetInt16("loaisanpham");
+        return this;
     }
+}
 }

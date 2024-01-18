@@ -431,3 +431,7 @@ D:\LT .NET_NLU\web-net-\Web2023Project\bin\PagedList.dll
 D:\LT .NET_NLU\web-net-\Web2023Project\bin\PagedList.Mvc.dll
 D:\LT .NET_NLU\web-net-\Web2023Project\bin\PagedList.xml
 D:\LT .NET_NLU\web-net-\Web2023Project\bin\PagedList.Mvc.xml
+C:\Users\AN\Desktop\New folder\Web.Net\web-net-\Web2023Project\bin\PagedList.dll
+C:\Users\AN\Desktop\New folder\Web.Net\web-net-\Web2023Project\bin\PagedList.Mvc.dll
+C:\Users\AN\Desktop\New folder\Web.Net\web-net-\Web2023Project\bin\PagedList.xml
+C:\Users\AN\Desktop\New folder\Web.Net\web-net-\Web2023Project\bin\PagedList.Mvc.xml

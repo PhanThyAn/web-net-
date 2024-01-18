@@ -191,14 +191,13 @@
     <Compile Include="Models\MemberFilter.cs" />
     <Compile Include="Models\Image.cs" />
     <Compile Include="Models\NhaCungCap.cs" />
+    <Compile Include="Models\ProductDetail.cs" />
     <Compile Include="Models\ProductShow.cs" />
     <Compile Include="Models\Yeuthich.cs" />
     <Compile Include="Models\Techinical.cs" />
     <Compile Include="Models\Nguoidung.cs" />
-    <Compile Include="Models\ProductDetail.cs" />
     <Compile Include="Models\CartDB.cs" />
     <Compile Include="Models\Producer.cs" />
-    <Compile Include="Models\Product.cs" />
     <Compile Include="Models\Member.cs" />
     <Compile Include="Models\Sanphams.cs" />
     <Compile Include="Models\Role.cs" />
@@ -1644,6 +1643,7 @@
     <Content Include="Fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Compile Include="Models\Product.cs" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="..\.editorconfig">
@@ -1671,7 +1671,6 @@
     <Content Include="Views\Home\Guarentee.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\Product.cshtml" />
-    <Content Include="Views\Home\Product_Detail.cshtml" />
     <Content Include="Views\Home\Profile_User.cshtml" />
     <Content Include="Views\Home\Question.cshtml" />
     <Content Include="Views\Home\Register.cshtml" />
@@ -1714,6 +1713,7 @@
     <Content Include="Views\Home\Catogery.cshtml" />
     <Content Include="Views\Home\OrderHistory.cshtml" />
     <Content Include="Views\Home\OrderDetail.cshtml" />
+    <Content Include="Views\Home\Product_Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Fonts\glyphicons-halflings-regular.woff2" />

@@ -116,10 +116,10 @@ namespace Web2023Project.Controllers
         [HttpPost]
         public async Task<ActionResult>  Register(string password, string c_password, string name, string gender, string email, string phone)
         {
-
+            
             if (ModelState.IsValid)
             {
-                
+                Session.Add("nd", password + name + gender + email + phone);
                 Nguoidung nguoidung = await LoginDao.register( password,  name, Int32.Parse(gender) ,  email,  phone);
                 if (nguoidung != null)
                 {
@@ -136,7 +136,7 @@ namespace Web2023Project.Controllers
             }
             else
             {
-                return RedirectToAction("Register");
+                return RedirectToAction("Login");
             }
         }
         [HttpPost]
