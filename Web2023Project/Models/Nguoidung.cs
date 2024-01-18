@@ -45,6 +45,29 @@ namespace Web2023Project.Models
         public virtual ICollection<Donhang> Donhangs { get; set; } = new List<Donhang>();
 
         public virtual ICollection<Log> Logs { get; set; } = new List<Log>();
+		public Nguoidung()
+		{
 
-    }
+		}
+		public Nguoidung(int id, string ten, string sdt, ulong gioitinh, string email, string matkhau, sbyte? quyen)
+		{
+			Id = id;
+			Ten = ten;
+			Sdt = sdt;
+			Gioitinh = gioitinh;
+			Email = email;
+			Matkhau = matkhau;
+			Quyen = quyen;
+		}
+		public Nguoidung(string ten, string sdt, ulong gioitinh, string email, string matkhau, string anhdaidien, sbyte? quyen)
+		{
+			Ten = ten;
+			Sdt = sdt;
+			Gioitinh = gioitinh;
+			Email = email;
+			Matkhau = matkhau;
+			Anhdaidien = anhdaidien;
+			Quyen = quyen;
+		}
+	}
 }

@@ -160,12 +160,14 @@
     <Compile Include="Admin\Controllers\AdminController.cs" />
     <Compile Include="Admin\Controllers\CommentController.cs" />
     <Compile Include="Admin\Controllers\MemberController.cs" />
+    <Compile Include="Admin\Controllers\NewsController.cs" />
     <Compile Include="Admin\Controllers\OrderController.cs" />
     <Compile Include="Admin\Controllers\PhoneController.cs" />
     <Compile Include="Admin\Controllers\ProducerController.cs" />
     <Compile Include="Admin\Controllers\ProductController.cs" />
     <Compile Include="Admin\Controllers\RevenueController.cs" />
     <Compile Include="Admin\Dao\DashboardDAO.cs" />
+    <Compile Include="Admin\Dao\NewsDAO.cs" />
     <Compile Include="Admin\Dao\OrderDAO.cs" />
     <Compile Include="Admin\Dao\ProducerDAO.cs" />
     <Compile Include="Admin\Dao\ProductsDAO.cs" />
@@ -190,6 +192,7 @@
     <Compile Include="Models\Log.cs" />
     <Compile Include="Models\MemberFilter.cs" />
     <Compile Include="Models\Image.cs" />
+    <Compile Include="Models\News.cs" />
     <Compile Include="Models\NhaCungCap.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ProductDetail.cs" />

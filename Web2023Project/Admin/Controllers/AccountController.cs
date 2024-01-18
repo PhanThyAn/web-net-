@@ -1,90 +1,88 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web.Helpers;
 using System.Web.Mvc;
-using Web2023Project.Model;
-using Web2023Project.Utils;
-using Web2023Project.Website.Dao;
+using Web2023Project.Models;
+
 
 namespace Web2023Project.Controllers.Admin
 {
-    public class AccountController : PhoneController
-    {
-        public const string USER_TABLE = "THANHVIEN";
-        public const string USER_AC = "TAIKHOAN";
-        public const string USER_EMAIL = "EMAIL";
-        // GET
-        public AccountController()
-        {
-            this.level = 1;
-        }
-      public ActionResult Account_Manage()
-        {
-            ViewBag.Title = "Quản lí tài khoản";
-            List<Member> members = MemberDAO.LoadMember();
-            return View(members);
-        }
+	public class AccountController : PhoneController
+	{
+		private readonly ApiService _apiService = new ApiService(new HttpClient());
+		public AccountController()
+		{
+			this.level = 1;
+		}
+		public async Task<ActionResult> Account_Manage()
+		{
+			ViewBag.Title = "Quản lí tài khoản";
+			List<Nguoidung> members = await _apiService.GetAsync<List<Nguoidung>>("Nguoidungs");
+			return View(members);
+		}
 
-        [ActionName("Account_Delete")] // Này phải đặt tên chớ nó trùng tên method(dòng 23), Xóa member thâu
-        public ActionResult Account_Manage(string userName)
-        {
-            if (RemoveObj.Remove(USER_TABLE, USER_AC, userName, false))
-            {
-                Session.Add("dia-log", "sucXóa Thành Công");
-            }
+		[ActionName("Account_Delete")]
+		public async Task<ActionResult> Account_Manage(string id) // note
+		{
+			bool remove = await _apiService.DeleteAsync($"Nguoidungs/{id}");
+			if (remove)
+			{
+				Session.Add("dia-log", "sucXóa Thành Công");
+			}
 
-            return RedirectToAction("Account_Manage");
-        }
+			return RedirectToAction("Account_Manage");
+		}
 
-        [HttpGet] //Phần này dùng để lấy ra đối tượng member để gán giá trị trong form update member nè
-        public ActionResult Account_Update(string userName)
-        {
-            ViewBag.Title = "Cập nhật tài khoản";
-            Member member = MemberDAO.GetMember(userName);
-            return View(member);
-        }
+		[HttpGet]
+		public async Task<ActionResult> Account_Update(string id)
+		{
+			ViewBag.Title = "Cập nhật tài khoản";
+			Nguoidung member = await _apiService.GetAsync<Nguoidung>($"Nguoidungs/{id}");
+			return View(member);
+		}
+		// PUT & POST
+		[HttpPost]
+		public async Task<ActionResult> Account_Update(string email, string password, string name, string gender, string phone, string level)
+		{
+			if (ModelState.IsValid)
+			{
+				string action = Request["action"];
+				string IDUser = Request["id"];
+				ulong gioitinh = (ulong.TryParse(gender, out ulong parsedgioitinh) ? parsedgioitinh : 0);
+				sbyte quyen = (sbyte)(sbyte.TryParse(level, out sbyte parsedlevel) ? parsedlevel : 0);
+				if (action.Equals("edit"))
+				{
+					int id = 0;
+					if (IDUser != null)
+					{
+						id = Int32.Parse(IDUser);
 
-        [HttpPost] //Phần này thêm, sửa thành viên nè
-        public ActionResult Account_Manage(Member member)
-        {
-            if (ModelState.IsValid)
-            {
-                string action = Request["action"];
-                if (action.Equals("edit"))
-                {
-                    string email_temp = Request["email_temp"];
-                    if (!email_temp.Equals(member.Email) &&
-                        CheckObjExists.IsExist(USER_TABLE, USER_EMAIL, member.Email))
-                    {
-                        Session.Add("dia-log", "errThất Bại! Email " + member.Email + " đã tồn tại.");
-                    }
-                    else if (MemberDAO.EditMember(member))
-                    {
-                        Session.Add("dia-log", "sucSửa Thành Công");
-                    }
-                }
-                else if (action.Equals("add"))
-                {
-                    if (!CheckObjExists.IsExist(USER_TABLE, USER_AC, member.UserName) &&
-                        !CheckObjExists.IsExist(USER_TABLE, USER_EMAIL, member.Email))
-                    {
-                        if (MemberDAO.AddMember(member))
-                        {
-                            Session.Add("dia-log", "sucThêm mới tài khoản thành Công");
-                        }
-                    }
-                    else
-                    {
-                        Session.Add("member", member);
-                        if (CheckObjExists.IsExist(USER_TABLE, USER_AC, member.UserName))
-                        {
-                            Session.Add("dia-log", "errThất Bại! Tài khoản " + member.UserName + " đã tồn tại.");
-                        }
-                        else
-                            Session.Add("dia-log", "errThất Bại! Email " + member.Email + " đã tồn tại.");
-                    }
-                }
-            }
+					}
+					//Nguoidung nguoidungUpdate = new Nguoidung(id, name, phone, gioitinh, email, password, quyen);
+					Nguoidung nguoidung = await _apiService.GetAsync<Nguoidung>($"Nguoidungs/{id}");
+					nguoidung.Ten = name;
+					nguoidung.Sdt = phone;
+					nguoidung.Gioitinh = gioitinh;
+					nguoidung.Email = email;
+					nguoidung.Quyen = quyen;
+					if (nguoidung != null)
+					{
+						bool checkPutNd = await _apiService.PutAsync<Nguoidung>($"Nguoidungs/{id}", nguoidung);
+						Session.Add("dia-log", checkPutNd ? "sucSửa Thành Công" : "errThất Bại! Không tồn tại Người dùng.");
+					}
 
-            return RedirectToAction("Account_Manage");
-        }
-    }
+				}
+				else if (action.Equals("add"))
+				{
+					Nguoidung nguoidungCreate = new Nguoidung(name, phone, gioitinh, email, password, "", quyen);
+					Nguoidung nguoidung = await _apiService.PostAsync<Nguoidung>("Register", nguoidungCreate);
+					Session.Add("dia-log", (nguoidung != null) ? "sucThêm mới tài khoản thành Công" : "errThất Bại! Tài khoản thêm không thành công.");
+				}
+			}
+			return RedirectToAction("Account_Manage");
+		}
+	}
 }
