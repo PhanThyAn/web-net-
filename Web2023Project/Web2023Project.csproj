@@ -70,6 +70,12 @@
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.CodeDom, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.CodeDom.7.0.0\lib\net462\System.CodeDom.dll</HintPath>
@@ -209,6 +215,7 @@
     <Compile Include="Website\Dao\CommentDAO.cs" />
     <Compile Include="Website\Dao\MyViewModel.cs" />
     <Compile Include="Website\Dao\HomeViewModel.cs" />
+    <Compile Include="Website\Dao\OrderDAO.cs" />
     <Compile Include="Website\Dao\ProductDetailDAO.cs" />
     <Compile Include="Website\Dao\ProductDAO.cs" />
     <Compile Include="Website\Dao\SearchDAO.cs" />
@@ -1628,6 +1635,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="Data\images\Data\78817125_811944709263736_2840465046272737280_n.jpg" />
     <Content Include="Data\images\Data\Step1.jpg" />
     <Content Include="Data\_thumbs\Images\Data\78817125_811944709263736_2840465046272737280_n.jpg" />
@@ -1704,6 +1712,8 @@
     <Content Include="Views\Home\UpdateAddress.cshtml" />
     <Content Include="Views\Home\FavoriteProduct.cshtml" />
     <Content Include="Views\Home\Catogery.cshtml" />
+    <Content Include="Views\Home\OrderHistory.cshtml" />
+    <Content Include="Views\Home\OrderDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Fonts\glyphicons-halflings-regular.woff2" />

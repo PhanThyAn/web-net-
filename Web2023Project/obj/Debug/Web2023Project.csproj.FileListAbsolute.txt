@@ -427,3 +427,7 @@ C:\Users\AN\Desktop\New folder\Web.Net\web-net-\Web2023Project\bin\System.Data.S
 C:\Users\AN\Desktop\New folder\Web.Net\web-net-\Web2023Project\bin\EntityFramework.dll
 C:\Users\AN\Desktop\New folder\Web.Net\web-net-\Web2023Project\bin\System.Data.SQLite.xml
 C:\Users\AN\Desktop\New folder\Web.Net\web-net-\Web2023Project\bin\EntityFramework.xml
+D:\LT .NET_NLU\web-net-\Web2023Project\bin\PagedList.dll
+D:\LT .NET_NLU\web-net-\Web2023Project\bin\PagedList.Mvc.dll
+D:\LT .NET_NLU\web-net-\Web2023Project\bin\PagedList.xml
+D:\LT .NET_NLU\web-net-\Web2023Project\bin\PagedList.Mvc.xml
