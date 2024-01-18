@@ -1,7 +1,6 @@
-﻿@using Web2023Project.Model
+﻿@using Web2023Project.Models
 @{
-    Web2023Project.Models.Nguoidung member = Session["memberLogin"] as Web2023Project.Models.Nguoidung;
-
+    Nguoidung member = Session["memberLogin"] as Nguoidung;
 }
 <ul class="icon-profile">
     <li id="hello-user">
@@ -38,30 +37,6 @@
                     </i>
                 </a>
                 <span class="span-level">Admin</span>
-            </li>
-        }
-        else
-        {
-            <li id="user">
-                <i class="fa fa-user-circle-o" id="user-icon"></i>
-                <ul class="sub-user">
-                    <li class="login"></li>
-                    <li>
-
-                        <a href="/Home/Profile_User">Thông tin tài khoản</a>
-
-                    </li>
-                    <li>
-                        <a href="#">
-                            Đơn hàng của tôi
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            Đăng xuất
-                        </a>
-                    </li>
-                </ul>
             </li>
         }
     }

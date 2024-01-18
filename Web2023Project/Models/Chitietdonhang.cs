@@ -17,9 +17,9 @@ public partial class Chitietdonhang
 
 		public sbyte? Trangthai { get; set; }
 
-		public virtual Donhang IdDhNavigation { get; set; } = null;
+		public virtual Donhang IdDhNavigation { get; set; }
 
-		public virtual Sanphams IdSpNavigation { get; set; } = null;
+		public virtual Sanphams IdSpNavigation { get; set; }
 	}
 
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,6 +32,7 @@ namespace Web2023Project.Controllers
         private readonly CommentDAO commentDAO;
         private readonly CartDAO cartDAO;
         private readonly FavouriteDAO favouriteDAO;
+        private readonly Website.Dao.OrderDAO orderDAO;
 
         public HomeController()
         {
@@ -40,6 +42,7 @@ namespace Web2023Project.Controllers
             this.commentDAO = new CommentDAO();
             this.cartDAO = new CartDAO();
             this.favouriteDAO = new FavouriteDAO();
+            this.orderDAO = new Website.Dao.OrderDAO();
         }
        
      
@@ -267,7 +270,7 @@ namespace Web2023Project.Controllers
             }
             else
             {
-                return View("Error");
+                return View("Error404");
             }
         }
 
@@ -681,6 +684,38 @@ namespace Web2023Project.Controllers
             }
 
             return View("Order_Success");
+        }
+
+        public async Task<ActionResult> OrderHistory(int userId, int? page)
+        {
+            int pageSize = 5;
+            int pageNumber = page ?? 1;
+
+            List<Donhang> orders = await orderDAO.GetOrderByUserId(userId);
+
+            if (orders != null)
+            {
+                var pagedOrders = orders.ToPagedList(pageNumber, pageSize);
+                Session.Add("orders", orders);
+                return View(pagedOrders);
+            }
+            return View("Error404");
+        }
+
+
+        public async Task<ActionResult> OrderDetail(int userId, int orderId, int? page)
+        {
+            int pageSize = 5;
+            int pageNumber = page ?? 1;
+
+            List<Donhang> orders = await orderDAO.GetOrderDetailById(userId, orderId);
+
+            if (orders != null)
+            {
+                var pagedOrders = orders.ToPagedList(pageNumber, pageSize);
+                return View(pagedOrders);
+            }
+            return View("Error404");
         }
 
         public ActionResult Profile_User()
