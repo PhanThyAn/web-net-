@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Web;
 
 namespace Web2023Project.Models
 {
@@ -40,7 +41,6 @@ namespace Web2023Project.Models
 		public string Tenviettat { get; set; }
 
 		public sbyte? Trangthai { get; set; }
-
 		public virtual ICollection<Binhluan> Binhluans { get; set; } = new List<Binhluan>();
 
 		public virtual ICollection<Chitietdonhang> Chitietdonhangs { get; set; } = new List<Chitietdonhang>();
@@ -48,14 +48,19 @@ namespace Web2023Project.Models
 		public virtual ICollection<Chitietgiohang> Chitietgiohangs { get; set; } = new List<Chitietgiohang>();
 
 		public virtual ICollection<Hinhanh> Hinhanhs { get; set; } = new List<Hinhanh>();
-
 		public virtual Nhacungcap IdNccNavigation { get; set; }
-		public Sanpham(int id, string tenSp, int? idNcc, string thuonghieu, double? giadagiam,
+		public string TepHinhAnh { get; set; }
+		public string TenTepHinhAnh { get; set; }
+		public Sanpham()
+		{
+
+		}
+		public Sanpham(int id,string tenSp, int? idNcc, string thuonghieu, double? giadagiam,
 			   double? giagoc, int? soluong, string mausanpham, string manhinh, string hedieuhanh,
 			   string camera, string chip, string ram, string dungluong, string pin, string mota,
-			   string tenviettat, sbyte? trangthai)
+			   string tenviettat, sbyte? trangthai, string tepHinhAnh, string tenTepHinhAnh)
 		{
-			Id = id;
+			Id =id;
 			TenSp = tenSp;
 			IdNcc = idNcc;
 			Thuonghieu = thuonghieu;
@@ -73,6 +78,34 @@ namespace Web2023Project.Models
 			Mota = mota;
 			Tenviettat = tenviettat;
 			Trangthai = trangthai;
+			TepHinhAnh = tepHinhAnh;
+			TenTepHinhAnh = tenTepHinhAnh;
 		}
+		public Sanpham(string tenSp, int? idNcc, string thuonghieu, double? giadagiam,
+			   double? giagoc, int? soluong, string mausanpham, string manhinh, string hedieuhanh,
+			   string camera, string chip, string ram, string dungluong, string pin, string mota,
+			   string tenviettat, sbyte? trangthai, string tepHinhAnh, string tenTepHinhAnh)
+		{
+			TenSp = tenSp;
+			IdNcc = idNcc;
+			Thuonghieu = thuonghieu;
+			Giadagiam = giadagiam;
+			Giagoc = giagoc;
+			Soluong = soluong;
+			Mausanpham = mausanpham;
+			Manhinh = manhinh;
+			Hedieuhanh = hedieuhanh;
+			Camera = camera;
+			Chip = chip;
+			Ram = ram;
+			Dungluong = dungluong;
+			Pin = pin;
+			Mota = mota;
+			Tenviettat = tenviettat;
+			Trangthai = trangthai;
+			TepHinhAnh = tepHinhAnh;
+			TenTepHinhAnh = tenTepHinhAnh;
+		}
+		
 	}
 }

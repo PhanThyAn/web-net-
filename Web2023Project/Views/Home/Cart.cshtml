@@ -1,8 +1,8 @@
 ﻿@using Web2023Project.Models
 @using Web2023Project.Website.Model
 @{
-    ViewBag.Title = "Giỏ hàng";
-    Layout = "~/Views/Shared/Home/_HeaderHome.cshtml";
+    ViewBag.Title = "Cart";
+    Layout = "~/Views/Shared/Home/_HeaderSimple.cshtml";
 }
 <section id="body">
     <div id="frame-cart">
@@ -10,78 +10,94 @@
             <div id="info-product">
                 <div class="title-top space-between">
                     @{
-                        Cart gh = Session["giohang"] as Cart;
+                        List<Chitietgiohang> gh = new List<Chitietgiohang>();
+                        Nguoidung nd = Session["memberLogin"] as Nguoidung;
+                        if (nd == null)
+                        {
+                            gh = Session["giohangss"] as List<Chitietgiohang>;
+                        }
+                        else
+                        {
+                            gh = Session["giohang"] as List<Chitietgiohang>;
+                        }
+                        int? count = 1;
+                        double? price = 1;
                     }
                     <div class="title-ic">
                         <span><i class="fa fa-shopping-cart"></i>Giỏ hàng của bạn (có</span>
-                        <span id="count-pro">@(gh != null ?gh.TotalItem(): 0 ) </span> sản phẩm)
+                        <span id="count-pro">@(gh != null ? gh.Count : 0) </span> sản phẩm)
                     </div>
-                    <a href="/">Tiếp tục mua hàng</a>
+                    <a href="/Home/Index">Tiếp tục mua hàng</a>
                 </div>
                 <div class="contain-product">
                     <ul>
-                        @{
-                            if (gh != null && gh.Item.Count > 0)
+                        @if (gh != null && gh.Count > 0)
+                        {
+                            foreach (Chitietgiohang item in gh)
                             {
-                                foreach (Item item in gh.Item)
+                                if (item != null)
                                 {
+                                    count += item.Soluong;
+                                    price += item.Soluong * (item.IdSpNavigation != null ? item.IdSpNavigation.Giadagiam : 1);
                                     <li class="item-cart">
                                         <div class="d-flex">
                                             <div class="img-pro">
-                                                <a href="/Home/Product_Detail?tenviettat=@item.Product.TenVietTat">
-                                                    @foreach (var hinhanh in item.Product.Hinhanhs)
+                                                <a href="/Home/Product">
+                                                    @if (item.IdSpNavigation!=null)
                                                     {
-                                                        <img src="@hinhanh.Url" alt="image" />
+                                                        <img src="@(item.IdSpNavigation.Hinhanhs.FirstOrDefault().Url)" alt="hinh-minh-hoa" />
+                                                    }
+                                                    else
+                                                    {
+                                                        <img src="" alt="hinh-minh-hoa" />
+
                                                     }
                                                 </a>
                                             </div>
                                             <div class="tit-cou">
-                                                <a href="/Home/Product_Detail?tenviettat=@item.Product.TenVietTat">
-                                                    <h5>@item.Product.TenSp</h5>
-                                                </a>
+                                                <h5>@item.IdSpNavigation.TenSp</h5>
                                                 <div class="d-flex align-i-center">
                                                     <span class="count">Số lượng:</span>
                                                     <div class="frame-num d-flex">
                                                         <button class="subject">-</button>
-                                                        <input type="number" class="number-pro" value="@(item.Amount)"
+                                                        <input type="number" class="number-pro" value="@(item.Soluong)"
                                                                min="1" required>
                                                         <button class="plus">+</button>
                                                         <input type="hidden" class="msp"
-                                                               value="@(item.Product.Id)">
+                                                               value="@(item.IdSpNavigation.Id)">
                                                     </div>
-                                                    <span class="upgrade"><i class="fa fa-upload" aria-hidden="true"></i></span>
+                                                    @*<span class="upgrade"><i class="fa fa-upload" aria-hidden="true"></i></span>*@
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="price-pro flex-direction-col">
                                             <div class="flex-direction-col">
-                                                <span class="price"> @string.Format("{0:0,0}", item.Price)  đ</span>
+                                                <span class="price"> @string.Format("{0:0,0}", item.IdSpNavigation.Giadagiam)  đ</span>
                                                 <span>(Giá đã bao gồm VAT)</span>
                                             </div>
-                                            <input type="hidden" class="msp-trash" value="@(item.Product.Id)">
-                                            <input type="hidden" class="tensp-trash" value="@(item.Product.TenSp)">
+                                            <input type="hidden" class="msp-trash" value="@(item.IdSpNavigation.Id)">
+                                            <input type="hidden" class="tensp-trash" value="@(item.IdSpNavigation.TenSp)">
                                             <span class="trash"><i class="fa fa-trash" aria-hidden="true"></i></span>
                                         </div>
                                     </li>
                                 }
                             }
-                            else
-                            {
-                                <div class="cart-empty">Không có gì trong giỏ hàng.</div>
-                            }
                         }
-
+                        else
+                        {
+                            <div class="cart-empty">Không có gì trong giỏ hàng.</div>
+                        }
                     </ul>
                 </div>
                 <div class="payment space-between">
                     <div class="total d-flex align-i-center">
-                        @if (gh != null && gh.Item.Count > 0)
+                        @if (gh != null && gh.Count > 0)
                         {
                             <h5>TỔNG CỘNG</h5>
-                            <span id="total"> @string.Format("{0:0,0}", gh.TotalPrice())  đ</span>
+                            <span id="total"> @string.Format("{0:0,0}", price)  đ</span>
                         }
                     </div>
-                    @if (gh != null && gh.Item.Count > 0)
+                    @if (gh != null && gh.Count > 0)
                     {
                         Nguoidung member = Session["memberLogin"] as Nguoidung;
                         if (member != null)
@@ -93,7 +109,7 @@
                             <button data-toggle="modal" data-target="#checkout" id="btn-submit">ĐẶT HÀNG</button>
                             <div id="checkout" class="modal fade modal-confirm" role="dialog">
                                 <div class="modal-dialog modal-sm">
-                                    <!-- Modal content-->
+                                    Modal content
                                     <div class="modal-content">
                                         <div class="modal-body">
                                             <p class="text-content">Đăng nhập để thực hiện đặt hàng!</p>
@@ -107,8 +123,6 @@
                             </div>
                         }
                     }
-
-
                 </div>
             </div>
             <div id="info-user">
@@ -117,34 +131,54 @@
                 </div>
                 <div class="form-info form-cart">
                     <form id="form-validate" class="form-style" action="#">
-                        <div>
-                            @{
-                                Nguoidung members = Session["memberLogin"] as Nguoidung;
-                            }
-                            <span>Họ và Tên:</span>
-                            <input type="text" id="name" name="name" value="@(members !=null? members.Ten:"")"
-                                   disabled>
-                        </div>
-                        <div>
-                            <span>Số điện thoại:</span>
-                            <input name="phone" id="phone" type="number" value="@(members !=null? members.Sdt:"")" disabled>
-                        </div>
-                        <div>
-                            <span>Địa chỉ Email:</span>
-                            <input type="text" id="email" name="email" value="@(members !=null? members.Email:"")" disabled>
-                        </div>
-                        <div>
-                            <span>Địa chỉ:</span>
-                            @if (members != null && members.Diachis != null)
+                        @{Nguoidung members = Session["memberLogin"] as Nguoidung;
+                        }
+                        @if (members == null)
+                        {
+                            <p class="text-content">Đăng nhập để thực hiện đặt hàng!</p>
+                        }
+                        else
+                        {
+                            if (members.Diachis != null)
                             {
-                                foreach (var diachi in members.Diachis)
-                                {
-                                    string address = "" + diachi.Ten + ", " + diachi.Xa + ", " + diachi.Huyen + ", " + diachi.Tinh;
-                                    <input type="text" id="address-oder" name="address-oder" value="@(members !=null? address:"")"
+                                <div>
+                                    <span>Họ và Tên:</span>
+                                    <input type="text" id="name" name="name" value="@(members.Diachis != null ? members.Diachis.FirstOrDefault().Ten : "")"
                                            disabled>
-                                }
+                                </div>
+                                <div>
+                                    <span>Số điện thoại:</span>
+                                    <input name="phone" id="phone" type="number" value="@(members.Diachis != null ? members.Diachis.FirstOrDefault().Sdt : "")" disabled>
+                                </div>
+                                <div>
+                                    <span>Ghi chú:</span>
+                                    <input type="text" id="email" name="email" value="@(members.Diachis != null ? members.Diachis.FirstOrDefault().Ghichu : "")" disabled>
+                                </div>
+                                <div>
+                                    <span>Địa chỉ:</span>
+                                    <input type="text" id="address-oder" name="address-oder" value="@(members.Diachis != null ? members.Diachis.FirstOrDefault().ToString() : "")"
+                                           disabled>
+                                </div>
                             }
-                        </div>
+                            else
+                            {
+                                <button data-toggle="modal" data-target="#checkout" id="btn-submit">ĐẶT HÀNG</button>
+                                <div id="checkout" class="modal fade modal-confirm" role="dialog">
+                                    <div class="modal-dialog modal-sm">
+                                        Modal content
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <p class="text-content">Thêm địa chỉ để thực hiện đặt hàng!</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" onclick="return location.href='/Home/Profile_User'" class="btn-cf">Vào sổ địa chỉ</button>
+                                                <button type="button" class="tbn-cancle" data-dismiss="modal">Hủy</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
                     </form>
                 </div>
             </div>
