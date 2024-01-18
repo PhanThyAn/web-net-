@@ -16,41 +16,7 @@ namespace Web2023Project.Website.Dao
 {
     public class SearchDAO
     {
-        public static List<Product> Search(String input)
-        {
-            MySqlConnection connection = null;
-            MySqlCommand cmd = null;
-            MySqlDataReader reader = null;
-            List<Product> products = new List<Product>();
-            try
-            {
-                string sql = "SELECT * FROM SANPHAM WHERE TRANGTHAI>0 AND TENSANPHAM LIKE " + "'%" + input +
-                             "%' LIMIT 6";
-                connection = DBConnection.getConnection();
-                connection.Open();
-                cmd = new MySqlCommand(sql, connection);
-                reader = cmd.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        products.Add(new Product().GetProduct(reader));
-                    }
-                }
-
-                return products.Count != 0 ? products : null;
-            }
-            catch (SqlException e)
-            {
-                Console.WriteLine(e.Message);
-                return null;
-            }
-            finally
-            {
-                ReleaseResources.Release(connection, reader, cmd);
-            }
-        }
-
+      
         public static List<ProductDetail> SearchKey(String key)
         {
             MySqlConnection connection = null;

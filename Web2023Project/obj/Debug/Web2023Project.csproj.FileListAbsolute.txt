@@ -431,6 +431,7 @@ D:\LT .NET_NLU\web-net-\Web2023Project\bin\PagedList.dll
 D:\LT .NET_NLU\web-net-\Web2023Project\bin\PagedList.Mvc.dll
 D:\LT .NET_NLU\web-net-\Web2023Project\bin\PagedList.xml
 D:\LT .NET_NLU\web-net-\Web2023Project\bin\PagedList.Mvc.xml
+<<<<<<< HEAD
 D:\PROJECT_NLU\web-net-\Web2023Project\obj\Debug\Web2023Project.csproj.AssemblyReference.cache
 D:\PROJECT_NLU\web-net-\Web2023Project\obj\Debug\Web2023Project.csproj.CoreCompileInputs.cache
 D:\PROJECT_NLU\web-net-\Web2023Project\obj\Debug\Web2021Project.dll
@@ -533,3 +534,8 @@ D:\PROJECT_NLU\web-net-\Web2023Project\bin\Antlr3.Runtime.pdb
 D:\PROJECT_NLU\web-net-\Web2023Project\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 D:\PROJECT_NLU\web-net-\Web2023Project\bin\EntityFramework.xml
 D:\PROJECT_NLU\web-net-\Web2023Project\obj\Debug\Web2023Project.csproj.CopyComplete
+C:\Users\AN\Desktop\New folder\Web.Net\web-net-\Web2023Project\bin\PagedList.dll
+C:\Users\AN\Desktop\New folder\Web.Net\web-net-\Web2023Project\bin\PagedList.Mvc.dll
+C:\Users\AN\Desktop\New folder\Web.Net\web-net-\Web2023Project\bin\PagedList.xml
+C:\Users\AN\Desktop\New folder\Web.Net\web-net-\Web2023Project\bin\PagedList.Mvc.xml
+>>>>>>> cbfa1574a992999bb7aba0150624746b0b9a31ea

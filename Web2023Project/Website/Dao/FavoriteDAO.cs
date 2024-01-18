@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data.SQLite;
 using System.Drawing;
+using System.IO;
 using System.Security.Permissions;
 using System.Text;
 using MySql.Data.MySqlClient;
@@ -15,7 +16,7 @@ namespace Web2023Project.Website.Dao
 {
     public class FavouriteDAO
     {
-        private string connectionString = "Data Source=D:\\LT .NET_NLU\\web-net-\\Web2023Project\\spyeuthich.db;Version=3;";
+        private string connectionString = "Data Source=" + Path.Combine(Directory.GetCurrentDirectory(), "spyeuthich.db") + ";Version=3;";
 
         public void AddFavoriteProduct(Yeuthich favoriteProduct)
         {

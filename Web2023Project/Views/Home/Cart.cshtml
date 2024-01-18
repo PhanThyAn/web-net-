@@ -102,7 +102,29 @@
                         Nguoidung member = Session["memberLogin"] as Nguoidung;
                         if (member != null)
                         {
-                            <button onclick="return location.href='PaymentController'" id="btn-submit">ĐẶT HÀNG</button>
+                            if (member.Diachis.Count > 0 && member.Diachis != null)
+                            {
+                                <button onclick="return location.href='PaymentController'" id="btn-submit">ĐẶT HÀNG</button>
+                            }
+                            else
+                            {
+                                <button data-toggle="modal" data-target="#checkout" id="btn-submit">ĐẶT HÀNG</button>
+                                <div id="checkout" class="modal fade modal-confirm" role="dialog">
+                                    <div class="modal-dialog modal-sm">
+                                        Modal content
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <p class="text-content">Thêm địa chỉ để thực hiện đặt hàng!</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" onclick="return location.href='/Home/Profile_User'" class="btn-cf">Vào sổ địa chỉ</button>
+                                                <button type="button" class="tbn-cancle" data-dismiss="modal">Hủy</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
                         }
                         else
                         {
@@ -139,7 +161,7 @@
                         }
                         else
                         {
-                            if (members.Diachis != null)
+                            if (members.Diachis.Count > 0 && members.Diachis != null)
                             {
                                 <div>
                                     <span>Họ và Tên:</span>
@@ -158,24 +180,6 @@
                                     <span>Địa chỉ:</span>
                                     <input type="text" id="address-oder" name="address-oder" value="@(members.Diachis != null ? members.Diachis.FirstOrDefault().ToString() : "")"
                                            disabled>
-                                </div>
-                            }
-                            else
-                            {
-                                <button data-toggle="modal" data-target="#checkout" id="btn-submit">ĐẶT HÀNG</button>
-                                <div id="checkout" class="modal fade modal-confirm" role="dialog">
-                                    <div class="modal-dialog modal-sm">
-                                        Modal content
-                                        <div class="modal-content">
-                                            <div class="modal-body">
-                                                <p class="text-content">Thêm địa chỉ để thực hiện đặt hàng!</p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" onclick="return location.href='/Home/Profile_User'" class="btn-cf">Vào sổ địa chỉ</button>
-                                                <button type="button" class="tbn-cancle" data-dismiss="modal">Hủy</button>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             }
                         }

@@ -247,18 +247,17 @@ namespace Web2023Project.Dao
         public static async Task<Nguoidung> register( string password, string name, int gender, string emailRegister, string phone)
         {
             String api = "http://103.77.214.148/api/Register";
-            DateTime create = DateTime.Now;
-            String ngay = create.ToString();
+          
             // Dữ liệu đăng nhập
             var registerData = new
             {
                 ten = name,
                 sdt = phone,
-                gioitinh = gender,
+                gioitinh = 1,
                 matkhau = password,
                 email = emailRegister,
-                trangthai = 0,
-                ngaytao = ngay
+                trangthai = 1,
+             
             };
             using (HttpClient client = new HttpClient())
             {
